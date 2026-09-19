@@ -1,58 +1,168 @@
-// Design tokens from docs/mockup.html.
-:root {
-  --white: #fbfbfa;
-  --paper: #ffffff;
-  --pink: #f4cfdc;
-  --pink-soft: #fbeaf0;
-  --pink-2: #ebb6c8;
-  --plum: #3a1526;
-  --plum-d: #2a0f1b;
-  --ink: #2b1a20;
-  --muted: #8a7a80;
-  --line: #efdce3;
+@use "mixins" as *;
 
-  --serif: "Fraunces Variable", Georgia, serif;
-  --sans: "Mulish Variable", system-ui, sans-serif;
+// Everything here sits in a cascade layer, so any *.module.scss rule wins over
+// it regardless of specificity or load order.
+@layer base {
+  // Design tokens from docs/mockup.html.
+  :root {
+    --white: #fbfbfa;
+    --paper: #ffffff;
+    --pink: #f4cfdc;
+    --pink-soft: #fbeaf0;
+    --pink-2: #ebb6c8;
+    --pink-bg: #f5d8e0;
+    --plum: #3a1526;
+    --plum-d: #2a0f1b;
+    --plum-text: #5a2e3d;
+    --ink: #2b1a20;
+    --muted: #8a7a80;
+    --line: #efdce3;
+    --cream: #f3e7da;
 
-  --radius: 18px;
-  --max-width: 1080px;
-}
+    --serif: "Fraunces Variable", Georgia, serif;
+    --sans: "Mulish Variable", system-ui, sans-serif;
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+    --radius: 18px;
+    --max-width: 1080px;
+  }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
-  background: var(--white);
-  color: var(--ink);
-  font-family: var(--sans);
-  -webkit-font-smoothing: antialiased;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation: none !important;
-    transition: none !important;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  h2 {
+    font-size: clamp(30px, 6vw, 46px);
+    line-height: 1.05;
+  }
+
+  :is(h1, h2) em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--plum);
+  }
+
+  // Shared primitives. Everything component-specific goes in *.module.scss.
+  .wrap {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 22px;
+
+    @include up(md) {
+      padding: 0 40px;
+    }
+  }
+
+  .section {
+    padding: 60px 0;
+
+    @include up(md) {
+      padding: 84px 0;
+    }
+  }
+
+  .eyebrow {
+    display: block;
+    margin: 0;
+    font: 700 12px/1.5 var(--sans);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--plum);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border: 1.5px solid var(--plum);
+    border-radius: 999px;
+    background: var(--plum);
+    color: #fff;
+    font: 700 14px var(--sans);
+    text-align: center;
+    box-shadow: 0 8px 20px -8px rgba(58, 21, 38, 0.55);
+    transition:
+      transform 0.25s,
+      box-shadow 0.25s,
+      background 0.25s;
+
+    &:hover {
+      transform: translateY(-2px);
+      background: var(--plum-d);
+      box-shadow: 0 14px 26px -8px rgba(58, 21, 38, 0.7);
+    }
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--plum);
+    box-shadow: none;
+
+    &:hover {
+      background: var(--plum);
+      color: #fff;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--plum);
+    outline-offset: 3px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 }

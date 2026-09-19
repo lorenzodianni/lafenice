@@ -1,0 +1,166 @@
+@use "mixins" as *;
+
+.header {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.9);
+
+  @include up(md) {
+    padding: 20px 40px;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  img {
+    height: 42px;
+    width: auto;
+  }
+}
+
+.wordmark {
+  line-height: 1;
+
+  b {
+    display: block;
+    font: 500 18px/1 var(--serif);
+    color: var(--plum);
+
+    @include up(sm) {
+      font-size: 21px;
+    }
+  }
+
+  span {
+    font: 700 9px var(--sans);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+}
+
+.nav {
+  display: none;
+
+  @include up(md) {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-left: auto;
+  }
+
+  a {
+    position: relative;
+    font: 600 14px var(--sans);
+    opacity: 0.8;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -6px;
+      height: 2px;
+      background: var(--plum);
+      transition: right 0.3s;
+    }
+
+    &:hover {
+      opacity: 1;
+
+      &::after {
+        right: 0;
+      }
+    }
+  }
+}
+
+.header a.accent {
+  color: var(--plum);
+  font-weight: 800;
+  opacity: 1;
+}
+
+.cta {
+  display: none;
+
+  @include up(md) {
+    display: inline-block;
+    margin-left: 8px;
+  }
+}
+
+.menu {
+  margin-left: auto;
+
+  @include up(md) {
+    display: none;
+  }
+
+  summary {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 6px;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    i {
+      display: block;
+      width: 24px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--ink);
+      transition: transform 0.25s;
+    }
+  }
+
+  &[open] summary i {
+    &:nth-child(2) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    &:nth-child(3) {
+      opacity: 0;
+    }
+
+    &:nth-child(4) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+
+  nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 22px 18px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    box-shadow: 0 20px 30px -24px rgba(58, 21, 38, 0.4);
+
+    a {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font: 600 16px var(--sans);
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+  }
+}

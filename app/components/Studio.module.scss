@@ -1,0 +1,42 @@
+.studio {
+  background: var(--plum);
+  color: var(--cream);
+}
+
+.inner {
+  max-width: 720px;
+  text-align: center;
+
+  :global(.eyebrow) {
+    color: var(--pink-2);
+  }
+
+  h2 {
+    margin: 12px 0 18px;
+    color: #fff;
+  }
+
+  p {
+    margin: 0 0 16px;
+    color: rgba(243, 231, 218, 0.78);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .sign {
+    margin-top: 24px;
+    color: var(--pink-2);
+    font: 700 12px var(--sans);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+
+    b {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+      font: italic 400 26px/1 var(--serif);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+  }
+}

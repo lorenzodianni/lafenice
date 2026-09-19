@@ -4,12 +4,14 @@ Solo cose non ancora decise o a metà. Chiuso un punto: il perché va nel commit
 punto si toglie da qui.
 
 ## Prossimo passo
-- Feature home page (`feat/home`): sezioni dal mockup, `app/content/site.ts`, JSON-LD
-  `BeautySalon`.
-- Poi: scheda prodotto + form preordine, newsletter, privacy, sitemap/robots/llms.txt.
+- `feat/product`: scheda `/products/detergente-viso-rinascita` + form preordine
+  (action + Brevo). Il bottone "Preordina ora" della home punta già lì e dà 404
+  finché la pagina non esiste.
+- Poi: newsletter nel footer, privacy policy, sitemap/robots/llms.txt.
 
 ## Dati mancanti dal cliente (nel mockup sono placeholder)
-- Ragione sociale, P.IVA, indirizzo, telefono/WhatsApp, orari, URL social.
+- Ragione sociale, P.IVA, indirizzo, telefono, numero WhatsApp, orari, URL social,
+  anno di apertura (badge "Dal 2014"). Tutti marcati `PLACEHOLDER` in `app/content/`.
 - Dominio: `lafenice-estetica.it` è reale/registrato? Quali caselle esistono
   (info@, ordini@) e dove vanno inoltrate (Cloudflare Email Routing)?
 - Prodotto: prezzo (senza prezzo niente rich result Product con `offers`), formato/ml,
@@ -34,3 +36,7 @@ punto si toglie da qui.
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
   arrivano i prezzi.
 - Pipeline immagini (es. `vite-imagetools`) quando arrivano le foto reali.
+- `og:image` (anteprima nei social/chat): serve una foto reale 1200x630, gli SVG
+  placeholder non sono validi per Open Graph.
+- Animazioni di comparsa allo scroll del mockup: tolte (erano JS). Se servono, solo
+  CSS con `animation-timeline: view()`.
