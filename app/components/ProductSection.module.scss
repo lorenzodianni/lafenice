@@ -1,6 +1,6 @@
 @use "mixins" as *;
 
-.teaser {
+.section {
   background: #f5d8e0;
 }
 
@@ -14,9 +14,11 @@
     gap: 48px;
   }
 
-  h2 {
+  :is(h1, h2) {
     margin-bottom: 14px;
     color: var(--plum);
+    font-size: clamp(30px, 6vw, 46px);
+    line-height: 1.05;
   }
 }
 

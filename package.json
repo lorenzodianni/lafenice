@@ -9,6 +9,7 @@
     "deploy": "react-router build && wrangler deploy",
     "typecheck": "wrangler types && react-router typegen && tsc -b",
     "lint": "biome check .",
+    "test": "vitest run",
     "format": "biome check --write .",
     "cf-typegen": "wrangler types",
     "postinstall": "wrangler types"
@@ -31,6 +32,7 @@
     "sass-embedded": "^1.104.1",
     "typescript": "~5.9.3",
     "vite": "^8.3.0",
+    "vitest": "^5.0.1",
     "wrangler": "^4.135.0"
   }
 }

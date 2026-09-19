@@ -2,5 +2,22 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "lafenice",
   "compatibility_date": "2026-09-01",
-  "main": "./workers/app.ts"
+  "main": "./workers/app.ts",
+  "assets": {
+    // Prerendered pages are /path/index.html. Serve them at /path (no trailing
+    // slash, like Shopify and our canonicals) instead of redirecting to /path/.
+    "html_handling": "drop-trailing-slash",
+    // Static assets answer every method, so a POST to a prerendered page gets
+    // an empty 405 and never reaches the Worker. Pages with a form go to the
+    // Worker first (server-rendered, not prerendered).
+    "run_worker_first": ["/products/*"]
+  },
+  // PLACEHOLDER: Brevo list and template IDs, set once the account exists.
+  // The API key is a secret: `npx wrangler secret put BREVO_API_KEY`
+  // (locally: BREVO_API_KEY=... in .dev.vars).
+  "vars": {
+    "BREVO_PREORDER_LIST_ID": 0,
+    "BREVO_NEWSLETTER_LIST_ID": 0,
+    "BREVO_DOI_TEMPLATE_ID": 0
+  }
 }

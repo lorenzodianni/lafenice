@@ -1,25 +1,22 @@
 import { Contacts } from "~/components/Contacts";
 import { Hero } from "~/components/Hero";
-import { ProductTeaser } from "~/components/ProductTeaser";
+import { ProductSection } from "~/components/ProductSection";
 import { Studio } from "~/components/Studio";
 import { Treatments } from "~/components/Treatments";
 import { products } from "~/content/products";
 import { site, socialLinks } from "~/content/site";
+import { pageMeta } from "~/lib/seo";
 import type { Route } from "./+types/home";
-
-const title = `${site.name} | ${site.kind} a ${site.address.city}`;
 
 export function meta(_: Route.MetaArgs) {
   return [
-    { title },
-    { name: "description", content: site.description },
-    { tagName: "link", rel: "canonical", href: `${site.url}/` },
-    { property: "og:type", content: "website" },
-    { property: "og:locale", content: "it_IT" },
-    { property: "og:site_name", content: site.name },
-    { property: "og:title", content: title },
-    { property: "og:description", content: site.description },
-    { property: "og:url", content: `${site.url}/` },
+    ...pageMeta(
+      {
+        title: `${site.name} | ${site.kind} a ${site.address.city}`,
+        description: site.description,
+      },
+      "/",
+    ),
     {
       "script:ld+json": {
         "@context": "https://schema.org",
@@ -63,7 +60,11 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <ProductTeaser product={products[0]} />
+      <ProductSection product={products[0]} heading="h2" id="preordine">
+        <a className="btn" href={`/products/${products[0].handle}`}>
+          Preordina ora
+        </a>
+      </ProductSection>
       <Treatments />
       <Studio />
       <Contacts />

@@ -1,0 +1,72 @@
+import { useId } from "react";
+import type { Product } from "~/content/products";
+import styles from "./ProductSection.module.scss";
+
+// The mockup's product block. The home renders it as a teaser (h2 + link to
+// the product page); the product page renders it as the main content (h1 +
+// preorder form), so the image is its LCP and loads eagerly.
+export function ProductSection({
+  product,
+  heading: Heading,
+  id,
+  children,
+}: {
+  product: Product;
+  heading: "h1" | "h2";
+  id?: string;
+  children: React.ReactNode;
+}) {
+  const titleId = useId();
+  const isPage = Heading === "h1";
+  const [before, after] = product.title.split(product.titleAccent);
+
+  return (
+    <section
+      id={id}
+      className={`section ${styles.section}`}
+      aria-labelledby={titleId}
+    >
+      <div className={`wrap ${styles.inner}`}>
+        <div className={styles.visual}>
+          <span className={styles.ribbon}>Anteprima · Nuova linea</span>
+          <img
+            className={styles.media}
+            src={product.featuredImage.url}
+            alt={product.featuredImage.altText}
+            width={product.featuredImage.width}
+            height={product.featuredImage.height}
+            {...(isPage
+              ? { fetchPriority: "high" as const }
+              : { loading: "lazy" as const })}
+          />
+          <p className={styles.eta}>
+            <b>Consegna stimata</b>
+            <span>{product.delivery}</span>
+          </p>
+        </div>
+
+        <div>
+          <p className="eyebrow">{product.tagline}</p>
+          <Heading id={titleId}>
+            {after === undefined ? (
+              product.title
+            ) : (
+              <>
+                {before}
+                <em>{product.titleAccent}</em>
+                {after}
+              </>
+            )}
+          </Heading>
+          <p className={styles.desc}>{product.description}</p>
+          <ul className={styles.highlights}>
+            {product.highlights.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
+          {children}
+        </div>
+      </div>
+    </section>
+  );
+}

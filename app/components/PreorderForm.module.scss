@@ -1,0 +1,120 @@
+@use "mixins" as *;
+
+$invalid: #c0392b;
+
+.form {
+  margin-top: 8px;
+}
+
+.grid {
+  display: grid;
+  column-gap: 14px;
+
+  @include up(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+
+  label {
+    color: var(--plum);
+    font: 700 11px var(--sans);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    outline: none;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 16px var(--sans); // 16px avoids the iOS zoom on focus
+
+    &:focus {
+      border-color: var(--plum);
+      box-shadow: 0 0 0 3px rgba(58, 21, 38, 0.15);
+    }
+
+    &[aria-invalid] {
+      border-color: $invalid;
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.18);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  margin-bottom: 12px;
+  color: #5a2e3d;
+  font-size: 14px;
+  line-height: 1.5;
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    accent-color: var(--plum);
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .error {
+    grid-column: 2;
+  }
+}
+
+.error {
+  margin: 0;
+  color: $invalid;
+  font-size: 13px;
+}
+
+.formError {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid $invalid;
+  border-radius: 12px;
+  background: var(--paper);
+  color: $invalid;
+  font-size: 14.5px;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.hp {
+  position: absolute;
+  left: -9999px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.hint {
+  color: #5a2e3d;
+  font-size: 13px;
+}

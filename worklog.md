@@ -4,24 +4,25 @@ Solo cose non ancora decise o a metà. Chiuso un punto: il perché va nel commit
 punto si toglie da qui.
 
 ## Prossimo passo
-- `feat/product`: scheda `/products/detergente-viso-rinascita` + form preordine
-  (action + Brevo). Il bottone "Preordina ora" della home punta già lì e dà 404
-  finché la pagina non esiste. Con la seconda route: estrarre i meta comuni
-  (title, description, canonical, og) in `app/lib/seo.ts` e aggiungere a
-  `products.ts` un campo esplicito per la parola in corsivo del titolo (ora è
-  l'ultima parola, ricavata nel componente).
-- Poi: newsletter nel footer, privacy policy (`/policies/privacy-policy`, già
-  linkata dal footer: 404 finché non esiste), sitemap/robots/llms.txt.
-- Prima di collegare Cloudflare (go-live): scheda prodotto e privacy devono esistere
-  e i `PLACEHOLDER` vanno sostituiti, altrimenti Google indicizza dati finti.
+- `feat/newsletter`: form nel footer di tutte le pagine. Le pagine sono
+  prerenderizzate, quindi il form deve fare POST a un path servito dal Worker
+  (aggiungerlo a `assets.run_worker_first`), es. una route `/pages/newsletter` con
+  action + esito. Riusare `sendPreorder`/`call` di `app/lib/preorder.ts` per il
+  double opt-in (estrarre il client Brevo in `app/lib/brevo.ts` a quel punto).
+  Serve anche una pagina "iscrizione confermata" come `redirectionUrl` del double
+  opt-in (ora punta alla home).
+- Poi: privacy policy (`/policies/privacy-policy`, già linkata da footer e form:
+  404 finché non esiste), sitemap/robots/llms.txt.
+- Prima di collegare Cloudflare (go-live): privacy deve esistere, i `PLACEHOLDER`
+  vanno sostituiti (altrimenti Google indicizza dati finti) e Brevo configurato.
 
 ## Dati mancanti dal cliente (nel mockup sono placeholder)
 - Ragione sociale, P.IVA, indirizzo, telefono, numero WhatsApp, orari, URL social,
   anno di apertura (badge "Dal 2014"). Tutti marcati `PLACEHOLDER` in `app/content/`.
 - Dominio: `lafenice-estetica.it` è reale/registrato? Quali caselle esistono
   (info@, ordini@) e dove vanno inoltrate (Cloudflare Email Routing)?
-- Prodotto: prezzo (senza prezzo niente rich result Product con `offers`), formato/ml,
-  INCI, foto reali, tempi di consegna.
+- Prodotto: prezzo (`price` in `products.ts`; senza prezzo il JSON-LD `Offer` non è
+  idoneo ai rich result), formato/ml, INCI, foto reali, tempi di consegna.
 - Foto reali del centro (hero, studio). Ora in `app/assets/` ci sono i placeholder
   SVG del mockup.
 - Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
@@ -33,8 +34,10 @@ punto si toglie da qui.
 - Cloudflare: dominio + DNS, Workers, Web Analytics. Workers Builds collegato al
   repo: build `npm run build`, deploy `npx wrangler deploy` (legge la config generata
   in `build/server/wrangler.json` tramite `.wrangler/deploy/config.json`).
-- Brevo: API key, liste "Preordini" e "Newsletter", template double opt-in, dominio
-  mittente autenticato (DKIM/DMARC).
+- Brevo: API key (secret `BREVO_API_KEY`), liste "Preordini" e "Newsletter" e
+  template double opt-in (i tre ID vanno nei `vars` di `wrangler.jsonc`, ora 0),
+  dominio mittente autenticato (DKIM/DMARC): l'email al negozio parte da
+  `ordersEmail` di `site.ts`, che deve essere un mittente verificato.
 - Google Business Profile (la leva principale per la SEO locale), Google Search
   Console, Bing Webmaster Tools (Bing alimenta ChatGPT search/Copilot).
 
