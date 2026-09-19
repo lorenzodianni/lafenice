@@ -4,14 +4,7 @@ Solo cose non ancora decise o a metà. Chiuso un punto: il perché va nel commit
 punto si toglie da qui.
 
 ## Prossimo passo
-- `feat/newsletter`: form nel footer di tutte le pagine. Le pagine sono
-  prerenderizzate, quindi il form deve fare POST a un path servito dal Worker
-  (aggiungerlo a `assets.run_worker_first`), es. una route `/pages/newsletter` con
-  action + esito. Riusare `sendPreorder`/`call` di `app/lib/preorder.ts` per il
-  double opt-in (estrarre il client Brevo in `app/lib/brevo.ts` a quel punto).
-  Serve anche una pagina "iscrizione confermata" come `redirectionUrl` del double
-  opt-in (ora punta alla home).
-- Poi: privacy policy (`/policies/privacy-policy`, già linkata da footer e form:
+- Privacy policy (`/policies/privacy-policy`, già linkata da footer e form:
   404 finché non esiste), sitemap/robots/llms.txt.
 - Prima di collegare Cloudflare (go-live): privacy deve esistere, i `PLACEHOLDER`
   vanno sostituiti (altrimenti Google indicizza dati finti) e Brevo configurato.
@@ -46,6 +39,9 @@ punto si toglie da qui.
   sullo stesso indirizzo: che Brevo accetti il double opt-in per un contatto già
   esistente è un'ipotesi, testata solo con fetch finto. Primo test reale da fare;
   se lo rifiuta, invertire l'ordine o saltare la creazione quando c'è il consenso.
+- Stessa chiamata dal form newsletter con un indirizzo già iscritto: se Brevo
+  risponde con un errore, l'utente vede "non siamo riusciti a completare
+  l'iscrizione" (502). In quel caso trattare quel codice di errore come successo.
 
 ## Da valutare più avanti
 - Cloudflare Turnstile se l'honeypot non basta contro lo spam.
