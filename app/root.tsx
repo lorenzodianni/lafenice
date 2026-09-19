@@ -1,3 +1,6 @@
+import frauncesItalic from "@fontsource-variable/fraunces/files/fraunces-latin-opsz-italic.woff2?url";
+import fraunces from "@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url";
+import mulish from "@fontsource-variable/mulish/files/mulish-latin-wght-normal.woff2?url";
 import {
   isRouteErrorResponse,
   Links,
@@ -5,6 +8,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatches,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -17,9 +21,28 @@ import "./styles/global.scss";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon.png", type: "image/png" },
+  // Above-the-fold fonts, fetched with the HTML instead of after the CSS.
+  ...[fraunces, frauncesItalic, mulish].map((href) => ({
+    rel: "preload",
+    as: "font",
+    type: "font/woff2",
+    crossOrigin: "anonymous" as const,
+    href,
+  })),
 ];
 
+// Closes the mobile <details> menu after a same-page anchor tap. Plain JS so
+// it works on pages that ship no React on the client.
+const closeMenuScript = `document.addEventListener("click",function(e){var a=e.target.closest("details a");if(a)a.closest("details").open=false})`;
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  // Pages are static HTML with no client React unless a route exports
+  // `handle = { hydrate: true }`. Dev keeps the scripts for HMR.
+  const matches = useMatches();
+  const hydrate =
+    import.meta.env.DEV ||
+    matches.some((m) => (m.handle as { hydrate?: boolean })?.hydrate);
+
   return (
     <html lang="it">
       <head>
@@ -32,8 +55,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Header />
         {children}
         <Footer />
-        <ScrollRestoration />
-        <Scripts />
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static string, no user input
+          dangerouslySetInnerHTML={{ __html: closeMenuScript }}
+        />
+        {hydrate && (
+          <>
+            <ScrollRestoration />
+            <Scripts />
+          </>
+        )}
       </body>
     </html>
   );

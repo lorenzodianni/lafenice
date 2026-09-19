@@ -40,32 +40,29 @@
 }
 
 .copy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   max-width: 760px;
-  margin: 30px auto 0;
-  padding: 0 22px;
+  margin-top: 30px;
   text-align: center;
 
   @include up(md) {
     margin-top: 44px;
-    padding: 0 40px;
+  }
+
+  // Decorative vertical line above the eyebrow.
+  &::before {
+    content: "";
+    display: block;
+    width: 2px;
+    height: 34px;
+    margin: 0 auto 22px;
+    border-radius: 2px;
+    background: var(--plum);
   }
 
   h1 {
-    margin-top: 16px;
     font-size: clamp(38px, 8vw, 70px);
     line-height: 1.02;
   }
-}
-
-.spine {
-  width: 2px;
-  height: 34px;
-  margin-bottom: 22px;
-  border-radius: 2px;
-  background: var(--plum);
 }
 
 .lead {
@@ -106,14 +103,10 @@
   animation: slide 26s linear infinite;
 
   // Both copies end with a separator, so padding keeps the loop seamless.
-  span {
+  > span {
     display: flex;
     gap: 46px;
     padding-right: 46px;
-  }
-
-  span span {
-    padding-right: 0;
   }
 
   b {
