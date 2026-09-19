@@ -21,7 +21,9 @@ punto si toglie da qui.
 - Testo privacy policy: da far validare a un consulente.
 
 ## Account da creare (a carico del cliente)
-- Cloudflare: dominio + DNS, Workers, Web Analytics.
+- Cloudflare: dominio + DNS, Workers, Web Analytics. Workers Builds collegato al
+  repo: build `npm run build`, deploy `npx wrangler deploy` (legge la config generata
+  in `build/server/wrangler.json` tramite `.wrangler/deploy/config.json`).
 - Brevo: API key, liste "Preordini" e "Newsletter", template double opt-in, dominio
   mittente autenticato (DKIM/DMARC).
 - Google Business Profile (la leva principale per la SEO locale), Google Search
