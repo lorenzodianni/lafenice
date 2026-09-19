@@ -1,0 +1,13 @@
+@use "sass:map";
+
+// Mobile first: base styles target phones, these mixins scale up.
+$breakpoints: (
+  sm: 560px,
+  md: 880px,
+);
+
+@mixin up($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
