@@ -15,12 +15,16 @@ desktop-first con dati placeholder: il sito no.
   Hydrogen così come sono. Niente RR 8 finché Hydrogen non lo supporta
   (`npm view @shopify/hydrogen peerDependencies`).
 - **Cloudflare Workers** (runtime workerd, lo stesso di Oxygen). Config:
-  `ssr: true` + `prerender: true`: HTML statico a build per ogni path statico, le
-  route dinamiche (`/products/:handle`) vanno elencate con la forma a funzione di
-  `prerender`. L'unico codice server sono le `action` dei form (le POST arrivano
-  al Worker anche sulle pagine prerenderizzate, verificato). Mai `ssr: false` (SPA mode):
-  le action non arriverebbero al Worker e i form senza JS smetterebbero di funzionare.
+  `ssr: true` + `prerender: true`: ogni path statico è HTML generato a build. Mai
+  `ssr: false` (SPA mode): le action non girerebbero e i form senza JS morirebbero.
   Deploy da integrazione Git di Cloudflare, niente CI custom.
+- **Pagine con un form = servite dal Worker, non prerenderizzate.** Gli asset statici
+  rispondono a ogni metodo: una POST su una pagina prerenderizzata riceve un 405
+  vuoto e non arriva mai all'action. Ogni path con un form va in
+  `assets.run_worker_first` di `wrangler.jsonc` (oggi `/products/*`).
+  `html_handling: drop-trailing-slash`: URL senza slash finale, come Shopify.
+- `cloudflare:workers` (env, secret) si importa solo con `await import()` dentro le
+  action: il prerender gira in Node e un import statico rompe la build.
 - **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
   una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
   pagine sono HTML + CSS; l'unico JS è lo script inline che chiude il menu mobile.
@@ -46,9 +50,13 @@ desktop-first con dati placeholder: il sito no.
 ## Comandi
 - `npm run dev`: sviluppo (Worker locale via `@cloudflare/vite-plugin`)
 - `npm run build` / `npm run preview`: build di produzione e anteprima nel runtime Worker
-- `npm run typecheck` / `npm run lint` / `npm run format`: da far passare prima di ogni PR
+- `npm run typecheck` / `npm run lint` / `npm test` / `npm run build`: da far passare
+  prima di ogni PR (`npm run format` sistema la formattazione). Vitest ha una config
+  sua (`vitest.config.ts`): il plugin Cloudflare in `vite.config.ts` avvierebbe workerd.
 - `npm run deploy`: deploy manuale; la produzione parte dall'integrazione Git di Cloudflare
 - Dopo modifiche a `wrangler.jsonc`: `npm run cf-typegen` (tipi `Env`)
+- Secret Brevo: `npx wrangler secret put BREVO_API_KEY`; in locale `BREVO_API_KEY=...`
+  in `.dev.vars` (gitignored). In dev senza chiave il preordine viene solo loggato.
 
 ## Struttura
 ```
@@ -56,9 +64,10 @@ app/
   content/     site.ts (nome, indirizzo, orari, contatti, social, dati legali), products.ts
   components/  layout (Header, Footer) e sezioni + *.module.scss
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
-  lib/         client Brevo, validazione form, helper SEO/JSON-LD
+  lib/         seo.ts (meta comuni), preorder.ts (validazione + Brevo) + test
   styles/      global.scss, _mixins.scss
   assets/      immagini importate dai componenti
+public/images/ immagini con URL stabile (servono al JSON-LD)
 workers/app.ts entry del Worker (non toccare salvo bindings)
 ```
 - Tutti i dati di business stanno in `app/content/`: UI, JSON-LD, sitemap e llms.txt
@@ -70,14 +79,17 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 ## URL (convenzioni Shopify → zero redirect in migrazione)
 - `/` home: hero, teaser prodotto (CTA verso la scheda), trattamenti, studio, contatti
 - `/products/detergente-viso-rinascita` scheda prodotto + **unico** form preordine
+- `/pages/grazie-preordine` destinazione dopo l'invio (redirect, `noindex`)
 - `/policies/privacy-policy`
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
 - Form newsletter nel footer di tutte le pagine.
 
 ## Form
-- **Preordine**: nome*, email*, telefono, quantità, note, checkbox marketing
-  opzionale. Action → contatto Brevo in lista "Preordini" (+ "Newsletter" via double
-  opt-in se ha spuntato il consenso) + email al negozio con i dettagli.
+- **Preordine**: nome*, email*, telefono, quantità, note, presa visione privacy*,
+  consenso marketing opzionale. Action → contatto Brevo in lista "Preordini" (+
+  double opt-in "Newsletter" se c'è il consenso) + email a `ordersEmail` con
+  reply-to del cliente, poi redirect a `/pages/grazie-preordine`. Se Brevo fallisce
+  la pagina torna con un errore e i campi compilati: mai finto successo.
 - **Newsletter**: email + consenso → double opt-in Brevo, lista "Newsletter".
 - `<Form>` di React Router: deve funzionare anche senza JS.
 - Validazione sempre lato server, honeypot anti-spam. Segreti solo come secret del
