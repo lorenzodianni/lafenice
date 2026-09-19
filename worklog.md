@@ -8,6 +8,10 @@ punto si toglie da qui.
   404 finché non esiste), sitemap/robots/llms.txt.
 - Prima di collegare Cloudflare (go-live): privacy deve esistere, i `PLACEHOLDER`
   vanno sostituiti (altrimenti Google indicizza dati finti) e Brevo configurato.
+  Serve anche una regola di rate limiting Cloudflare (WAF, da dashboard) sulle POST
+  a `/pages/newsletter` e `/products/*`: con il solo honeypot uno script può far
+  partire email di double opt-in verso indirizzi altrui, consumando la quota Brevo
+  che serve anche alle notifiche dei preordini.
 
 ## Dati mancanti dal cliente (nel mockup sono placeholder)
 - Ragione sociale, P.IVA, indirizzo, telefono, numero WhatsApp, orari, URL social,
@@ -44,7 +48,7 @@ punto si toglie da qui.
   l'iscrizione" (502). In quel caso trattare quel codice di errore come successo.
 
 ## Da valutare più avanti
-- Cloudflare Turnstile se l'honeypot non basta contro lo spam.
+- Cloudflare Turnstile se honeypot e rate limiting non bastano contro lo spam.
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
   arrivano i prezzi.
 - Pipeline immagini (es. `vite-imagetools`) quando arrivano le foto reali.

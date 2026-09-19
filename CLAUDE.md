@@ -98,7 +98,8 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - **Newsletter**: nel footer di ogni pagina, email* + consenso* → double opt-in
   Brevo, lista "Newsletter". POST a `/pages/newsletter` (le pagine sono statiche),
   stesso schema del preordine: errori sulla pagina, redirect a
-  `/pages/grazie-newsletter`.
+  `/pages/grazie-newsletter`. Le tre pagine newsletter esportano
+  `handle = { hideNewsletter: true }`: niente form ripetuto nel footer.
 - `<Form>` di React Router: deve funzionare anche senza JS.
 - Validazione sempre lato server, honeypot anti-spam. Segreti solo come secret del
   Worker (`BREVO_API_KEY`), mai nel bundle client.
