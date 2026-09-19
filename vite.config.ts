@@ -4,6 +4,10 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [cloudflare({ viteEnvironment: { name: "ssr" } }), reactRouter()],
+  css: {
+    // Lets every SCSS module write `@use "mixins" as *;`.
+    preprocessorOptions: { scss: { loadPaths: ["app/styles"] } },
+  },
   resolve: {
     tsconfigPaths: true,
   },
