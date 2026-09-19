@@ -22,6 +22,7 @@ export const site = {
   phone: "+39 0321 000 000", // PLACEHOLDER
   whatsapp: "", // PLACEHOLDER: empty = hidden
   email: "info@lafenice-estetica.it", // PLACEHOLDER
+  ordersEmail: "ordini@lafenice-estetica.it", // PLACEHOLDER: receives preorders
   // PLACEHOLDER. schema.org day names; labels and closed days are derived below.
   hours: [
     {
