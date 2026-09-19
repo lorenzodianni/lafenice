@@ -1,0 +1,58 @@
+// Design tokens from docs/mockup.html.
+:root {
+  --white: #fbfbfa;
+  --paper: #ffffff;
+  --pink: #f4cfdc;
+  --pink-soft: #fbeaf0;
+  --pink-2: #ebb6c8;
+  --plum: #3a1526;
+  --plum-d: #2a0f1b;
+  --ink: #2b1a20;
+  --muted: #8a7a80;
+  --line: #efdce3;
+
+  --serif: "Fraunces Variable", Georgia, serif;
+  --sans: "Mulish Variable", system-ui, sans-serif;
+
+  --radius: 18px;
+  --max-width: 1080px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
