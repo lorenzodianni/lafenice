@@ -27,7 +27,10 @@ desktop-first con dati placeholder: il sito no.
   properties del mockup in `app/styles/global.scss`; breakpoint e mixin in
   `app/styles/_mixins.scss`; SCSS Modules per componente (`*.module.scss`). Solo
   `@use`/`@forward`, mai `@import` (deprecato in Dart Sass). Mobile first: base =
-  mobile, mixin `min-width` per salire. Niente Tailwind/UI kit.
+  mobile, `@include up(sm|md)` per salire. Niente Tailwind/UI kit.
+  `global.scss` è tutto dentro `@layer base` (token, reset e le sole classi globali:
+  `wrap`, `section`, `eyebrow`, `btn`, `btn-ghost`, `sr-only`), così le regole dei
+  moduli vincono sempre senza `!important` né giochi di specificità.
 - Font self-hosted: `@fontsource-variable/fraunces/opsz.css` (+ `opsz-italic.css`,
   il mockup usa l'asse `opsz`) e `@fontsource-variable/mulish`. Mai Google Fonts da
   CDN (GDPR + performance).
@@ -44,7 +47,7 @@ desktop-first con dati placeholder: il sito no.
 ```
 app/
   content/     site.ts (nome, indirizzo, orari, contatti, social, dati legali), products.ts
-  components/  UI riusabile + *.module.scss
+  components/  layout (Header, Footer) e sezioni + *.module.scss
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
   lib/         client Brevo, validazione form, helper SEO/JSON-LD
   styles/      global.scss, _mixins.scss
@@ -52,7 +55,8 @@ app/
 workers/app.ts entry del Worker (non toccare salvo bindings)
 ```
 - Tutti i dati di business stanno in `app/content/`: UI, JSON-LD, sitemap e llms.txt
-  leggono da lì. Mai duplicare indirizzo, orari, telefono.
+  leggono da lì. Mai duplicare indirizzo, orari, telefono. I valori non ancora
+  confermati dal cliente sono marcati `PLACEHOLDER`: `grep -rn PLACEHOLDER app`.
 - `products.ts` usa i nomi dei campi Shopify (`handle`, `title`, `description`,
   `seo`, `featuredImage`, …): in migrazione cambia solo il loader (Storefront API).
 
