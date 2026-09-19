@@ -14,16 +14,19 @@ desktop-first con dati placeholder: il sito no.
   pinnata da `@shopify/hydrogen`: route, loader, action e componenti si portano in
   Hydrogen così come sono. Niente RR 8 finché Hydrogen non lo supporta
   (`npm view @shopify/hydrogen peerDependencies`).
-- **Cloudflare Workers** (runtime workerd, lo stesso di Oxygen). Pagine
-  prerenderizzate a build; l'unico codice server sono le `action` dei form.
+- **Cloudflare Workers** (runtime workerd, lo stesso di Oxygen). Config:
+  `ssr: true` + `prerender: [...]` con tutte le pagine: HTML statico a build e
+  l'unico codice server sono le `action` dei form. Mai `ssr: false` (SPA mode):
+  le action non arriverebbero al Worker e i form senza JS smetterebbero di funzionare.
   Deploy da integrazione Git di Cloudflare, niente CI custom.
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.
 - **CSS puro**: token (custom properties del mockup) in `app/styles/global.css`,
   CSS Modules per componente. Mobile first: base = mobile, `@media (min-width)`
   per salire. Niente Tailwind/UI kit.
-- Font self-hosted (`@fontsource-variable/fraunces`, `@fontsource-variable/mulish`):
-  mai Google Fonts da CDN (GDPR + performance).
+- Font self-hosted: `@fontsource-variable/fraunces/opsz.css` (+ `opsz-italic.css`,
+  il mockup usa l'asse `opsz`) e `@fontsource-variable/mulish`. Mai Google Fonts da
+  CDN (GDPR + performance).
 - npm, Biome (lint + format), Vitest solo per logica non banale (validazione, action).
 
 ## Struttura
@@ -41,8 +44,8 @@ app/
   `seo`, `featuredImage`, …): in migrazione cambia solo il loader (Storefront API).
 
 ## URL (convenzioni Shopify → zero redirect in migrazione)
-- `/` home: hero, prodotto in preordine, trattamenti, studio, contatti
-- `/products/detergente-viso-rinascita` scheda prodotto + form preordine
+- `/` home: hero, teaser prodotto (CTA verso la scheda), trattamenti, studio, contatti
+- `/products/detergente-viso-rinascita` scheda prodotto + **unico** form preordine
 - `/policies/privacy-policy`
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
 - Form newsletter nel footer di tutte le pagine.
@@ -78,7 +81,7 @@ app/
   `fetchpriority="high"`, JS client minimo.
 
 ## Workflow
-- Testi del sito in italiano; codice e identificatori in inglese.
+- Testi del sito in italiano; codice, identificatori e commit in inglese.
 - Conventional Commits. Nel body sempre il **perché** delle scelte: git è il log
   delle decisioni prese.
 - `worklog.md`: solo decisioni aperte e lavori a metà tra una sessione e l'altra.

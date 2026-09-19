@@ -5,7 +5,10 @@ punto si toglie da qui.
 
 ## Prossimo passo
 - Scaffolding React Router 7.16 + Cloudflare Workers, poi aggiungere a CLAUDE.md la
-  sezione "Comandi" (dev, build, test, deploy).
+  sezione "Comandi" (dev, build, test, deploy). Attenzione: `create-react-router@latest`
+  e il template Cloudflare generano RR 8. Dopo lo scaffold pinnare `react-router`,
+  `@react-router/dev`, `@react-router/cloudflare` a `~7.16.0` e confrontare
+  `react-router.config.ts` ed entry file con la documentazione RR 7.
 - Estrarre dal mockup le 4 immagini base64 (2 PNG, 2 SVG: logo e placeholder) in
   `app/assets/`.
 
