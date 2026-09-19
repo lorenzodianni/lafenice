@@ -2,8 +2,14 @@
 
 $invalid: #c0392b;
 
+// Shared by PreorderForm and NewsletterForm.
+
 .form {
   margin-top: 8px;
+}
+
+.newsletter {
+  max-width: 480px;
 }
 
 .grid {

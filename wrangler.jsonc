@@ -10,7 +10,7 @@
     // Static assets answer every method, so a POST to a prerendered page gets
     // an empty 405 and never reaches the Worker. Pages with a form go to the
     // Worker first (server-rendered, not prerendered).
-    "run_worker_first": ["/products/*"]
+    "run_worker_first": ["/products/*", "/pages/newsletter"]
   },
   // PLACEHOLDER: Brevo list and template IDs, set once the account exists.
   // The API key is a secret: `npx wrangler secret put BREVO_API_KEY`

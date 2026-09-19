@@ -5,7 +5,7 @@ import {
   type PreorderValues,
   quantities,
 } from "~/lib/preorder";
-import styles from "./PreorderForm.module.scss";
+import styles from "./Form.module.scss";
 
 // Plain POST to the route action: works without JS. The browser's native
 // validation catches most mistakes first; the server re-validates and, on

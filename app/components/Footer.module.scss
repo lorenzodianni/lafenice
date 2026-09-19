@@ -1,3 +1,5 @@
+@use "mixins" as *;
+
 .footer {
   background: var(--plum);
   color: rgba(243, 231, 218, 0.7);
@@ -51,4 +53,32 @@
   a {
     text-decoration: underline;
   }
+}
+
+// Light band on top of the dark footer, so the form keeps the site's colors.
+.newsletter {
+  padding: 48px 0;
+  background: var(--pink-soft);
+  color: var(--ink);
+
+  h2 {
+    font-size: clamp(26px, 5vw, 36px);
+    line-height: 1.1;
+  }
+}
+
+.newsletterInner {
+  display: grid;
+  gap: 24px;
+
+  @include up(md) {
+    grid-template-columns: 1fr 1fr;
+    gap: 46px;
+  }
+}
+
+.pitch {
+  margin: 14px 0 0;
+  color: #5a2e3d;
+  line-height: 1.6;
 }

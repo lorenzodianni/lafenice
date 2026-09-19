@@ -1,8 +1,8 @@
 import { site } from "~/content/site";
+import { type BrevoConfig, brevo, doubleOptin, EMAIL } from "./brevo";
 
 export const quantities = ["1", "2", "3", "4", "5 o più"];
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE = /^[+\d\s().-]*$/;
 
 export type PreorderValues = {
@@ -51,13 +51,6 @@ export function parsePreorder(form: FormData) {
   return { values, errors, spam };
 }
 
-export type BrevoConfig = {
-  apiKey: string;
-  preorderListId: number;
-  newsletterListId: number;
-  doiTemplateId: number;
-};
-
 // Brevo stores the contact (our only "database") and emails the shop.
 export async function sendPreorder(
   values: PreorderValues,
@@ -65,19 +58,7 @@ export async function sendPreorder(
   config: BrevoConfig,
   fetchFn: typeof fetch = fetch,
 ) {
-  const call = async (path: string, body: unknown) => {
-    const res = await fetchFn(`https://api.brevo.com/v3${path}`, {
-      method: "POST",
-      headers: {
-        "api-key": config.apiKey,
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok)
-      throw new Error(`Brevo ${path} ${res.status}: ${await res.text()}`);
-  };
+  const call = brevo(config.apiKey, fetchFn);
 
   // Sequential: the double opt-in must find the contact already created.
   const saveContact = async () => {
@@ -87,14 +68,7 @@ export async function sendPreorder(
       listIds: [config.preorderListId],
       updateEnabled: true,
     });
-    if (values.marketing) {
-      await call("/contacts/doubleOptinConfirmation", {
-        email: values.email,
-        includeListIds: [config.newsletterListId],
-        templateId: config.doiTemplateId,
-        redirectionUrl: `${site.url}/`,
-      });
-    }
+    if (values.marketing) await doubleOptin(values.email, config, fetchFn);
   };
 
   const notifyShop = () =>
