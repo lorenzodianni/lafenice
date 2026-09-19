@@ -1,19 +1,17 @@
+import { site } from "~/content/site";
 import { pageMeta } from "~/lib/seo";
-import type { Route } from "./+types/preorder-thanks";
 
 // Target of the post-submit redirect: a refresh cannot resend the form, and
 // the URL counts conversions in analytics. Not meant for search results.
-export function meta(_: Route.MetaArgs) {
-  return [
-    ...pageMeta(
-      {
-        title: "Richiesta di preordine inviata | La Fenice",
-        description: "Grazie per la richiesta di preordine.",
-      },
-      "/pages/grazie-preordine",
-    ),
-    { name: "robots", content: "noindex" },
-  ];
+export function meta() {
+  return pageMeta(
+    {
+      title: `Richiesta di preordine inviata | ${site.name}`,
+      description: "Grazie per la richiesta di preordine.",
+      noindex: true,
+    },
+    "/pages/grazie-preordine",
+  );
 }
 
 export default function PreorderThanks() {

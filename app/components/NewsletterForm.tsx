@@ -31,11 +31,7 @@ export function NewsletterForm({
     );
 
   return (
-    <Form
-      method="post"
-      action="/pages/newsletter"
-      className={styles.newsletter}
-    >
+    <Form method="post" action="/pages/newsletter" className={styles.narrow}>
       {formError && (
         <p className={styles.formError} role="alert">
           Non siamo riusciti a completare l'iscrizione. Riprova tra poco.

@@ -1,5 +1,5 @@
 import { site } from "~/content/site";
-import { type BrevoConfig, brevo, doubleOptin, EMAIL } from "./brevo";
+import { type BrevoConfig, brevo, doubleOptin, isEmail } from "./brevo";
 
 export const quantities = ["1", "2", "3", "4", "5 o più"];
 
@@ -35,7 +35,7 @@ export function parsePreorder(form: FormData) {
   const errors: PreorderErrors = {};
   if (!values.name || values.name.length > 100)
     errors.name = "Inserisci nome e cognome.";
-  if (!EMAIL.test(values.email) || values.email.length > 254)
+  if (!isEmail(values.email))
     errors.email = "Inserisci un indirizzo email valido.";
   if (values.phone.length > 30 || !PHONE.test(values.phone))
     errors.phone = "Inserisci un numero di telefono valido.";

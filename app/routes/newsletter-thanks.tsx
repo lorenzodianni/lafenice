@@ -1,18 +1,16 @@
+import { site } from "~/content/site";
 import { pageMeta } from "~/lib/seo";
-import type { Route } from "./+types/newsletter-thanks";
 
 // Redirect target after the signup form, like /pages/grazie-preordine.
-export function meta(_: Route.MetaArgs) {
-  return [
-    ...pageMeta(
-      {
-        title: "Conferma l'iscrizione | La Fenice",
-        description: "Controlla la tua email per confermare l'iscrizione.",
-      },
-      "/pages/grazie-newsletter",
-    ),
-    { name: "robots", content: "noindex" },
-  ];
+export function meta() {
+  return pageMeta(
+    {
+      title: `Conferma l'iscrizione | ${site.name}`,
+      description: "Controlla la tua email per confermare l'iscrizione.",
+      noindex: true,
+    },
+    "/pages/grazie-newsletter",
+  );
 }
 
 export default function NewsletterThanks() {

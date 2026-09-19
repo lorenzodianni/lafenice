@@ -3,8 +3,8 @@ import type { Config } from "@react-router/dev/config";
 export default {
   // ssr must stay true: form actions run in the Worker.
   ssr: true,
-  // Every static path. Product pages are not prerendered: they carry the
-  // preorder form, so wrangler.jsonc routes them to the Worker (run_worker_first).
+  // Every static path (dynamic ones like /products/:handle are rendered by the
+  // Worker). Paths that receive a POST are in run_worker_first (wrangler.jsonc).
   prerender: true,
   future: {
     v8_middleware: true,

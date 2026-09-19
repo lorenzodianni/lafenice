@@ -2,7 +2,11 @@ import { site } from "~/content/site";
 
 // Meta every page needs. Routes spread this and add their own JSON-LD.
 export function pageMeta(
-  { title, description }: { title: string; description: string },
+  {
+    title,
+    description,
+    noindex = false,
+  }: { title: string; description: string; noindex?: boolean },
   path: string,
 ) {
   const url = `${site.url}${path}`;
@@ -16,5 +20,6 @@ export function pageMeta(
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:url", content: url },
+    ...(noindex ? [{ name: "robots", content: "noindex" }] : []),
   ];
 }

@@ -1,18 +1,17 @@
+import { site } from "~/content/site";
+import { CONFIRMED_PATH } from "~/lib/brevo";
 import { pageMeta } from "~/lib/seo";
-import type { Route } from "./+types/newsletter-confirmed";
 
-// Where the link in Brevo's double opt-in email lands (CONFIRMED_PATH).
-export function meta(_: Route.MetaArgs) {
-  return [
-    ...pageMeta(
-      {
-        title: "Iscrizione confermata | La Fenice",
-        description: "La tua iscrizione alla newsletter è confermata.",
-      },
-      "/pages/iscrizione-confermata",
-    ),
-    { name: "robots", content: "noindex" },
-  ];
+// Where the link in Brevo's double opt-in email lands.
+export function meta() {
+  return pageMeta(
+    {
+      title: `Iscrizione confermata | ${site.name}`,
+      description: "La tua iscrizione alla newsletter è confermata.",
+      noindex: true,
+    },
+    CONFIRMED_PATH,
+  );
 }
 
 export default function NewsletterConfirmed() {

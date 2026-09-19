@@ -44,10 +44,6 @@ export default function Newsletter({ actionData }: Route.ComponentProps) {
     <main className="wrap section">
       <p className="eyebrow">Newsletter</p>
       <h1>Iscriviti alla newsletter</h1>
-      <p>
-        Promozioni, nuovi trattamenti e il lancio del Detergente Rinascita.
-        Poche email, niente spam.
-      </p>
       <NewsletterForm {...actionData} />
     </main>
   );

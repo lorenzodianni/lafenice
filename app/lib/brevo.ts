@@ -1,6 +1,7 @@
 import { site } from "~/content/site";
 
-export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const isEmail = (s: string) => s.length <= 254 && EMAIL.test(s);
 
 // Where the link in Brevo's confirmation email lands.
 export const CONFIRMED_PATH = "/pages/iscrizione-confermata";
