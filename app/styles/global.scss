@@ -91,11 +91,12 @@
     padding: 0 var(--gutter);
   }
 
+  // Vertical only: `wrap section` on one element keeps the side gutter.
   .section {
-    padding: 60px 0;
+    padding-block: 60px;
 
     @include up(md) {
-      padding: 84px 0;
+      padding-block: 84px;
     }
   }
 
