@@ -41,6 +41,12 @@ punto si toglie da qui.
 - Google Business Profile (la leva principale per la SEO locale), Google Search
   Console, Bing Webmaster Tools (Bing alimenta ChatGPT search/Copilot).
 
+## Da verificare appena c'è l'account Brevo
+- `sendPreorder` crea il contatto e poi chiama `/contacts/doubleOptinConfirmation`
+  sullo stesso indirizzo: che Brevo accetti il double opt-in per un contatto già
+  esistente è un'ipotesi, testata solo con fetch finto. Primo test reale da fare;
+  se lo rifiuta, invertire l'ordine o saltare la creazione quando c'è il consenso.
+
 ## Da valutare più avanti
 - Cloudflare Turnstile se l'honeypot non basta contro lo spam.
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
