@@ -1,0 +1,38 @@
+import { treatments } from "~/content/site";
+import styles from "./Treatments.module.scss";
+
+export function Treatments() {
+  return (
+    <section
+      id="trattamenti"
+      className="section"
+      aria-labelledby="trattamenti-title"
+    >
+      <div className="wrap">
+        <div className={styles.head}>
+          <div>
+            <p className="eyebrow">I trattamenti</p>
+            <h2 id="trattamenti-title">Un percorso per ogni esigenza</h2>
+          </div>
+          <p>
+            Dalla pelle del viso al benessere del corpo: gesti professionali e
+            prodotti selezionati, calibrati su di te.
+          </p>
+        </div>
+
+        <ul className={styles.grid}>
+          {treatments.map((t, i) => (
+            <li key={t.name} className={styles.card}>
+              <span className={styles.num}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3>{t.name}</h3>
+              <p>{t.description}</p>
+              <span className={styles.tag}>{t.duration}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
