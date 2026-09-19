@@ -4,13 +4,9 @@ Solo cose non ancora decise o a metà. Chiuso un punto: il perché va nel commit
 punto si toglie da qui.
 
 ## Prossimo passo
-- Scaffolding React Router 7.16 + Cloudflare Workers, poi aggiungere a CLAUDE.md la
-  sezione "Comandi" (dev, build, test, deploy). Attenzione: `create-react-router@latest`
-  e il template Cloudflare generano RR 8. Dopo lo scaffold pinnare `react-router`,
-  `@react-router/dev`, `@react-router/cloudflare` a `~7.16.0` e confrontare
-  `react-router.config.ts` ed entry file con la documentazione RR 7.
-- Estrarre dal mockup le 4 immagini base64 (2 PNG, 2 SVG: logo e placeholder) in
-  `app/assets/`.
+- Feature home page (`feat/home`): sezioni dal mockup, `app/content/site.ts`, JSON-LD
+  `BeautySalon`.
+- Poi: scheda prodotto + form preordine, newsletter, privacy, sitemap/robots/llms.txt.
 
 ## Dati mancanti dal cliente (nel mockup sono placeholder)
 - Ragione sociale, P.IVA, indirizzo, telefono/WhatsApp, orari, URL social.
@@ -18,7 +14,10 @@ punto si toglie da qui.
   (info@, ordini@) e dove vanno inoltrate (Cloudflare Email Routing)?
 - Prodotto: prezzo (senza prezzo niente rich result Product con `offers`), formato/ml,
   INCI, foto reali, tempi di consegna.
-- Foto reali del centro (hero, studio).
+- Foto reali del centro (hero, studio). Ora in `app/assets/` ci sono i placeholder
+  SVG del mockup.
+- Logo vettoriale (SVG) o PNG ad alta risoluzione: quello del mockup è 220x284 px
+  (`app/assets/logo.png`, da cui è ricavata `public/favicon.png`).
 - Testo privacy policy: da far validare a un consulente.
 
 ## Account da creare (a carico del cliente)

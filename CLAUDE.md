@@ -15,8 +15,10 @@ desktop-first con dati placeholder: il sito no.
   Hydrogen così come sono. Niente RR 8 finché Hydrogen non lo supporta
   (`npm view @shopify/hydrogen peerDependencies`).
 - **Cloudflare Workers** (runtime workerd, lo stesso di Oxygen). Config:
-  `ssr: true` + `prerender: [...]` con tutte le pagine: HTML statico a build e
-  l'unico codice server sono le `action` dei form. Mai `ssr: false` (SPA mode):
+  `ssr: true` + `prerender: true`: HTML statico a build per ogni path statico, le
+  route dinamiche (`/products/:handle`) vanno elencate con la forma a funzione di
+  `prerender`. L'unico codice server sono le `action` dei form (le POST arrivano
+  al Worker anche sulle pagine prerenderizzate, verificato). Mai `ssr: false` (SPA mode):
   le action non arriverebbero al Worker e i form senza JS smetterebbero di funzionare.
   Deploy da integrazione Git di Cloudflare, niente CI custom.
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
@@ -31,6 +33,13 @@ desktop-first con dati placeholder: il sito no.
   CDN (GDPR + performance).
 - npm, Biome (lint + format), Vitest solo per logica non banale (validazione, action).
 
+## Comandi
+- `npm run dev`: sviluppo (Worker locale via `@cloudflare/vite-plugin`)
+- `npm run build` / `npm run preview`: build di produzione e anteprima nel runtime Worker
+- `npm run typecheck` / `npm run lint` / `npm run format`: da far passare prima di ogni PR
+- `npm run deploy`: deploy manuale; la produzione parte dall'integrazione Git di Cloudflare
+- Dopo modifiche a `wrangler.jsonc`: `npm run cf-typegen` (tipi `Env`)
+
 ## Struttura
 ```
 app/
@@ -39,6 +48,8 @@ app/
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
   lib/         client Brevo, validazione form, helper SEO/JSON-LD
   styles/      global.scss, _mixins.scss
+  assets/      immagini importate dai componenti
+workers/app.ts entry del Worker (non toccare salvo bindings)
 ```
 - Tutti i dati di business stanno in `app/content/`: UI, JSON-LD, sitemap e llms.txt
   leggono da lì. Mai duplicare indirizzo, orari, telefono.
