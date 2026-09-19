@@ -1,4 +1,3 @@
-import logo from "~/assets/logo.png";
 import { Contacts } from "~/components/Contacts";
 import { Hero } from "~/components/Hero";
 import { ProductTeaser } from "~/components/ProductTeaser";
@@ -30,8 +29,9 @@ export function meta(_: Route.MetaArgs) {
         legalName: site.legalName,
         description: site.description,
         url: `${site.url}/`,
-        logo: `${site.url}${logo}`,
-        image: `${site.url}${logo}`,
+        // Stable public URL: hashed asset URLs change on every build.
+        logo: `${site.url}/favicon.png`,
+        image: `${site.url}/favicon.png`,
         telephone: site.phone,
         email: site.email,
         vatID: site.vatId,
