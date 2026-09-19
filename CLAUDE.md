@@ -1,4 +1,4 @@
-# La Fenice — sito vetrina
+# La Fenice: sito vetrina
 
 Sito del Centro Estetico La Fenice (Novara, titolare Micaela Brunetti). Obiettivi:
 mostrare il centro e il primo prodotto (Detergente viso Rinascita), raccogliere
@@ -21,9 +21,11 @@ desktop-first con dati placeholder: il sito no.
   Deploy da integrazione Git di Cloudflare, niente CI custom.
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.
-- **CSS puro**: token (custom properties del mockup) in `app/styles/global.css`,
-  CSS Modules per componente. Mobile first: base = mobile, `@media (min-width)`
-  per salire. Niente Tailwind/UI kit.
+- **SCSS** (`sass-embedded`, compilato da Vite): colori e font come CSS custom
+  properties del mockup in `app/styles/global.scss`; breakpoint e mixin in
+  `app/styles/_mixins.scss`; SCSS Modules per componente (`*.module.scss`). Solo
+  `@use`/`@forward`, mai `@import` (deprecato in Dart Sass). Mobile first: base =
+  mobile, mixin `min-width` per salire. Niente Tailwind/UI kit.
 - Font self-hosted: `@fontsource-variable/fraunces/opsz.css` (+ `opsz-italic.css`,
   il mockup usa l'asse `opsz`) e `@fontsource-variable/mulish`. Mai Google Fonts da
   CDN (GDPR + performance).
@@ -33,10 +35,10 @@ desktop-first con dati placeholder: il sito no.
 ```
 app/
   content/     site.ts (nome, indirizzo, orari, contatti, social, dati legali), products.ts
-  components/  UI riusabile + *.module.css
+  components/  UI riusabile + *.module.scss
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
   lib/         client Brevo, validazione form, helper SEO/JSON-LD
-  styles/      global.css
+  styles/      global.scss, _mixins.scss
 ```
 - Tutti i dati di business stanno in `app/content/`: UI, JSON-LD, sitemap e llms.txt
   leggono da lì. Mai duplicare indirizzo, orari, telefono.
@@ -82,6 +84,12 @@ app/
 
 ## Workflow
 - Testi del sito in italiano; codice, identificatori e commit in inglese.
+- **Mai usare l'em dash (U+2014)**: né nei testi del sito, né in codice, commenti, commit,
+  PR o documentazione. Usa due punti, virgola, punto o trattino semplice. Vale anche
+  per il copy preso dal mockup, che ne contiene.
+- Ogni feature: nuovo branch da `main` (`feat/…`, `fix/…`, `docs/…`) → PR con `gh` →
+  merge su `main` con merge commit (`gh pr merge --merge --delete-branch`). Mai
+  squash: i singoli commit con il loro perché sono il worklog.
 - Conventional Commits. Nel body sempre il **perché** delle scelte: git è il log
   delle decisioni prese.
 - `worklog.md`: solo decisioni aperte e lavori a metà tra una sessione e l'altra.

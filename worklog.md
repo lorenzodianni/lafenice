@@ -1,4 +1,4 @@
-# Worklog — punti aperti
+# Worklog: punti aperti
 
 Solo cose non ancora decise o a metà. Chiuso un punto: il perché va nel commit e il
 punto si toglie da qui.
