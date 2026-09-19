@@ -18,10 +18,12 @@ desktop-first con dati placeholder: il sito no.
   `ssr: true` + `prerender: true`: ogni path statico è HTML generato a build. Mai
   `ssr: false` (SPA mode): le action non girerebbero e i form senza JS morirebbero.
   Deploy da integrazione Git di Cloudflare, niente CI custom.
-- **Pagine con un form = servite dal Worker, non prerenderizzate.** Gli asset statici
+- **Path che ricevono un form = serviti dal Worker.** Gli asset statici
   rispondono a ogni metodo: una POST su una pagina prerenderizzata riceve un 405
-  vuoto e non arriva mai all'action. Ogni path con un form va in
-  `assets.run_worker_first` di `wrangler.jsonc` (oggi `/products/*`).
+  vuoto e non arriva mai all'action. Ogni path che riceve una POST va in
+  `assets.run_worker_first` di `wrangler.jsonc` (oggi `/products/*` e
+  `/pages/newsletter`). Un path statico lì dentro viene comunque prerenderizzato,
+  ma quell'HTML non viene mai servito: risponde il Worker.
   `html_handling: drop-trailing-slash`: URL senza slash finale, come Shopify.
 - `cloudflare:workers` (env, secret) si importa solo con `await import()` dentro le
   action: il prerender gira in Node e un import statico rompe la build.
@@ -56,7 +58,7 @@ desktop-first con dati placeholder: il sito no.
 - `npm run deploy`: deploy manuale; la produzione parte dall'integrazione Git di Cloudflare
 - Dopo modifiche a `wrangler.jsonc`: `npm run cf-typegen` (tipi `Env`)
 - Secret Brevo: `npx wrangler secret put BREVO_API_KEY`; in locale `BREVO_API_KEY=...`
-  in `.dev.vars` (gitignored). In dev senza chiave il preordine viene solo loggato.
+  in `.dev.vars` (gitignored). In dev senza chiave le chiamate Brevo vengono solo loggate.
 
 ## Struttura
 ```
@@ -64,7 +66,8 @@ app/
   content/     site.ts (nome, indirizzo, orari, contatti, social, dati legali), products.ts
   components/  layout (Header, Footer) e sezioni + *.module.scss
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
-  lib/         seo.ts (meta comuni), preorder.ts (validazione + Brevo) + test
+  lib/         seo.ts (meta comuni), brevo.ts (client API + double opt-in),
+               preorder.ts, newsletter.ts (validazione) + test
   styles/      global.scss, _mixins.scss
   assets/      immagini importate dai componenti
 public/images/ immagini con URL stabile (servono al JSON-LD)
@@ -80,9 +83,11 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `/` home: hero, teaser prodotto (CTA verso la scheda), trattamenti, studio, contatti
 - `/products/detergente-viso-rinascita` scheda prodotto + **unico** form preordine
 - `/pages/grazie-preordine` destinazione dopo l'invio (redirect, `noindex`)
+- `/pages/newsletter` riceve tutti i form newsletter e ne mostra gli errori;
+  `/pages/grazie-newsletter` dopo l'invio, `/pages/iscrizione-confermata` dopo il
+  click nell'email del double opt-in (entrambe `noindex`)
 - `/policies/privacy-policy`
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
-- Form newsletter nel footer di tutte le pagine.
 
 ## Form
 - **Preordine**: nome*, email*, telefono, quantità, note, presa visione privacy*,
@@ -90,7 +95,11 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   double opt-in "Newsletter" se c'è il consenso) + email a `ordersEmail` con
   reply-to del cliente, poi redirect a `/pages/grazie-preordine`. Se Brevo fallisce
   la pagina torna con un errore e i campi compilati: mai finto successo.
-- **Newsletter**: email + consenso → double opt-in Brevo, lista "Newsletter".
+- **Newsletter**: nel footer di ogni pagina, email* + consenso* → double opt-in
+  Brevo, lista "Newsletter". POST a `/pages/newsletter` (le pagine sono statiche),
+  stesso schema del preordine: errori sulla pagina, redirect a
+  `/pages/grazie-newsletter`. Le tre pagine newsletter esportano
+  `handle = { hideNewsletter: true }`: niente form ripetuto nel footer.
 - `<Form>` di React Router: deve funzionare anche senza JS.
 - Validazione sempre lato server, honeypot anti-spam. Segreti solo come secret del
   Worker (`BREVO_API_KEY`), mai nel bundle client.

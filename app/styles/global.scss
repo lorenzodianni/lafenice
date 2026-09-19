@@ -13,6 +13,7 @@
     --plum: #3a1526;
     --plum-d: #2a0f1b;
     --ink: #2b1a20;
+    --ink-soft: #5a2e3d;
     --muted: #8a7a80;
     --line: #efdce3;
 
@@ -88,14 +89,15 @@
   .wrap {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 var(--gutter);
+    padding-inline: var(--gutter);
   }
 
+  // Vertical only: `wrap section` on one element keeps the side gutter.
   .section {
-    padding: 60px 0;
+    padding-block: 60px;
 
     @include up(md) {
-      padding: 84px 0;
+      padding-block: 84px;
     }
   }
 

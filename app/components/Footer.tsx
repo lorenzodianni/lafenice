@@ -1,10 +1,28 @@
 import logo from "~/assets/logo.webp";
 import { fullAddress, site, socialLinks } from "~/content/site";
 import styles from "./Footer.module.scss";
+import { NewsletterForm, newsletterPitch } from "./NewsletterForm";
 
-export function Footer() {
+export function Footer({ newsletter }: { newsletter: boolean }) {
   return (
     <footer className={styles.footer}>
+      {newsletter && (
+        <section
+          className={styles.newsletter}
+          aria-labelledby="newsletter-title"
+        >
+          <div className={`wrap ${styles.newsletterInner}`}>
+            <div>
+              <p className="eyebrow">Newsletter</p>
+              <h2 id="newsletter-title">
+                Le novità del centro, <em>in anteprima</em>
+              </h2>
+              <p className={styles.pitch}>{newsletterPitch}</p>
+            </div>
+            <NewsletterForm />
+          </div>
+        </section>
+      )}
       <div className={`wrap ${styles.inner}`}>
         <img src={logo} alt="" width={36} height={46} loading="lazy" />
         <span className={styles.wordmark}>

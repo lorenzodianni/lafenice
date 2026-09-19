@@ -1,8 +1,8 @@
 import { site } from "~/content/site";
+import { type BrevoConfig, brevo, doubleOptin, isEmail } from "./brevo";
 
 export const quantities = ["1", "2", "3", "4", "5 o più"];
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE = /^[+\d\s().-]*$/;
 
 export type PreorderValues = {
@@ -11,10 +11,11 @@ export type PreorderValues = {
   phone: string;
   quantity: string;
   notes: string;
+  privacy: boolean;
   marketing: boolean;
 };
 export type PreorderErrors = Partial<
-  Record<Exclude<keyof PreorderValues, "marketing"> | "privacy", string>
+  Record<Exclude<keyof PreorderValues, "marketing">, string>
 >;
 
 // Server-side validation: the form's HTML attributes are only a convenience.
@@ -29,20 +30,21 @@ export function parsePreorder(form: FormData) {
     phone: line("phone"),
     quantity: line("quantity"),
     notes: text("notes"),
+    privacy: form.get("privacy") === "on",
     marketing: form.get("marketing") === "on",
   };
 
   const errors: PreorderErrors = {};
   if (!values.name || values.name.length > 100)
     errors.name = "Inserisci nome e cognome.";
-  if (!EMAIL.test(values.email) || values.email.length > 254)
+  if (!isEmail(values.email))
     errors.email = "Inserisci un indirizzo email valido.";
   if (values.phone.length > 30 || !PHONE.test(values.phone))
     errors.phone = "Inserisci un numero di telefono valido.";
   if (!quantities.includes(values.quantity))
     errors.quantity = "Scegli una quantità.";
   if (values.notes.length > 1000) errors.notes = "Massimo 1000 caratteri.";
-  if (form.get("privacy") !== "on")
+  if (!values.privacy)
     errors.privacy = "Conferma di aver letto l'informativa privacy.";
 
   // Honeypot: hidden from people, bots fill it in.
@@ -51,13 +53,6 @@ export function parsePreorder(form: FormData) {
   return { values, errors, spam };
 }
 
-export type BrevoConfig = {
-  apiKey: string;
-  preorderListId: number;
-  newsletterListId: number;
-  doiTemplateId: number;
-};
-
 // Brevo stores the contact (our only "database") and emails the shop.
 export async function sendPreorder(
   values: PreorderValues,
@@ -65,19 +60,7 @@ export async function sendPreorder(
   config: BrevoConfig,
   fetchFn: typeof fetch = fetch,
 ) {
-  const call = async (path: string, body: unknown) => {
-    const res = await fetchFn(`https://api.brevo.com/v3${path}`, {
-      method: "POST",
-      headers: {
-        "api-key": config.apiKey,
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok)
-      throw new Error(`Brevo ${path} ${res.status}: ${await res.text()}`);
-  };
+  const call = brevo(config.apiKey, fetchFn);
 
   // Sequential: the double opt-in must find the contact already created.
   const saveContact = async () => {
@@ -87,14 +70,7 @@ export async function sendPreorder(
       listIds: [config.preorderListId],
       updateEnabled: true,
     });
-    if (values.marketing) {
-      await call("/contacts/doubleOptinConfirmation", {
-        email: values.email,
-        includeListIds: [config.newsletterListId],
-        templateId: config.doiTemplateId,
-        redirectionUrl: `${site.url}/`,
-      });
-    }
+    if (values.marketing) await doubleOptin(values.email, config, fetchFn);
   };
 
   const notifyShop = () =>

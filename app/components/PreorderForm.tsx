@@ -5,7 +5,7 @@ import {
   type PreorderValues,
   quantities,
 } from "~/lib/preorder";
-import styles from "./PreorderForm.module.scss";
+import styles from "./Form.module.scss";
 
 // Plain POST to the route action: works without JS. The browser's native
 // validation catches most mistakes first; the server re-validates and, on
@@ -106,7 +106,12 @@ export function PreorderForm({
       </div>
 
       <div className={styles.check}>
-        <input {...field("privacy")} type="checkbox" required />
+        <input
+          {...field("privacy")}
+          type="checkbox"
+          required
+          defaultChecked={values?.privacy}
+        />
         <label htmlFor="preorder-privacy">
           Ho letto l'
           <a href="/policies/privacy-policy">informativa privacy</a> *

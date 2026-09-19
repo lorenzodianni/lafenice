@@ -2,8 +2,14 @@
 
 $invalid: #c0392b;
 
+// Shared by PreorderForm and NewsletterForm.
+
 .form {
   margin-top: 8px;
+}
+
+.narrow {
+  max-width: 480px;
 }
 
 .grid {
@@ -61,7 +67,7 @@ $invalid: #c0392b;
   grid-template-columns: auto 1fr;
   gap: 4px 10px;
   margin-bottom: 12px;
-  color: #5a2e3d;
+  color: var(--ink-soft);
   font-size: 14px;
   line-height: 1.5;
 
@@ -115,6 +121,6 @@ $invalid: #c0392b;
 }
 
 .hint {
-  color: #5a2e3d;
+  color: var(--ink-soft);
   font-size: 13px;
 }

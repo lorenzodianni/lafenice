@@ -3,6 +3,7 @@ import { PreorderForm } from "~/components/PreorderForm";
 import { ProductSection } from "~/components/ProductSection";
 import { products } from "~/content/products";
 import { site } from "~/content/site";
+import { brevoConfig } from "~/lib/brevo";
 import { parsePreorder, sendPreorder } from "~/lib/preorder";
 import { pageMeta } from "~/lib/seo";
 import type { Route } from "./+types/product";
@@ -25,7 +26,9 @@ export async function action({ request, params }: Route.ActionArgs) {
   // load `cloudflare:workers`. Actions only ever run in the Worker.
   const { env } = await import("cloudflare:workers");
   const product = findProduct(params.handle);
-  const { values, errors, spam } = parsePreorder(await request.formData());
+  // Non-form bodies (bots) get the validation errors, not a 500.
+  const form = await request.formData().catch(() => new FormData());
+  const { values, errors, spam } = parsePreorder(form);
 
   // Bots get the same answer as people, so they learn nothing.
   if (spam) return redirect(THANKS);
@@ -33,19 +36,8 @@ export async function action({ request, params }: Route.ActionArgs) {
     return data({ values, errors, formError: false }, { status: 400 });
   }
 
-  // ponytail: lets the whole flow run in dev before the Brevo account exists.
-  if (import.meta.env.DEV && !env.BREVO_API_KEY) {
-    console.info("[dev] preordine non inviato, manca BREVO_API_KEY:", values);
-    return redirect(THANKS);
-  }
-
   try {
-    await sendPreorder(values, product.title, {
-      apiKey: env.BREVO_API_KEY ?? "",
-      preorderListId: env.BREVO_PREORDER_LIST_ID,
-      newsletterListId: env.BREVO_NEWSLETTER_LIST_ID,
-      doiTemplateId: env.BREVO_DOI_TEMPLATE_ID,
-    });
+    await sendPreorder(values, product.title, brevoConfig(env));
   } catch (error) {
     // Never fake success: the request would be lost. The page offers email.
     console.error("Preorder failed", error);
