@@ -1,7 +1,14 @@
-import { fullAddress, mapsUrl, phoneHref, site } from "~/content/site";
+import {
+  cityLine,
+  closedDays,
+  fullAddress,
+  mapsUrl,
+  openingHours,
+  phoneHref,
+  site,
+  whatsappHref,
+} from "~/content/site";
 import styles from "./Contacts.module.scss";
-
-const time = (t: string) => t.replace(/^0/, "");
 
 export function Contacts() {
   return (
@@ -9,40 +16,35 @@ export function Contacts() {
       <div className={`wrap ${styles.inner}`}>
         <div>
           <p className="eyebrow">Contatti</p>
-          <h2 id="contatti-title" className={styles.title}>
-            Vieni a trovarci
-          </h2>
+          <h2 id="contatti-title">Vieni a trovarci</h2>
           <dl className={styles.info}>
             <div>
               <dt>Indirizzo</dt>
               <dd>
                 {site.address.street}
                 <br />
-                <small>
-                  {site.address.postalCode} {site.address.city} (
-                  {site.address.province})
-                </small>
+                <small>{cityLine}</small>
               </dd>
             </div>
             <div>
               <dt>Orari</dt>
               <dd>
-                {site.hours.map((h) => (
-                  <span key={h.label} className={styles.line}>
-                    {h.label} {time(h.opens)} - {time(h.closes)}
-                  </span>
+                {openingHours.map((h) => (
+                  <div key={h.days}>
+                    {h.days} {h.time}
+                  </div>
                 ))}
-                <small>{site.closedNote}</small>
+                <small>Chiuso: {closedDays.join(", ")}</small>
               </dd>
             </div>
             <div>
               <dt>Telefono</dt>
               <dd>
                 <a href={phoneHref}>{site.phone}</a>
-                {site.whatsapp && (
+                {whatsappHref && (
                   <>
                     <br />
-                    <a href={`https://wa.me/${site.whatsapp}`}>
+                    <a href={whatsappHref}>
                       <small>Scrivici su WhatsApp</small>
                     </a>
                   </>
@@ -62,7 +64,7 @@ export function Contacts() {
         </div>
 
         {/* No map embed: it would set third-party cookies (see CLAUDE.md). */}
-        <a className={styles.map} href={mapsUrl} rel="noopener">
+        <a className={styles.map} href={mapsUrl}>
           <span className={styles.pin} aria-hidden="true" />
           <span className={styles.mapLabel}>
             Apri in Google Maps

@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
@@ -6,7 +7,11 @@ export default defineConfig({
   plugins: [cloudflare({ viteEnvironment: { name: "ssr" } }), reactRouter()],
   css: {
     // Lets every SCSS module write `@use "mixins" as *;`.
-    preprocessorOptions: { scss: { loadPaths: ["app/styles"] } },
+    preprocessorOptions: {
+      scss: {
+        loadPaths: [fileURLToPath(new URL("app/styles", import.meta.url))],
+      },
+    },
   },
   resolve: {
     tsconfigPaths: true,

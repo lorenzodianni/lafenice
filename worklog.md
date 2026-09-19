@@ -6,8 +6,14 @@ punto si toglie da qui.
 ## Prossimo passo
 - `feat/product`: scheda `/products/detergente-viso-rinascita` + form preordine
   (action + Brevo). Il bottone "Preordina ora" della home punta già lì e dà 404
-  finché la pagina non esiste.
-- Poi: newsletter nel footer, privacy policy, sitemap/robots/llms.txt.
+  finché la pagina non esiste. Con la seconda route: estrarre i meta comuni
+  (title, description, canonical, og) in `app/lib/seo.ts` e aggiungere a
+  `products.ts` un campo esplicito per la parola in corsivo del titolo (ora è
+  l'ultima parola, ricavata nel componente).
+- Poi: newsletter nel footer, privacy policy (`/policies/privacy-policy`, già
+  linkata dal footer: 404 finché non esiste), sitemap/robots/llms.txt.
+- Prima di collegare Cloudflare (go-live): scheda prodotto e privacy devono esistere
+  e i `PLACEHOLDER` vanno sostituiti, altrimenti Google indicizza dati finti.
 
 ## Dati mancanti dal cliente (nel mockup sono placeholder)
 - Ragione sociale, P.IVA, indirizzo, telefono, numero WhatsApp, orari, URL social,
@@ -18,8 +24,9 @@ punto si toglie da qui.
   INCI, foto reali, tempi di consegna.
 - Foto reali del centro (hero, studio). Ora in `app/assets/` ci sono i placeholder
   SVG del mockup.
-- Logo vettoriale (SVG) o PNG ad alta risoluzione: quello del mockup è 220x284 px
-  (`app/assets/logo.png`, da cui è ricavata `public/favicon.png`).
+- Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
+  (71x92, 2x della dimensione mostrata) e `public/favicon.png`, entrambi ricavati
+  dal PNG 220x284 incluso in `docs/mockup.html`.
 - Testo privacy policy: da far validare a un consulente.
 
 ## Account da creare (a carico del cliente)

@@ -21,7 +21,7 @@ export function Studio() {
           Ogni trattamento è studiato sulla persona, con prodotti professionali
           e tempo dedicato. Senza fretta, senza protocolli uguali per tutte.
         </p>
-        <p className={styles.sign}>
+        <p className={`eyebrow ${styles.sign}`}>
           <b>{site.owner.name}</b>
           {site.owner.role}
         </p>

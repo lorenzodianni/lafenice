@@ -1,13 +1,14 @@
+import { Fragment } from "react";
 import heroImage from "~/assets/placeholder-hero.svg";
 import { site, treatments } from "~/content/site";
 import styles from "./Hero.module.scss";
 
 export function Hero() {
   const marquee = treatments.map((t) => (
-    <span key={t.name}>
+    <Fragment key={t.name}>
       {t.name}
       <b>·</b>
-    </span>
+    </Fragment>
   ));
 
   return (
@@ -24,8 +25,7 @@ export function Hero() {
           />
           <span className={styles.badge}>Dal {site.foundingYear}</span>
         </div>
-        <div className={styles.copy}>
-          <span className={styles.spine} aria-hidden="true" />
+        <div className={`wrap ${styles.copy}`}>
           <p className="eyebrow">
             {site.kind} a {site.address.city} · {site.owner.name}
           </p>

@@ -10,20 +10,22 @@
     --pink: #f4cfdc;
     --pink-soft: #fbeaf0;
     --pink-2: #ebb6c8;
-    --pink-bg: #f5d8e0;
     --plum: #3a1526;
     --plum-d: #2a0f1b;
-    --plum-text: #5a2e3d;
     --ink: #2b1a20;
     --muted: #8a7a80;
     --line: #efdce3;
-    --cream: #f3e7da;
 
     --serif: "Fraunces Variable", Georgia, serif;
     --sans: "Mulish Variable", system-ui, sans-serif;
 
     --radius: 18px;
     --max-width: 1080px;
+    --gutter: 22px;
+
+    @include up(md) {
+      --gutter: 40px;
+    }
   }
 
   *,
@@ -86,11 +88,7 @@
   .wrap {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 22px;
-
-    @include up(md) {
-      padding: 0 40px;
-    }
+    padding: 0 var(--gutter);
   }
 
   .section {
@@ -101,13 +99,17 @@
     }
   }
 
+  // Dark sections set --eyebrow-color instead of overriding the class.
   .eyebrow {
-    display: block;
     margin: 0;
     font: 700 12px/1.5 var(--sans);
     letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: var(--plum);
+    color: var(--eyebrow-color, var(--plum));
+  }
+
+  .eyebrow + :is(h1, h2) {
+    margin-top: 10px;
   }
 
   .btn {
@@ -146,15 +148,6 @@
   :focus-visible {
     outline: 2px solid var(--plum);
     outline-offset: 3px;
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -21,6 +21,10 @@ desktop-first con dati placeholder: il sito no.
   al Worker anche sulle pagine prerenderizzate, verificato). Mai `ssr: false` (SPA mode):
   le action non arriverebbero al Worker e i form senza JS smetterebbero di funzionare.
   Deploy da integrazione Git di Cloudflare, niente CI custom.
+- **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
+  una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
+  pagine sono HTML + CSS; l'unico JS è lo script inline che chiude il menu mobile.
+  Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.
 - **SCSS** (`sass-embedded`, compilato da Vite): colori e font come CSS custom
@@ -29,8 +33,11 @@ desktop-first con dati placeholder: il sito no.
   `@use`/`@forward`, mai `@import` (deprecato in Dart Sass). Mobile first: base =
   mobile, `@include up(sm|md)` per salire. Niente Tailwind/UI kit.
   `global.scss` è tutto dentro `@layer base` (token, reset e le sole classi globali:
-  `wrap`, `section`, `eyebrow`, `btn`, `btn-ghost`, `sr-only`), così le regole dei
-  moduli vincono sempre senza `!important` né giochi di specificità.
+  `wrap`, `section`, `eyebrow`, `btn`, `btn-ghost`), così le regole dei moduli
+  vincono sempre senza `!important` né giochi di specificità. Le varianti passano
+  da custom properties (`--gutter`, `--eyebrow-color`), non da override delle classi.
+  Nei moduli evita selettori di elemento generici (`p`, `a`) che colpiscono anche le
+  classi globali: nel cascade vincono sempre loro.
 - Font self-hosted: `@fontsource-variable/fraunces/opsz.css` (+ `opsz-italic.css`,
   il mockup usa l'asse `opsz`) e `@fontsource-variable/mulish`. Mai Google Fonts da
   CDN (GDPR + performance).
@@ -76,7 +83,8 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - Validazione sempre lato server, honeypot anti-spam. Segreti solo come secret del
   Worker (`BREVO_API_KEY`), mai nel bundle client.
 - `mailto:` solo come contatto alternativo, mai come canale del form.
-- "Prenota" (trattamenti) = link `tel:` / WhatsApp: nessun sistema di prenotazione.
+- "Prenota" (trattamenti) porta alla sezione contatti (`/#contatti`); lì il bottone è
+  `tel:` e c'è WhatsApp. Nessun sistema di prenotazione.
 
 ## GDPR / legale
 - Consenso marketing separato, esplicito, mai preselezionato; la prova del consenso
@@ -95,7 +103,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `robots.txt` ammette anche i crawler AI (GPTBot, ClaudeBot, PerplexityBot,
   Google-Extended). `llms.txt` riassume centro, prodotto, contatti.
 - Core Web Vitals: immagini AVIF/WebP con `width`/`height` e `srcset`, hero con
-  `fetchpriority="high"`, JS client minimo.
+  `fetchpriority="high"`, preload dei font above the fold (`links` in `root.tsx`).
 
 ## Workflow
 - Testi del sito in italiano; codice, identificatori e commit in inglese.

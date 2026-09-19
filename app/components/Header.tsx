@@ -1,4 +1,4 @@
-import logo from "~/assets/logo.png";
+import logo from "~/assets/logo.webp";
 import { site } from "~/content/site";
 import styles from "./Header.module.scss";
 
@@ -7,23 +7,25 @@ const links = [
   { href: "/#trattamenti", label: "Trattamenti" },
   { href: "/#studio", label: "Lo studio" },
   { href: "/#contatti", label: "Contatti" },
-  // On desktop the header button covers it.
-  { href: "/#contatti", label: "Prenota", mobileOnly: true },
 ];
 
-// Anchor links stay on the page, so the open mobile menu would cover the content.
-function closeMenu(event: React.MouseEvent<HTMLElement>) {
-  event.currentTarget.closest("details")?.removeAttribute("open");
-}
+const nav = (
+  <nav aria-label="Principale">
+    {links.map((link) => (
+      <a
+        key={link.href}
+        href={link.href}
+        className={link.accent ? styles.accent : undefined}
+      >
+        {link.label}
+      </a>
+    ))}
+  </nav>
+);
 
-const toAnchor = (link: (typeof links)[number]) => (
-  <a
-    key={link.label}
-    href={link.href}
-    className={link.accent ? styles.accent : undefined}
-    onClick={closeMenu}
-  >
-    {link.label}
+const cta = (
+  <a className="btn" href="/#contatti">
+    Prenota
   </a>
 );
 
@@ -38,22 +40,23 @@ export function Header() {
         </span>
       </a>
 
-      <nav className={styles.nav} aria-label="Principale">
-        {links.filter((link) => !link.mobileOnly).map(toAnchor)}
-      </nav>
-      <a className={`btn ${styles.cta}`} href="/#contatti">
-        Prenota
-      </a>
+      <div className={styles.desktop}>
+        {nav}
+        {cta}
+      </div>
 
-      {/* Native disclosure: the mobile menu works before and without JS. */}
+      {/* Native disclosure: works without JS. The inline script in root.tsx
+          closes it after a same-page anchor tap. */}
       <details className={styles.menu}>
-        <summary>
-          <span className="sr-only">Menu</span>
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
+        <summary aria-label="Menu">
+          <i />
+          <i />
+          <i />
         </summary>
-        <nav aria-label="Principale">{links.map(toAnchor)}</nav>
+        <div className={styles.panel}>
+          {nav}
+          {cta}
+        </div>
       </details>
     </header>
   );
