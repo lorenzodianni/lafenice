@@ -1,0 +1,13 @@
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-block: 14px;
+  color: var(--muted);
+  font-size: 13px;
+
+  a {
+    color: var(--plum);
+    text-decoration: underline;
+  }
+}

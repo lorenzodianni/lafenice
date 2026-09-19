@@ -1,16 +1,30 @@
+import { useId } from "react";
 import type { Product } from "~/content/products";
-import styles from "./ProductTeaser.module.scss";
+import styles from "./ProductSection.module.scss";
 
-export function ProductTeaser({ product }: { product: Product }) {
-  // Italicizes the last word; 0 for a one-word title (all italic).
-  const split = product.title.lastIndexOf(" ") + 1;
-  const url = `/products/${product.handle}`;
+// The mockup's product block. The home renders it as a teaser (h2 + link to
+// the product page); the product page renders it as the main content (h1 +
+// preorder form), so the image is its LCP and loads eagerly.
+export function ProductSection({
+  product,
+  heading: Heading,
+  id,
+  children,
+}: {
+  product: Product;
+  heading: "h1" | "h2";
+  id?: string;
+  children: React.ReactNode;
+}) {
+  const titleId = useId();
+  const isPage = Heading === "h1";
+  const [before, after] = product.title.split(product.titleAccent);
 
   return (
     <section
-      id="preordine"
-      className={`section ${styles.teaser}`}
-      aria-labelledby="preordine-title"
+      id={id}
+      className={`section ${styles.section}`}
+      aria-labelledby={titleId}
     >
       <div className={`wrap ${styles.inner}`}>
         <div className={styles.visual}>
@@ -21,7 +35,9 @@ export function ProductTeaser({ product }: { product: Product }) {
             alt={product.featuredImage.altText}
             width={product.featuredImage.width}
             height={product.featuredImage.height}
-            loading="lazy"
+            {...(isPage
+              ? { fetchPriority: "high" as const }
+              : { loading: "lazy" as const })}
           />
           <p className={styles.eta}>
             <b>Consegna stimata</b>
@@ -31,19 +47,24 @@ export function ProductTeaser({ product }: { product: Product }) {
 
         <div>
           <p className="eyebrow">{product.tagline}</p>
-          <h2 id="preordine-title">
-            {product.title.slice(0, split)}
-            <em>{product.title.slice(split)}</em>
-          </h2>
+          <Heading id={titleId}>
+            {after === undefined ? (
+              product.title
+            ) : (
+              <>
+                {before}
+                <em>{product.titleAccent}</em>
+                {after}
+              </>
+            )}
+          </Heading>
           <p className={styles.desc}>{product.description}</p>
           <ul className={styles.highlights}>
             {product.highlights.map((h) => (
               <li key={h}>{h}</li>
             ))}
           </ul>
-          <a className="btn" href={url}>
-            Preordina ora
-          </a>
+          {children}
         </div>
       </div>
     </section>
