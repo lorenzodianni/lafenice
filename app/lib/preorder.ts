@@ -11,10 +11,11 @@ export type PreorderValues = {
   phone: string;
   quantity: string;
   notes: string;
+  privacy: boolean;
   marketing: boolean;
 };
 export type PreorderErrors = Partial<
-  Record<Exclude<keyof PreorderValues, "marketing"> | "privacy", string>
+  Record<Exclude<keyof PreorderValues, "marketing">, string>
 >;
 
 // Server-side validation: the form's HTML attributes are only a convenience.
@@ -29,6 +30,7 @@ export function parsePreorder(form: FormData) {
     phone: line("phone"),
     quantity: line("quantity"),
     notes: text("notes"),
+    privacy: form.get("privacy") === "on",
     marketing: form.get("marketing") === "on",
   };
 
@@ -42,7 +44,7 @@ export function parsePreorder(form: FormData) {
   if (!quantities.includes(values.quantity))
     errors.quantity = "Scegli una quantità.";
   if (values.notes.length > 1000) errors.notes = "Massimo 1000 caratteri.";
-  if (form.get("privacy") !== "on")
+  if (!values.privacy)
     errors.privacy = "Conferma di aver letto l'informativa privacy.";
 
   // Honeypot: hidden from people, bots fill it in.

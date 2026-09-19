@@ -3,6 +3,8 @@ import { CONFIRMED_PATH } from "~/lib/brevo";
 import { pageMeta } from "~/lib/seo";
 
 // Where the link in Brevo's double opt-in email lands.
+export const handle = { hideNewsletter: true };
+
 export function meta() {
   return pageMeta(
     {

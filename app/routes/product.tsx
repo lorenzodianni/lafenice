@@ -26,7 +26,9 @@ export async function action({ request, params }: Route.ActionArgs) {
   // load `cloudflare:workers`. Actions only ever run in the Worker.
   const { env } = await import("cloudflare:workers");
   const product = findProduct(params.handle);
-  const { values, errors, spam } = parsePreorder(await request.formData());
+  // Non-form bodies (bots) get the validation errors, not a 500.
+  const form = await request.formData().catch(() => new FormData());
+  const { values, errors, spam } = parsePreorder(form);
 
   // Bots get the same answer as people, so they learn nothing.
   if (spam) return redirect(THANKS);

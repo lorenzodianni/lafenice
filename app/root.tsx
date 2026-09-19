@@ -38,10 +38,10 @@ const closeMenuScript = `document.addEventListener("click",function(e){var a=e.t
 export function Layout({ children }: { children: React.ReactNode }) {
   // Pages are static HTML with no client React unless a route exports
   // `handle = { hydrate: true }`. Dev keeps the scripts for HMR.
-  const matches = useMatches();
-  const hydrate =
-    import.meta.env.DEV ||
-    matches.some((m) => (m.handle as { hydrate?: boolean })?.hydrate);
+  const handles = useMatches().map(
+    (m) => (m.handle ?? {}) as { hydrate?: boolean; hideNewsletter?: boolean },
+  );
+  const hydrate = import.meta.env.DEV || handles.some((h) => h.hydrate);
 
   return (
     <html lang="it">
@@ -54,7 +54,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <Header />
         {children}
-        <Footer />
+        {/* Newsletter pages skip the footer signup: it would repeat their own. */}
+        <Footer newsletter={!handles.some((h) => h.hideNewsletter)} />
         <script
           // biome-ignore lint/security/noDangerouslySetInnerHtml: static string, no user input
           dangerouslySetInnerHTML={{ __html: closeMenuScript }}

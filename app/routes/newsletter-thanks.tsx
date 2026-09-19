@@ -2,6 +2,8 @@ import { site } from "~/content/site";
 import { pageMeta } from "~/lib/seo";
 
 // Redirect target after the signup form, like /pages/grazie-preordine.
+export const handle = { hideNewsletter: true };
+
 export function meta() {
   return pageMeta(
     {

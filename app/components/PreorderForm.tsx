@@ -106,7 +106,12 @@ export function PreorderForm({
       </div>
 
       <div className={styles.check}>
-        <input {...field("privacy")} type="checkbox" required />
+        <input
+          {...field("privacy")}
+          type="checkbox"
+          required
+          defaultChecked={values?.privacy}
+        />
         <label htmlFor="preorder-privacy">
           Ho letto l'
           <a href="/policies/privacy-policy">informativa privacy</a> *
