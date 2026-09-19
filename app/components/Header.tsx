@@ -7,6 +7,8 @@ const links = [
   { href: "/#trattamenti", label: "Trattamenti" },
   { href: "/#studio", label: "Lo studio" },
   { href: "/#contatti", label: "Contatti" },
+  // On desktop the header button covers it.
+  { href: "/#contatti", label: "Prenota", mobileOnly: true },
 ];
 
 // Anchor links stay on the page, so the open mobile menu would cover the content.
@@ -14,16 +16,16 @@ function closeMenu(event: React.MouseEvent<HTMLElement>) {
   event.currentTarget.closest("details")?.removeAttribute("open");
 }
 
-const navLinks = links.map((link) => (
+const toAnchor = (link: (typeof links)[number]) => (
   <a
-    key={link.href}
+    key={link.label}
     href={link.href}
     className={link.accent ? styles.accent : undefined}
     onClick={closeMenu}
   >
     {link.label}
   </a>
-));
+);
 
 export function Header() {
   return (
@@ -37,7 +39,7 @@ export function Header() {
       </a>
 
       <nav className={styles.nav} aria-label="Principale">
-        {navLinks}
+        {links.filter((link) => !link.mobileOnly).map(toAnchor)}
       </nav>
       <a className={`btn ${styles.cta}`} href="/#contatti">
         Prenota
@@ -51,7 +53,7 @@ export function Header() {
           <i aria-hidden="true" />
           <i aria-hidden="true" />
         </summary>
-        <nav aria-label="Principale">{navLinks}</nav>
+        <nav aria-label="Principale">{links.map(toAnchor)}</nav>
       </details>
     </header>
   );
