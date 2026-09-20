@@ -82,10 +82,11 @@ impegni. Le parti tra parentesi quadre vanno compilate.
 > **Diritto di recesso**: hai 14 giorni dalla consegna per ripensarci, senza
 > dover dare spiegazioni. Basta che me lo comunichi con una email a [EMAIL] o
 > con il modulo qui sotto; ti confermo di averla ricevuta. Rispedisci il
-> prodotto entro 14 giorni dalla comunicazione, con le spese di restituzione a
-> tuo carico, e ti rimborso entro 14 giorni da quando lo ricevo o da quando mi
-> mandi la prova della spedizione, con lo stesso mezzo di pagamento che hai
-> usato.
+> prodotto entro 14 giorni dalla comunicazione a [INDIRIZZO], con le spese di
+> restituzione a tuo carico. Ti rimborso entro 14 giorni da quando mi comunichi
+> il recesso, comprese le spese di consegna che avevi pagato, con lo stesso
+> mezzo di pagamento che hai usato; posso aspettare a farlo finché non ricevo
+> il reso o la prova che l'hai spedito.
 > Il recesso non vale per i cosmetici sigillati che sono stati aperti dopo la
 > consegna, per ragioni di igiene (articolo 59, lettera e, del Codice del
 > Consumo): se vuoi tenerti la possibilità di restituirlo, non aprire il

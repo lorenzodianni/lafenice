@@ -76,7 +76,8 @@ export default function Terms() {
       <p>
         Sul sito non si paga nulla e il modulo non raccoglie dati di pagamento.
         Se ritiri in negozio paghi al ritiro; se chiedi la spedizione paghi con
-        bonifico bancario o con gli altri mezzi indicati nell'email di risposta.
+        bonifico bancario o con gli altri mezzi indicati nell'email di risposta,
+        prima che il prodotto parta.
       </p>
 
       <h2>Consegna</h2>
@@ -113,9 +114,11 @@ export default function Terms() {
       </p>
       <p>
         Restituisci il prodotto entro 14 giorni da quando ci hai comunicato il
-        recesso. Le spese di restituzione sono a tuo carico. Ti rimborsiamo
-        entro 14 giorni da quando riceviamo il reso o la prova che l'hai
-        spedito, con lo stesso mezzo di pagamento che hai usato tu.
+        recesso, all'indirizzo qui sopra. Le spese di restituzione sono a tuo
+        carico. Ti rimborsiamo entro 14 giorni da quando ci comunichi il
+        recesso, comprese le spese di consegna che avevi pagato, con lo stesso
+        mezzo di pagamento che hai usato tu: possiamo aspettare a farlo finché
+        non riceviamo il reso o la prova che l'hai spedito.
       </p>
       <p>
         <b>Attenzione</b>: il recesso non vale per i cosmetici sigillati che
@@ -130,8 +133,7 @@ export default function Terms() {
       <pre className={styles.formModel}>
         {`Destinatario: ${site.legalName}, ${fullAddress}, ${site.email}
 
-Con la presente io/noi comunico/comunichiamo il recesso dal mio/nostro
-contratto di vendita dei seguenti beni:
+Con la presente io/noi comunico/comunichiamo il recesso dal mio/nostro contratto di vendita dei seguenti beni:
 
 Ordinato il / ricevuto il:
 Nome del consumatore:
