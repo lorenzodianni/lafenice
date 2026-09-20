@@ -10,8 +10,6 @@
 
 .media {
   position: relative;
-  // The slides measure themselves against this box (100cqw), see `.track`.
-  container-type: inline-size;
   aspect-ratio: 4 / 5;
   background: var(--pink);
 
@@ -39,13 +37,9 @@
     display: none;
   }
 
-  // Sized on the box, not on the track: with `repeat` the library adds a 50%
-  // inline padding to the track, so a percentage width would resolve to zero.
   img {
-    flex: 0 0 auto;
-    width: 100cqw;
-    // The global `img { max-width: 100% }` would clamp them to that padding.
-    max-width: none;
+    flex: 0 0 100%;
+    width: 100%;
     height: 100%;
     object-fit: cover;
     scroll-snap-align: center;

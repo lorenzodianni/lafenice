@@ -1,14 +1,14 @@
 import "@blossom-carousel/web/style.css";
+// The library registers custom elements, so it must run in the browser only:
+// imported as a URL and loaded as a module script, never as a normal import,
+// which would put it in the server build (the Worker has no `customElements`)
+// and, with the React wrapper, React on the client.
+import blossomUrl from "@blossom-carousel/web?url";
 import { Fragment } from "react";
 import hero1 from "~/assets/placeholder-hero.svg";
 import hero2 from "~/assets/placeholder-hero-2.svg";
 import hero3 from "~/assets/placeholder-hero-3.svg";
 import { site, treatments } from "~/content/site";
-// The library registers custom elements, so it must run in the browser only:
-// imported as a URL and loaded as a module script, never bundled into the
-// server build (the Worker has no `customElements`) and without pulling React
-// onto the client.
-import blossomUrl from "../../node_modules/@blossom-carousel/web/dist/blossom-carousel-web.es.js?url";
 import styles from "./Hero.module.scss";
 
 // PLACEHOLDER: real photos pending.
@@ -38,9 +38,10 @@ var n=${slides.length},dots=[].slice.call(box.querySelectorAll("[data-dot]"));
 box.dataset.js="1";
 var still=matchMedia("(prefers-reduced-motion: reduce)").matches;
 var set=function(){return c.clientWidth*n};
-// The library's CSS sets scroll-behavior: smooth on the track, so a plain
-// assignment would animate: this is the instant jump we need.
-var jump=function(x){c.style.scrollBehavior="auto";c.scrollLeft=x;c.style.scrollBehavior=""};
+// "instant" and not a plain assignment: the library's CSS sets
+// scroll-behavior: smooth on the track, which would animate the jump and
+// fight the scroll still in flight.
+var jump=function(x){c.scrollTo({left:x,behavior:"instant"})};
 var start=function(){jump(set())};
 start();addEventListener("resize",start);
 var go=function(d){c.scrollBy({left:d*c.clientWidth,behavior:still?"auto":"smooth"})};
@@ -56,8 +57,11 @@ if(x>=2*s)jump(x-s);else if(x<s)jump(x+s);
 if("onscrollend" in c)c.addEventListener("scrollend",norm);
 else{var settle;c.addEventListener("scroll",function(){
 clearTimeout(settle);settle=setTimeout(norm,250)},{passive:true})}
+var at=0;
 c.addEventListener("scroll",function(){
 var i=Math.round(c.scrollLeft/c.clientWidth)%n;
+if(i===at)return;
+at=i;
 dots.forEach(function(d,k){d.setAttribute("aria-current",k===i?"true":"false")});
 },{passive:true});
 dots.forEach(function(d,k){d.addEventListener("click",function(e){
@@ -67,7 +71,6 @@ if(still)return;
 var timer=setInterval(function(){if(!document.hidden)go(1)},6000);
 ["pointerdown","keydown","wheel"].forEach(function(e){
 box.addEventListener(e,function(){clearInterval(timer)},{once:true,passive:true})});
-box.addEventListener("click",function(e){if(e.target.closest("button,[data-dot]"))clearInterval(timer)});
 })()`;
 
 // One chevron, mirrored for the previous button: an SVG sits exactly in the
@@ -105,7 +108,7 @@ export function Hero() {
                 <img
                   key={`${copy}-${src}`}
                   // Only the middle copy is a link target for the dots.
-                  {...(copy === 1 ? { id: `hero-slide-${i + 1}` } : {})}
+                  id={copy === 1 ? `hero-slide-${i + 1}` : undefined}
                   src={src}
                   data-blossom-slide=""
                   // Decorative duplicates: one description is enough for the
@@ -117,9 +120,10 @@ export function Hero() {
                   }
                   width={1200}
                   height={600}
-                  // The first slide shown is the first of the middle copy;
-                  // the others must not compete with it.
-                  fetchPriority={copy === 1 && i === 0 ? "high" : "low"}
+                  // Every copy has the same three URLs, so what the preload
+                  // scanner meets first is what gets fetched: the priority
+                  // goes on the first copy, the rest must not compete.
+                  fetchPriority={copy === 0 && i === 0 ? "high" : "low"}
                 />
               )),
             )}
