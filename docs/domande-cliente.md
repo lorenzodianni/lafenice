@@ -5,10 +5,14 @@ Da spuntare mentre la si sente. Quando una risposta arriva, il valore va in
 
 Già chiuse: dominio intestato a lei (`.com`, nome da scegliere), ditta
 individuale con P.IVA 11407830964 (niente REA), orari (mar-ven 9-19:30, sab
-9-19, dom e lun chiuso), anno di apertura tolto dal sito. Nessun incasso a
-distanza: si paga in negozio, quindi niente condizioni di vendita né recesso da
-scrivere. Quando servirà vendere online si passerà a Shopify, che porta con sé
-checkout, fatturazione e resi.
+9-19, dom e lun chiuso), anno di apertura tolto dal sito.
+
+Come si chiude la vendita: il cliente scrive dal sito, la titolare risponde per
+email con il totale e l'eventuale spedizione. Chi ritira paga in negozio, chi se
+lo fa spedire paga con bonifico. La spedizione è quindi vendita a distanza: il
+sito ha `/policies/terms-of-service` e i modelli di email stanno in
+`docs/email-preordine.md`. Le domande qui sotto servono a riempire i buchi di
+quei due testi.
 
 ## Dominio
 
@@ -30,15 +34,22 @@ checkout, fatturazione e resi.
 
 ## Prodotto Nuvola
 
-- Prezzo 14,90 euro confermato?
-- Spedizione: quanto costa? È gratis sopra una certa cifra? Si può ritirare in
-  negozio? Oggi il sito dice solo "spedizione esclusa" senza importo, ed è la
-  prima domanda che si fa chiunque prima di ordinare.
+- Prezzo 14,90 euro confermato? È il prezzo finale IVA inclusa, cioè quello che
+  il cliente paga?
+- Spedizione: quanto costa? È gratis sopra una certa cifra? Con quale corriere?
+  Oggi il sito dice che l'importo arriva via email, che è il minimo consentito
+  quando dipende dalla destinazione, ma una cifra sulla scheda vende di più.
+- Quali mezzi di pagamento accetta per la spedizione oltre al bonifico
+  (PayPal, Satispay, altro)? Vanno elencati nell'email al cliente prima che
+  confermi, quindi servono per nome.
+- Le spese di restituzione in caso di recesso sono a carico del cliente? Se non
+  glielo diciamo prima che ordini, le paga lei.
 - Formato in ml.
-- **INCI completo**: sulla confezione è obbligatorio per legge e lì ci sarà di
-  sicuro. Sul sito non lo è, visto che non si vende a distanza, ma conviene:
-  è la prima cosa che cerca chi ha la pelle sensibile o un'allergia, ed è
-  anche il tipo di dettaglio che fa trovare la scheda nelle ricerche.
+- **INCI completo**: sulla confezione è obbligatorio, e lì ci sarà di sicuro.
+  Ora che si spedisce serve anche prima dell'acquisto: per i cosmetici venduti
+  a distanza il regolamento (CE) 1223/2009 chiede che le informazioni
+  dell'etichetta siano disponibili prima che il cliente ordini. Oltre a essere
+  la prima cosa che cerca chi ha la pelle sensibile.
 - Chi lo produce? Sull'etichetta il marchio è "La Fenice" o quello di un
   laboratorio terzo? (Cambia cosa dichiariamo a Google come marca del prodotto.)
 - "Circa 2-3 settimane" per la consegna è realistico?

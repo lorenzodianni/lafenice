@@ -54,9 +54,9 @@ export default function Terms() {
         </li>
         <li>Scegli se ritirare in negozio o ricevere il prodotto a casa.</li>
         <li>
-          L'ordine si conclude quando lo confermi: <b>in negozio</b>, al
-          momento del ritiro e del pagamento, oppure <b>per email</b>, se
-          chiedi la spedizione.
+          L'ordine si conclude quando lo confermi: <b>in negozio</b>, al momento
+          del ritiro e del pagamento, oppure <b>per email</b>, se chiedi la
+          spedizione.
         </li>
       </ol>
       <p>
@@ -68,16 +68,15 @@ export default function Terms() {
       <p>
         Il prezzo indicato sul sito è in euro e comprende l'IVA. Le spese di
         spedizione sono escluse: dipendono dalla quantità e dalla destinazione,
-        e te le comunichiamo nell'email di risposta prima della conferma. Con
-        il ritiro in negozio non ci sono spese di spedizione.
+        e te le comunichiamo nell'email di risposta prima della conferma. Con il
+        ritiro in negozio non ci sono spese di spedizione.
       </p>
 
       <h2>Pagamento</h2>
       <p>
         Sul sito non si paga nulla e il modulo non raccoglie dati di pagamento.
         Se ritiri in negozio paghi al ritiro; se chiedi la spedizione paghi con
-        bonifico bancario o con gli altri mezzi indicati nell'email di
-        risposta.
+        bonifico bancario o con gli altri mezzi indicati nell'email di risposta.
       </p>
 
       <h2>Consegna</h2>
@@ -92,25 +91,25 @@ export default function Terms() {
       <h2>Garanzia legale di conformità</h2>
       <p>
         Su tutti i prodotti venduti a un consumatore vale la garanzia legale di
-        conformità di due anni prevista dagli articoli 128 e seguenti del
-        Codice del Consumo. Se il prodotto è difettoso o diverso da come è
-        stato descritto, scrivici a {mail}: hai diritto alla riparazione o alla
-        sostituzione e, nei casi previsti dalla legge, alla riduzione del
-        prezzo o alla risoluzione del contratto.
+        conformità di due anni prevista dagli articoli 128 e seguenti del Codice
+        del Consumo. Se il prodotto è difettoso o diverso da come è stato
+        descritto, scrivici a {mail}: hai diritto alla riparazione o alla
+        sostituzione e, nei casi previsti dalla legge, alla riduzione del prezzo
+        o alla risoluzione del contratto.
       </p>
 
       <h2 id="recesso">Diritto di recesso</h2>
       <p>
-        Se hai concluso l'ordine per email e ricevi il prodotto{" "}
-        <b>spedito</b>, hai 14 giorni dalla consegna per ripensarci, senza
-        dover dare spiegazioni (articoli 52 e seguenti del Codice del Consumo).
-        Se invece ritiri e paghi in negozio l'acquisto avviene di persona e il
-        diritto di recesso non si applica.
+        Se hai concluso l'ordine per email e ricevi il prodotto <b>spedito</b>,
+        hai 14 giorni dalla consegna per ripensarci, senza dover dare
+        spiegazioni (articoli 52 e seguenti del Codice del Consumo). Se invece
+        ritiri e paghi in negozio l'acquisto avviene di persona e il diritto di
+        recesso non si applica.
       </p>
       <p>
-        Per esercitarlo ti basta dircelo entro i 14 giorni con una
-        dichiarazione esplicita: una email a {mail} oppure il modulo qui sotto.
-        Ti confermiamo di averla ricevuta.
+        Per esercitarlo ti basta dircelo entro i 14 giorni con una dichiarazione
+        esplicita: una email a {mail} oppure il modulo qui sotto. Ti confermiamo
+        di averla ricevuta.
       </p>
       <p>
         Restituisci il prodotto entro 14 giorni da quando ci hai comunicato il
@@ -143,10 +142,10 @@ Firma del consumatore (solo se il modulo è inviato in forma cartacea):`}
 
       <h2>Reclami</h2>
       <p>
-        Per qualsiasi problema scrivici a {mail} o chiamaci: rispondiamo a
-        tutti i reclami. Se non troviamo un accordo puoi rivolgerti a un
-        organismo di risoluzione alternativa delle controversie (ADR) iscritto
-        negli elenchi ministeriali, oppure al giudice del luogo in cui risiedi.
+        Per qualsiasi problema scrivici a {mail} o chiamaci: rispondiamo a tutti
+        i reclami. Se non troviamo un accordo puoi rivolgerti a un organismo di
+        risoluzione alternativa delle controversie (ADR) iscritto negli elenchi
+        ministeriali, oppure al giudice del luogo in cui risiedi.
       </p>
     </main>
   );
