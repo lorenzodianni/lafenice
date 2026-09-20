@@ -5,7 +5,10 @@ Da spuntare mentre la si sente. Quando una risposta arriva, il valore va in
 
 Già chiuse: dominio intestato a lei (`.com`, nome da scegliere), ditta
 individuale con P.IVA 11407830964 (niente REA), orari (mar-ven 9-19:30, sab
-9-19, dom e lun chiuso), anno di apertura tolto dal sito.
+9-19, dom e lun chiuso), anno di apertura tolto dal sito. Nessun incasso a
+distanza: si paga in negozio, quindi niente condizioni di vendita né recesso da
+scrivere. Quando servirà vendere online si passerà a Shopify, che porta con sé
+checkout, fatturazione e resi.
 
 ## Dominio
 
@@ -32,14 +35,13 @@ individuale con P.IVA 11407830964 (niente REA), orari (mar-ven 9-19:30, sab
   negozio? Oggi il sito dice solo "spedizione esclusa" senza importo, ed è la
   prima domanda che si fa chiunque prima di ordinare.
 - Formato in ml.
-- **INCI completo**: per i cosmetici la lista ingredienti deve essere
-  consultabile prima dell'acquisto, anche a distanza. Non è facoltativa.
+- **INCI completo**: sulla confezione è obbligatorio per legge e lì ci sarà di
+  sicuro. Sul sito non lo è, visto che non si vende a distanza, ma conviene:
+  è la prima cosa che cerca chi ha la pelle sensibile o un'allergia, ed è
+  anche il tipo di dettaglio che fa trovare la scheda nelle ricerche.
 - Chi lo produce? Sull'etichetta il marchio è "La Fenice" o quello di un
   laboratorio terzo? (Cambia cosa dichiariamo a Google come marca del prodotto.)
 - "Circa 2-3 settimane" per la consegna è realistico?
-- Come si chiude la vendita dopo il preordine: pagamento in negozio, bonifico,
-  alla consegna? Se il pagamento avviene a distanza servono anche condizioni di
-  vendita e informativa sul diritto di recesso, che oggi non ci sono.
 - Quantità massima per ordine? Ora si può scegliere fino a "5 o più".
 
 ## Contatti e social
