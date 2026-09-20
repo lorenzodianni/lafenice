@@ -28,6 +28,14 @@ $invalid: #c0392b;
   }
 }
 
+// The delivery choice decides how the order is concluded and what is asked
+// below it: it gets its own row, not half of one.
+.wide {
+  @include up(sm) {
+    grid-column: 1 / -1;
+  }
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -75,6 +83,15 @@ $invalid: #c0392b;
     -webkit-appearance: none;
     appearance: none;
   }
+}
+
+// The address is only asked for the shipping option: always visible, it
+// confuses whoever comes to pick the order up in the shop. No JS, the selector
+// follows the selected option; where :has() is missing the whole rule is
+// dropped and the field just stays visible. The string is SHIPPING in
+// app/lib/preorder.ts.
+.form:not(:has(option[value="Spedizione a casa"]:checked)) .address {
+  display: none;
 }
 
 .check {

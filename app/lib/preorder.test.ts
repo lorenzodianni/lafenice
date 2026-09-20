@@ -40,10 +40,12 @@ describe("parsePreorder", () => {
     const shipped = parsePreorder(form({ ...valid, address: "" }));
     expect(shipped.errors.address).toBeDefined();
 
+    // Typed, then the choice changed: the form hides it, the shop never sees it.
     const pickup = parsePreorder(
-      form({ ...valid, address: "", delivery: "Ritiro in negozio" }),
+      form({ ...valid, delivery: "Ritiro in negozio" }),
     );
     expect(pickup.errors).toEqual({});
+    expect(pickup.values.address).toBe("");
   });
 
   it("rejects missing or malformed fields and flags the honeypot", () => {

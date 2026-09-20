@@ -105,7 +105,7 @@ export function PreorderForm({
           </select>
           {error("quantity")}
         </div>
-        <div className={styles.field}>
+        <div className={`${styles.field} ${styles.wide}`}>
           <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
           <select
             {...field("delivery")}
@@ -113,19 +113,23 @@ export function PreorderForm({
             defaultValue={values?.delivery ?? ""}
           >
             <option value="">Scegli...</option>
+            {/* The value attribute is what the CSS below matches on to show
+                the address field: `<option>{d}</option>` alone would not. */}
             {deliveryOptions.map((d) => (
-              <option key={d}>{d}</option>
+              <option key={d} value={d}>
+                {d}
+              </option>
             ))}
           </select>
           {error("delivery")}
         </div>
       </div>
 
-      {/* Required only with the shipping option, so it cannot be `required`
-          here: the browser would block the pickup requests too. The server
-          decides, as for every other field. */}
-      <div className={styles.field}>
-        <label htmlFor="preorder-address">Indirizzo di consegna</label>
+      {/* Shown by CSS only when the shipping option is selected, and for the
+          same reason it cannot be `required`: the browser validates hidden
+          fields too. The server decides, as for every other field. */}
+      <div className={`${styles.field} ${styles.address}`}>
+        <label htmlFor="preorder-address">Indirizzo di consegna *</label>
         <textarea
           {...field("address")}
           rows={2}
@@ -135,8 +139,7 @@ export function PreorderForm({
           defaultValue={values?.address}
         />
         <span className={styles.hint}>
-          Serve solo se scegli la spedizione: senza non possiamo dirti quanto
-          costa.
+          Senza non possiamo dirti quanto costa la spedizione.
         </span>
         {error("address")}
       </div>
