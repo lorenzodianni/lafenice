@@ -89,7 +89,8 @@ export async function sendPreorder(
       listIds: [config.preorderListId],
       updateEnabled: true,
     });
-    if (values.marketing) await doubleOptin(values.email, config, fetchFn);
+    if (values.marketing)
+      await doubleOptin(values.email, config, undefined, fetchFn);
   };
 
   const notifyShop = () =>

@@ -19,6 +19,25 @@ describe("parseNewsletter", () => {
     expect(values.email).toBe("maria@example.it");
   });
 
+  it("takes a birthday only if it is a real past date", () => {
+    const ok = parseNewsletter(
+      form({
+        email: "maria@example.it",
+        consent: "on",
+        birthday: "1985-02-28",
+      }),
+    );
+    expect(ok.errors).toEqual({});
+    expect(ok.values.birthday).toBe("1985-02-28");
+
+    for (const birthday of ["1985-02-31", "28/02/1985", "2999-01-01"]) {
+      const { errors } = parseNewsletter(
+        form({ email: "maria@example.it", consent: "on", birthday }),
+      );
+      expect(errors.birthday).toBeDefined();
+    }
+  });
+
   it("requires a valid email and consent, and flags the honeypot", () => {
     const { errors, spam } = parseNewsletter(
       form({ email: "nope", website: "x" }),
@@ -45,7 +64,7 @@ describe("doubleOptin", () => {
       newsletterListId: 2,
       doiTemplateId: 3,
     };
-    await doubleOptin("maria@example.it", config, fetchFn);
+    await doubleOptin("maria@example.it", config, undefined, fetchFn);
 
     expect(body).toEqual({
       email: "maria@example.it",
@@ -53,5 +72,13 @@ describe("doubleOptin", () => {
       templateId: 3,
       redirectionUrl: `${site.url}${CONFIRMED_PATH}`,
     });
+
+    await doubleOptin(
+      "maria@example.it",
+      config,
+      { BIRTHDAY: "1985-02-28" },
+      fetchFn,
+    );
+    expect(body.attributes).toEqual({ BIRTHDAY: "1985-02-28" });
   });
 });

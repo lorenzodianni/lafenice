@@ -50,10 +50,14 @@ export function brevo(apiKey: string, fetchFn: typeof fetch = fetch) {
 export const doubleOptin = (
   email: string,
   config: BrevoConfig,
+  // Brevo attribute names, uppercase, already created in the account
+  // (docs/rollout.md). Left out of the body when there are none.
+  attributes: Record<string, string> | undefined = undefined,
   fetchFn = fetch,
 ) =>
   brevo(config.apiKey, fetchFn)("/contacts/doubleOptinConfirmation", {
     email,
+    attributes,
     includeListIds: [config.newsletterListId],
     templateId: config.doiTemplateId,
     redirectionUrl: `${site.url}${CONFIRMED_PATH}`,

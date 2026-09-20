@@ -50,7 +50,9 @@ export default function Privacy() {
         </li>
         <li>
           <b>Modulo newsletter</b>: il tuo indirizzo email e il consenso a
-          ricevere le nostre comunicazioni.
+          ricevere le nostre comunicazioni, più la data di nascita se scegli di
+          lasciarla (è facoltativa e la usiamo solo per mandarti una promozione
+          per il compleanno).
         </li>
         <li>
           <b>Dati tecnici</b>: i fornitori che ospitano il sito registrano, per

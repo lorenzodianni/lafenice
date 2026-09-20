@@ -110,7 +110,8 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   al ritiro oppure per email se il cliente chiede la spedizione. La scheda
   prodotto deve dirlo accanto al form, ed è quello che tiene il ritiro fuori
   dalla vendita a distanza.
-- **Newsletter**: nel footer di ogni pagina, email* + consenso* → double opt-in
+- **Newsletter**: nel footer di ogni pagina, email* + consenso* + data di
+  nascita facoltativa (attributo Brevo `BIRTHDAY`, promo compleanno) → double opt-in
   Brevo, lista "Newsletter". POST a `/pages/newsletter` (le pagine sono statiche),
   stesso schema del preordine: errori sulla pagina, redirect a
   `/pages/grazie-newsletter`. Le tre pagine newsletter esportano

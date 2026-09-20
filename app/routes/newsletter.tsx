@@ -26,7 +26,13 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   try {
-    await doubleOptin(values.email, brevoConfig(env));
+    await doubleOptin(
+      values.email,
+      brevoConfig(env),
+      // Sent with the confirmation so the date lands on the contact only if
+      // the subscription is confirmed: no birthday without a subscriber.
+      values.birthday ? { BIRTHDAY: values.birthday } : undefined,
+    );
   } catch (error) {
     console.error("Newsletter signup failed", error);
     return data({ values, errors: {}, formError: true }, { status: 502 });

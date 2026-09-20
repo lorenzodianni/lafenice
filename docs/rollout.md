@@ -35,6 +35,13 @@ Account, poi:
 - API key come secret del Worker: `npx wrangler secret put BREVO_API_KEY`.
 - Liste "Preordini" e "Newsletter" e template della doppia conferma: i tre ID
   vanno nei `vars` di `wrangler.jsonc`, oggi valgono 0.
+- Attributo contatto **`BIRTHDAY`, tipo Date**, da creare a mano: non esiste di
+  default. Il form newsletter lo manda con la doppia conferma, e Brevo rifiuta
+  un attributo sconosciuto: senza, ogni iscrizione con la data di nascita
+  compilata finisce in errore. Da verificare al primo test reale, insieme al
+  formato della data (mandiamo `YYYY-MM-DD`, come lo scrive `<input type="date">`).
+  Serve per le promozioni di compleanno, che si impostano in Brevo come
+  automazione sulla data.
 - **Autenticare il dominio come mittente** (record DKIM e SPF nel DNS
   Cloudflare). Non è opzionale, vedi sotto.
 
