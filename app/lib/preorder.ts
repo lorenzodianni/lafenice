@@ -5,7 +5,7 @@ export const quantities = ["1", "2", "3", "4", "5 o più"];
 // Decides which of the two email models the shop answers with: pickup closes
 // the sale in the shop, shipping closes it by email and is a distance sale
 // (see docs/email-preordine.md). No default, it has to be a real choice.
-export const SHIPPING = "Spedizione a casa";
+const SHIPPING = "Spedizione a casa";
 export const deliveryOptions = ["Ritiro in negozio", SHIPPING];
 
 const PHONE = /^[+\d\s().-]*$/;

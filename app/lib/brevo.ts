@@ -52,7 +52,7 @@ export const doubleOptin = (
   config: BrevoConfig,
   // Brevo attribute names, uppercase, already created in the account
   // (docs/rollout.md). Left out of the body when there are none.
-  attributes: Record<string, string> | undefined = undefined,
+  attributes?: Record<string, string>,
   fetchFn = fetch,
 ) =>
   brevo(config.apiKey, fetchFn)("/contacts/doubleOptinConfirmation", {

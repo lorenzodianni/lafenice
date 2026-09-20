@@ -105,9 +105,9 @@ informazioni devono arrivare lì. I due modelli in `docs/email-preordine.md`
 come sono; il perché sta in quel file.
 
 Da chiedere al consulente mentre ci siamo: l'informativa privacy elenca i dati
-raccolti **dal sito**, ma con la spedizione arrivano per email anche indirizzo
-di consegna ed estremi del pagamento. Vanno aggiunti a "Quali dati
-raccogliamo".
+raccolti **dal sito** (l'indirizzo di consegna ora è tra questi), ma con la
+spedizione arrivano per email anche gli estremi del pagamento. Vanno aggiunti a
+"Quali dati raccogliamo".
 
 ## 7. Rate limiting sui form (dashboard Cloudflare, nessun codice)
 

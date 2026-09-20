@@ -67,6 +67,14 @@ $invalid: #c0392b;
   textarea {
     resize: vertical;
   }
+
+  // ponytail: iOS Safari gives an empty date input its own intrinsic height
+  // and ignores the padding, so it ends up shorter than the text fields.
+  input[type="date"] {
+    min-height: 46px; // the height of the text fields next to it
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }
 
 .check {
