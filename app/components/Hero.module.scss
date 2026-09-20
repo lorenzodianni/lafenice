@@ -10,6 +10,8 @@
 
 .media {
   position: relative;
+  // The slides measure themselves against this box (100cqw), see `.track`.
+  container-type: inline-size;
   aspect-ratio: 4 / 5;
   background: var(--pink);
 
@@ -37,47 +39,54 @@
     display: none;
   }
 
+  // Sized on the box, not on the track: with `repeat` the library adds a 50%
+  // inline padding to the track, so a percentage width would resolve to zero.
   img {
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 auto;
+    width: 100cqw;
+    // The global `img { max-width: 100% }` would clamp them to that padding.
+    max-width: none;
     height: 100%;
     object-fit: cover;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
   }
 }
 
 // Blossom builds the button inside each control, so the look goes on the
 // button. Until the script defines the elements they do nothing: hidden.
+// Only the script can move the track by one slide, so the arrows appear once
+// it has run.
 .arrow {
+  display: none;
   position: absolute;
   top: 50%;
   translate: 0 -50%;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--plum);
+  cursor: pointer;
 
-  &:not(:defined) {
-    display: none;
-  }
-
-  button {
+  [data-js] & {
     display: grid;
     place-items: center;
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.82);
-    color: var(--plum);
-    font: 300 26px/1 var(--serif);
-    cursor: pointer;
+  }
 
-    &:hover {
-      background: var(--paper);
-    }
+  &:hover {
+    background: var(--paper);
   }
 }
 
 .prev {
   left: 14px;
+
+  // The same chevron, pointing the other way.
+  svg {
+    scale: -1 1;
+  }
 }
 
 .next {
@@ -85,18 +94,38 @@
 }
 
 .dots {
+  display: flex;
+  gap: 9px;
   position: absolute;
-  right: 18px;
+  left: 50%;
   bottom: 22px;
-  // Blossom's own dot tokens.
-  --blossom-dots-gap: 9px;
-  --blossom-dot-size: 10px;
-  --blossom-dot-color: var(--plum);
-  --blossom-dot-opacity: 0.3;
-  --blossom-dot-hover-opacity: 0.55;
+  translate: -50%;
+}
 
-  &:not(:defined) {
-    display: none;
+// A link with no visible text: the label is there for screen readers only.
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--plum);
+  opacity: 0.3;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.55;
+  }
+
+  &[aria-current="true"] {
+    opacity: 1;
   }
 }
 

@@ -16,22 +16,74 @@ const slides = [hero1, hero2, hero3];
 
 const CAROUSEL_ID = "hero-slider";
 
-// Blossom has no autoplay, so this is the one piece left to us: scroll the
-// carousel by one slide every 6s and stop for good as soon as the visitor
-// takes over (drag, key, wheel, or the arrows and dots, which fire `command`).
-// Plain JS, because the home ships no React to the client.
-const autoplayScript = `(function(){
-var c=document.getElementById("${CAROUSEL_ID}");
-if(!c||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-var timer=setInterval(function(){
-if(document.hidden)return;
-if(c.scrollLeft+c.clientWidth>=c.scrollWidth-4)c.scrollTo({left:0,behavior:"smooth"});
-else c.scrollBy({left:c.clientWidth,behavior:"smooth"});
-},6000);
-var stop=function(){clearInterval(timer)};
-["pointerdown","keydown","wheel","command"].forEach(function(e){
-c.addEventListener(e,stop,{once:true,passive:true})});
+// Infinite loop, hand made: Blossom's own `repeat` is experimental and does
+// not settle on a slide when they are full width. Instead the strip holds
+// three copies of the slides, every one of them a Blossom slide so its arrows
+// and drag can cross the seams, and the script keeps the visitor in the middle
+// copy, jumping a copy back or forward once the scroll has settled. The copies
+// are identical, so the jump is invisible.
+const COPIES = [0, 1, 2];
+
+// Blossom drives the track: drag with the pointer on top of the native
+// scroll. Everything with a state of its own is ours, because Blossom's own
+// controls keep an index that the jumps of the infinite loop would make stale:
+// the arrows (hidden until this script runs), the dots (its own would draw one
+// per slide, that is nine) and the autoplay, which it does not have. The dots
+// are anchors to the middle copy, so they work without JS too. Plain JS,
+// because the home ships no React to the client.
+const sliderScript = `(function(){
+var c=document.getElementById("${CAROUSEL_ID}"),box=c&&c.parentElement;
+if(!c)return;
+var n=${slides.length},dots=[].slice.call(box.querySelectorAll("[data-dot]"));
+box.dataset.js="1";
+var still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var set=function(){return c.clientWidth*n};
+// The library's CSS sets scroll-behavior: smooth on the track, so a plain
+// assignment would animate: this is the instant jump we need.
+var jump=function(x){c.style.scrollBehavior="auto";c.scrollLeft=x;c.style.scrollBehavior=""};
+var start=function(){jump(set())};
+start();addEventListener("resize",start);
+var go=function(d){c.scrollBy({left:d*c.clientWidth,behavior:still?"auto":"smooth"})};
+box.querySelector("[data-prev]").onclick=function(){go(-1)};
+box.querySelector("[data-next]").onclick=function(){go(1)};
+var norm=function(){
+var w=c.clientWidth,s=set(),x=c.scrollLeft,off=x%w;
+// Between two slides means the scroll is still running: the jump would land
+// off a slide.
+if(off>2&&off<w-2)return;
+if(x>=2*s)jump(x-s);else if(x<s)jump(x+s);
+};
+if("onscrollend" in c)c.addEventListener("scrollend",norm);
+else{var settle;c.addEventListener("scroll",function(){
+clearTimeout(settle);settle=setTimeout(norm,250)},{passive:true})}
+c.addEventListener("scroll",function(){
+var i=Math.round(c.scrollLeft/c.clientWidth)%n;
+dots.forEach(function(d,k){d.setAttribute("aria-current",k===i?"true":"false")});
+},{passive:true});
+dots.forEach(function(d,k){d.addEventListener("click",function(e){
+e.preventDefault();
+c.scrollTo({left:set()+k*c.clientWidth,behavior:still?"auto":"smooth"})})});
+if(still)return;
+var timer=setInterval(function(){if(!document.hidden)go(1)},6000);
+["pointerdown","keydown","wheel"].forEach(function(e){
+box.addEventListener(e,function(){clearInterval(timer)},{once:true,passive:true})});
+box.addEventListener("click",function(e){if(e.target.closest("button,[data-dot]"))clearInterval(timer)});
 })()`;
+
+// One chevron, mirrored for the previous button: an SVG sits exactly in the
+// middle of the round button, a text glyph does not.
+const chevron = (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path
+      d="M9 5l7 7-7 7"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 export function Hero() {
   const marquee = treatments.map((t) => (
@@ -48,37 +100,65 @@ export function Hero() {
           {/* Without JS this is still a scroll container that snaps: the
               styles are ours, Blossom adds drag and the controls. */}
           <blossom-carousel id={CAROUSEL_ID} className={styles.track}>
-            {slides.map((src, i) => (
-              <img
-                key={src}
-                src={src}
-                data-blossom-slide=""
-                // Decorative duplicates: one description is enough for the set.
-                alt={i === 0 ? "Interni del centro estetico La Fenice" : ""}
-                width={1200}
-                height={600}
-                // The other slides are in the viewport too, so `lazy` would
-                // not defer them: only their priority can drop.
-                fetchPriority={i === 0 ? "high" : "low"}
-              />
-            ))}
+            {COPIES.map((copy) =>
+              slides.map((src, i) => (
+                <img
+                  key={`${copy}-${src}`}
+                  // Only the middle copy is a link target for the dots.
+                  {...(copy === 1 ? { id: `hero-slide-${i + 1}` } : {})}
+                  src={src}
+                  data-blossom-slide=""
+                  // Decorative duplicates: one description is enough for the
+                  // whole set.
+                  alt={
+                    copy === 1 && i === 0
+                      ? "Interni del centro estetico La Fenice"
+                      : ""
+                  }
+                  width={1200}
+                  height={600}
+                  // The first slide shown is the first of the middle copy;
+                  // the others must not compete with it.
+                  fetchPriority={copy === 1 && i === 0 ? "high" : "low"}
+                />
+              )),
+            )}
           </blossom-carousel>
 
           {/* The controls only work once the elements are defined, so CSS
               keeps them hidden until then. */}
-          <blossom-prev
+          <button
             className={`${styles.arrow} ${styles.prev}`}
-            for={CAROUSEL_ID}
+            type="button"
+            data-prev=""
+            aria-label="Immagine precedente"
           >
-            ‹
-          </blossom-prev>
-          <blossom-next
+            {chevron}
+          </button>
+          <button
             className={`${styles.arrow} ${styles.next}`}
-            for={CAROUSEL_ID}
+            type="button"
+            data-next=""
+            aria-label="Immagine successiva"
           >
-            ›
-          </blossom-next>
-          <blossom-dots className={styles.dots} for={CAROUSEL_ID} />
+            {chevron}
+          </button>
+
+          <div className={styles.dots}>
+            {slides.map((src, i) => (
+              <a
+                key={src}
+                className={styles.dot}
+                href={`#hero-slide-${i + 1}`}
+                data-dot=""
+                aria-current={i === 0 ? "true" : "false"}
+              >
+                <span className={styles.hidden}>
+                  Immagine {i + 1} di {slides.length}
+                </span>
+              </a>
+            ))}
+          </div>
 
           <span className={styles.badge}>Dal {site.foundingYear}</span>
         </div>
@@ -115,7 +195,7 @@ export function Hero() {
       <script type="module" src={blossomUrl} />
       <script
         // biome-ignore lint/security/noDangerouslySetInnerHtml: static string, no user input
-        dangerouslySetInnerHTML={{ __html: autoplayScript }}
+        dangerouslySetInnerHTML={{ __html: sliderScript }}
       />
     </>
   );
