@@ -2,6 +2,10 @@ import { site } from "~/content/site";
 import { type BrevoConfig, brevo, doubleOptin, isEmail } from "./brevo";
 
 export const quantities = ["1", "2", "3", "4", "5 o più"];
+// Decides which of the two email models the shop answers with: pickup closes
+// the sale in the shop, shipping closes it by email and is a distance sale
+// (see docs/email-preordine.md). No default, it has to be a real choice.
+export const deliveryOptions = ["Ritiro in negozio", "Spedizione a casa"];
 
 const PHONE = /^[+\d\s().-]*$/;
 
@@ -12,6 +16,7 @@ export type PreorderValues = {
   email: string;
   phone: string;
   quantity: string;
+  delivery: string;
   notes: string;
   privacy: boolean;
   marketing: boolean;
@@ -31,6 +36,7 @@ export function parsePreorder(form: FormData) {
     email: line("email"),
     phone: line("phone"),
     quantity: line("quantity"),
+    delivery: line("delivery"),
     notes: text("notes"),
     privacy: form.get("privacy") === "on",
     marketing: form.get("marketing") === "on",
@@ -45,6 +51,8 @@ export function parsePreorder(form: FormData) {
     errors.phone = "Inserisci un numero di telefono valido.";
   if (!quantities.includes(values.quantity))
     errors.quantity = "Scegli una quantità.";
+  if (!deliveryOptions.includes(values.delivery))
+    errors.delivery = "Scegli se ritirare in negozio o farti spedire l'ordine.";
   if (values.notes.length > 1000) errors.notes = "Massimo 1000 caratteri.";
   if (!values.privacy)
     errors.privacy = "Conferma di aver letto l'informativa privacy.";
@@ -88,6 +96,7 @@ export async function sendPreorder(
         `Email: ${values.email}`,
         `Telefono: ${values.phone || "-"}`,
         `Quantità: ${values.quantity}`,
+        `Consegna: ${values.delivery}`,
         `Note: ${values.notes || "-"}`,
         `Consenso marketing: ${values.marketing ? "sì (double opt-in inviato)" : "no"}`,
         "",

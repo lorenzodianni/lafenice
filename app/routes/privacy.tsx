@@ -42,9 +42,10 @@ export default function Privacy() {
       <h2>Quali dati raccogliamo</h2>
       <ul>
         <li>
-          <b>Modulo di preordine</b>: nome ed email (obbligatori), quantità,
-          telefono e note (facoltativi), la presa visione di questa informativa
-          e l'eventuale consenso a ricevere novità e promozioni.
+          <b>Modulo di preordine</b>: nome, email e la scelta tra ritiro e
+          spedizione (obbligatori), quantità, telefono e note (facoltativi), la
+          presa visione di questa informativa e l'eventuale consenso a ricevere
+          novità e promozioni.
         </li>
         <li>
           <b>Modulo newsletter</b>: il tuo indirizzo email e il consenso a

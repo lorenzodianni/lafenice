@@ -13,7 +13,8 @@ const valid = {
   email: "maria@example.it",
   phone: "+39 333 123 4567",
   quantity: "2",
-  notes: "Consegna a Novara",
+  delivery: "Spedizione a casa",
+  notes: "Citofono Rossi",
   privacy: "on",
   marketing: "on",
 };
@@ -39,7 +40,7 @@ describe("parsePreorder", () => {
       form({ email: "nope", phone: "abc", quantity: "99", website: "x" }),
     );
     expect(Object.keys(errors).sort()).toEqual(
-      ["email", "name", "phone", "privacy", "quantity"].sort(),
+      ["delivery", "email", "name", "phone", "privacy", "quantity"].sort(),
     );
     expect(spam).toBe(true);
   });
@@ -65,6 +66,7 @@ describe("sendPreorder", () => {
       paths.indexOf("/contacts/doubleOptinConfirmation"),
     );
     const mail = calls.find((c) => c.path === "/smtp/email")?.body;
+    expect(mail?.textContent).toContain("Consegna: Spedizione a casa");
     expect(mail?.to).toEqual([{ email: site.ordersEmail }]);
     expect(mail?.replyTo).toEqual({ email: valid.email, name: "Maria Rossi" });
   });

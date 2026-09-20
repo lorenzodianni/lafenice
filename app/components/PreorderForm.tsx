@@ -1,6 +1,7 @@
 import { Form } from "react-router";
 import { site } from "~/content/site";
 import {
+  deliveryOptions,
   type PreorderErrors,
   type PreorderValues,
   quantities,
@@ -104,6 +105,20 @@ export function PreorderForm({
           </select>
           {error("quantity")}
         </div>
+        <div className={styles.field}>
+          <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
+          <select
+            {...field("delivery")}
+            required
+            defaultValue={values?.delivery ?? ""}
+          >
+            <option value="">Scegli...</option>
+            {deliveryOptions.map((d) => (
+              <option key={d}>{d}</option>
+            ))}
+          </select>
+          {error("delivery")}
+        </div>
       </div>
 
       <div className={styles.field}>
@@ -112,7 +127,7 @@ export function PreorderForm({
           {...field("notes")}
           rows={3}
           maxLength={1000}
-          placeholder="Ritiro in negozio o spedizione? Richieste particolari..."
+          placeholder="Richieste particolari, domande sul prodotto..."
           defaultValue={values?.notes}
         />
         {error("notes")}
