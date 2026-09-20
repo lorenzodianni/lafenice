@@ -24,7 +24,7 @@ punto si toglie da qui.
 - Prodotto: costo di spedizione (ora "Spedizione esclusa" senza importo),
   formato/ml, INCI, foto reali, tempi di consegna.
 - Foto reali del centro (hero: 3 slide) e dei trattamenti (8 card). Ora sono
-  placeholder SVG in `app/assets/` e `public/images/trattamenti/`.
+  placeholder SVG in `app/assets/`.
 - Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
   (71x92, 2x della dimensione mostrata) e `public/favicon.png`, entrambi ricavati
   dal PNG 220x284 incluso in `docs/mockup.html`.
