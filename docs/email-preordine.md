@@ -16,6 +16,11 @@ niente. Quello che il cliente riceve per email è il momento che conta.
   distanza (art. 45 Codice del Consumo): servono le informazioni dell'art. 49 e
   il diritto di recesso di 14 giorni.
 
+I dati del venditore (ragione sociale, indirizzo, P.IVA) sono quelli di
+`app/content/site.ts`: se cambiano lì, vanno cambiati anche qui. Il blocco sul
+recesso e il modulo tipo sono gli stessi di `app/routes/terms.tsx`: chi ne
+corregge uno corregge l'altro.
+
 **Il testo va incollato nell'email, non linkato.** La legge chiede che la
 conferma arrivi su "supporto durevole" (art. 51 comma 7): l'email lo è, una
 pagina del sito no, perché può cambiare in qualsiasi momento (Corte di

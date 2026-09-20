@@ -48,7 +48,9 @@ export function PreorderForm({
 
       {/* The order is concluded by email, so this is where the visitor is
           told how it works, before sending anything. The detail (price,
-          shipping, payment, withdrawal) is in the sale terms. */}
+          shipping, payment, withdrawal) is in the sale terms.
+          PLACEHOLDER: "con bonifico" until the client says which other means
+          she takes (docs/domande-cliente.md). Same sentence in terms.tsx. */}
       <p className={styles.intro}>
         Il modulo è una richiesta, non un ordine. Ti rispondiamo per email con
         disponibilità, totale e spese di spedizione: l'ordine si conclude solo
@@ -154,9 +156,6 @@ export function PreorderForm({
         <button type="submit" className="btn">
           Invia richiesta di preordine
         </button>
-        <span className={styles.hint}>
-          Nessun pagamento: ti ricontattiamo noi per confermare.
-        </span>
       </div>
     </Form>
   );

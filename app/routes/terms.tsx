@@ -73,6 +73,7 @@ export default function Terms() {
       </p>
 
       <h2>Pagamento</h2>
+      {/* PLACEHOLDER: which means she takes besides the bank transfer. */}
       <p>
         Sul sito non si paga nulla e il modulo non raccoglie dati di pagamento.
         Se ritiri in negozio paghi al ritiro; se chiedi la spedizione paghi con
@@ -113,6 +114,8 @@ export default function Terms() {
         di averla ricevuta.
       </p>
       <p>
+        {/* PLACEHOLDER: who pays the return shipping. Saying nothing means
+            the seller does, so this sentence needs her answer. */}
         Restituisci il prodotto entro 14 giorni da quando ci hai comunicato il
         recesso, all'indirizzo qui sopra. Le spese di restituzione sono a tuo
         carico. Ti rimborsiamo entro 14 giorni da quando ci comunichi il

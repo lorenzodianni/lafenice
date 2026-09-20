@@ -7,6 +7,8 @@ import {
   treatments,
 } from "~/content/site";
 
+// PLACEHOLDER: the payment means in the preorder line, like terms.tsx and
+// PreorderForm.tsx, wait for the client's answer (docs/domande-cliente.md).
 // llms.txt: the whole site as plain markdown, so an assistant answering about
 // the centre reads the same facts as the pages, from app/content/. The page
 // list at the bottom mirrors the one in sitemap.ts.

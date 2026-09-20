@@ -78,6 +78,7 @@ quei due testi.
 - **Privacy policy**: c'è una bozza, ma la deve validare il commercialista o un
   consulente. Ha qualcuno di riferimento?
 - Chi risponde ai preordini, e in quanto tempo? La pagina di conferma promette
-  "ti ricontattiamo presto".
+  una risposta "presto", ed è l'email che chiude la vendita: se resta ferma
+  giorni, il preordine si perde.
 - La newsletter chi la scrive e ogni quanto? Se non la scrive nessuno, tanto
   vale togliere il modulo.

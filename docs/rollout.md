@@ -92,20 +92,15 @@ lancio li deve validare un consulente, insieme al punto sotto.
 
 ### La parte che non sta sul sito
 
-Le condizioni di vendita servono al cliente **prima che si impegni**, e il
-momento in cui si impegna è la risposta via email della titolare, non la
-visita al sito. La legge vuole quelle informazioni su un supporto durevole
-(art. 51 comma 7 del Codice del Consumo): l'email lo è, un link a una pagina
-web no, perché la pagina può cambiare.
+La pagina da sola non basta: la vendita si conclude via email, e le
+informazioni devono arrivare lì. I due modelli in `docs/email-preordine.md`
+(uno per il ritiro, uno per la spedizione) vanno passati alla titolare e usati
+come sono; il perché sta in quel file.
 
-Quindi la pagina da sola non basta: i due modelli di email in
-`docs/email-preordine.md` vanno passati alla titolare e usati come sono, uno
-per il ritiro in negozio e uno per la spedizione. Se il recesso non viene
-comunicato, i 14 giorni diventano 12 mesi e 14 giorni (art. 53).
-
-Da chiedere al consulente mentre ci siamo: come conservare i dati degli
-ordini una volta che le vendite partono davvero (obblighi fiscali), visto che
-oggi l'informativa privacy parla solo di richieste di preordine.
+Da chiedere al consulente mentre ci siamo: l'informativa privacy elenca i dati
+raccolti **dal sito**, ma con la spedizione arrivano per email anche indirizzo
+di consegna ed estremi del pagamento. Vanno aggiunti a "Quali dati
+raccogliamo".
 
 ## 7. Rate limiting sui form (dashboard Cloudflare, nessun codice)
 

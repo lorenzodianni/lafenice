@@ -20,8 +20,10 @@ export default function PreorderThanks() {
       <p className="eyebrow">Preordine</p>
       <h1>Grazie, richiesta inviata</h1>
       <p>
-        Ti ricontattiamo presto per confermare disponibilità e tempi di
-        consegna. Nessun pagamento è stato richiesto.
+        Ti rispondiamo presto per email con disponibilità, totale, spese di
+        spedizione e tempi di consegna. Nessun pagamento è stato richiesto:
+        l'ordine si conclude solo quando lo confermi, in negozio al ritiro o
+        rispondendo all'email.
       </p>
       <p>
         Se hai scelto di ricevere novità e promozioni, controlla la tua email e

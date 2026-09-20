@@ -95,9 +95,8 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   `/pages/grazie-newsletter` dopo l'invio, `/pages/iscrizione-confermata` dopo il
   click nell'email del double opt-in (entrambe `noindex`)
 - `/policies/privacy-policy`, `/policies/terms-of-service` (condizioni di
-  vendita e recesso: la spedizione si paga a distanza, quindi è vendita a
-  distanza. Vedi `docs/email-preordine.md`: le stesse informazioni devono
-  stare nell'email di risposta, che è il supporto durevole)
+  vendita e recesso: la spedizione è vendita a distanza, il perché e i modelli
+  di email stanno in `docs/email-preordine.md`)
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
 
 ## Form
