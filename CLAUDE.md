@@ -29,10 +29,13 @@ desktop-first con dati placeholder: il sito no.
   action: il prerender gira in Node e un import statico rompe la build.
 - **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
   una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
-  pagine sono HTML + CSS; l'unico JS sono due script inline (vanilla, non React):
-  quello che chiude il menu mobile e quello dello slider hero (frecce, autoplay,
-  pallino attivo). Senza JS lo slider resta usabile: scorre, fa snap e i pallini
-  sono link alle slide.
+  pagine sono HTML + CSS. Il JS sul client e solo: due script inline (menu
+  mobile, autoplay dello slider) e `@blossom-carousel/web` (~9 kB gzip), che
+  registra i custom element dello slider hero (`<blossom-carousel>`, frecce,
+  pallini). Si carica come `<script type="module">` da un import `?url`, mai
+  come import normale: il prerender gira nel Worker, che non ha
+  `customElements`. Senza JS lo slider resta usabile (scorre e fa snap, sono
+  nostri gli stili) e i controlli restano nascosti con `:not(:defined)`.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.

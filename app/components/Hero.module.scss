@@ -23,9 +23,9 @@
   }
 }
 
-// The slider is the scroll container itself: it swipes on a touch screen,
-// scrolls from the keyboard and snaps on a slide, all without JS. The dots
-// are anchors to each slide, so they work without JS too.
+// Our own styles, not the library's: they make the carousel a scroll
+// container that snaps even before (or without) the Blossom script, which
+// styles `[blossom-carousel]`, an attribute it adds at runtime.
 .track {
   display: flex;
   height: 100%;
@@ -46,30 +46,33 @@
   }
 }
 
-// Only the script can move the track by one slide, so the arrows show up once
-// it has run.
+// Blossom builds the button inside each control, so the look goes on the
+// button. Until the script defines the elements they do nothing: hidden.
 .arrow {
-  display: none;
   position: absolute;
   top: 50%;
   translate: 0 -50%;
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
-  color: var(--plum);
-  font: 300 26px/1 var(--serif);
-  cursor: pointer;
 
-  [data-js] & {
-    display: grid;
-    place-items: center;
+  &:not(:defined) {
+    display: none;
   }
 
-  &:hover {
-    background: var(--paper);
+  button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--plum);
+    font: 300 26px/1 var(--serif);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--paper);
+    }
   }
 }
 
@@ -82,33 +85,18 @@
 }
 
 .dots {
-  display: flex;
-  gap: 9px;
   position: absolute;
   right: 18px;
   bottom: 22px;
-}
+  // Blossom's own dot tokens.
+  --blossom-dots-gap: 9px;
+  --blossom-dot-size: 10px;
+  --blossom-dot-color: var(--plum);
+  --blossom-dot-opacity: 0.3;
+  --blossom-dot-hover-opacity: 0.55;
 
-// The dot is a link with no visible text: the label is there for screen
-// readers only.
-.hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 0 0 1px rgba(58, 21, 38, 0.25);
-
-  &[aria-current="true"] {
-    background: var(--plum);
+  &:not(:defined) {
+    display: none;
   }
 }
 
