@@ -11,7 +11,6 @@
 <line x1="342" y1="540" x2="458" y2="540" stroke="#3A1526" stroke-width="2"/>
 <text x="400" y="586" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="34" fill="#3A1526">Detergente</text>
 <text x="400" y="624" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="34" fill="#3A1526">viso</text>
-<text x="400" y="664" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" letter-spacing="3" fill="#8A7A80">150 ml</text>
 <ellipse cx="250" cy="742" rx="30" ry="16" fill="#B4BEA9" transform="rotate(-24 250 742)"/>
 <text x="400" y="944" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" letter-spacing="2" fill="#8A7A80">placeholder · detergente viso</text>
 </svg>

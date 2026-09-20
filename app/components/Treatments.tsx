@@ -37,7 +37,9 @@ export function Treatments() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3>{t.name}</h3>
-                <p>{t.description}</p>
+                {t.description.split("\n\n").map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
               </div>
             </li>
           ))}

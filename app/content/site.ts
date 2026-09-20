@@ -45,8 +45,8 @@ export const site = {
   social: { Instagram: "", Facebook: "" }, // PLACEHOLDER: empty = hidden
 };
 
-// Copy from the client. Blank lines inside a description are real paragraphs:
-// the cards render them with `white-space: pre-line`.
+// Copy from the client. Blank lines inside a description separate real
+// paragraphs: the cards split on them and render one `<p>` each.
 // PLACEHOLDER images: real photos pending. Imported, not public/ URLs:
 // they are decorative, no JSON-LD needs their URL to stay stable.
 export const treatments = [

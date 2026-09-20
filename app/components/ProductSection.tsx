@@ -63,13 +63,15 @@ export function ProductSection({
               </>
             )}
           </Heading>
-          <p className={styles.desc}>{product.description}</p>
-          {product.price && (
-            <p className={styles.price}>
-              <b>{euro.format(Number(product.price))}</b>
-              <span>{product.shippingNote}</span>
-            </p>
-          )}
+          <div className={styles.desc}>
+            {product.description.split("\n\n").map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </div>
+          <p className={styles.price}>
+            <b>{euro.format(Number(product.price))}</b>
+            <span>{product.shippingNote}</span>
+          </p>
           <ul className={styles.highlights}>
             {product.highlights.map((h) => (
               <li key={h}>{h}</li>

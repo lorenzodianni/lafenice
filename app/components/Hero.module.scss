@@ -146,10 +146,13 @@
   // cover the 50% shift: no gap appears at the end of the loop on wide screens.
   // The end padding is the separation at the seam, where the two copies meet:
   // it lives inside the copy, so both stay the same width and the shift of
-  // exactly 50% keeps landing on the start of a copy.
+  // exactly 50% keeps landing on the start of a copy. `space-around` and not
+  // `space-evenly`: when a copy is narrower than the viewport the leftover
+  // space has to be half a slot at the edges, otherwise the seam gets a full
+  // slot on each side and shows up as a wider gap.
   > span {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     gap: 46px;
     min-width: 100vw;
     padding-inline-end: 46px;

@@ -76,8 +76,10 @@
   color: var(--ink-soft);
   font-size: 16px;
   line-height: 1.7;
-  // The client copy has real paragraph breaks.
-  white-space: pre-line;
+
+  p {
+    margin: 0 0 14px;
+  }
 }
 
 .price {

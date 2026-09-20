@@ -9,7 +9,7 @@ export const products = [
     title: "Detergente viso Nuvola",
     titleAccent: "Nuvola", // word set in italic, as in the mockup
     tagline: "Gentle facial cleanser",
-    // Blank lines are real paragraphs: rendered with `white-space: pre-line`.
+    // Blank lines separate real paragraphs: rendered as one `<p>` each.
     description:
       "Nuvola è un detergente viso delicato pensato per detergere la pelle con dolcezza, lasciandola morbida, fresca e piacevolmente idratata.\n\nLa sua formula, arricchita con Glicerina, Pantenolo, Avena colloidale, Ceramide NP ed Ectoin, deterge delicatamente rispettando il naturale equilibrio della pelle e donando una piacevole sensazione di comfort.\n\nLa texture cremosa e avvolgente trasforma la detersione in un piccolo rituale di benessere, ideale per la routine quotidiana, mattina e sera.",
     featuredImage: {
@@ -21,7 +21,7 @@ export const products = [
     seo: {
       title: "Detergente viso Nuvola in preordine",
       description:
-        "Nuvola, detergente viso delicato con glicerina, pantenolo, avena colloidale, ceramide NP ed ectoina. Preordinalo senza pagamento online: ti ricontattiamo per confermare disponibilità e tempi.",
+        "Nuvola, detergente viso delicato con glicerina, pantenolo e ceramide NP. Preordinalo senza pagamento online: ti ricontattiamo per confermare i tempi.",
     },
     price: "14.90",
     shippingNote: "Spedizione esclusa", // PLACEHOLDER: cost not confirmed

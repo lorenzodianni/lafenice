@@ -66,12 +66,14 @@
   }
 
   p {
-    margin: 0;
+    margin: 0 0 14px;
     color: var(--muted);
     font-size: 14.5px;
     line-height: 1.6;
-    // The client copy has real paragraph breaks.
-    white-space: pre-line;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
