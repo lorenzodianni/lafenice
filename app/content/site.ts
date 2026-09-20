@@ -12,14 +12,14 @@ import semipermanente from "~/assets/trattamenti/semipermanente.svg";
 // (see worklog.md).
 
 export const site = {
-  url: "https://www.lafenice-estetica.it", // PLACEHOLDER: domain not confirmed
+  url: "https://www.lafenice-estetica.com", // PLACEHOLDER: .com, name not chosen yet
   name: "La Fenice",
-  legalName: "Centro Estetico La Fenice", // PLACEHOLDER
+  // Sole trader ("ditta individuale"): the legal name is the owner's own name.
+  legalName: "Micaela Brunetti",
   vatId: "11407830964",
   kind: "Centro Estetico",
   description:
     "Centro estetico a Cinisello Balsamo (Milano): pulizia viso, manicure e pedicure, ricostruzione unghie, laser, ceretta, pressoterapia e massaggi su misura.",
-  foundingYear: 2014, // PLACEHOLDER
   owner: { name: "Micaela Brunetti", role: "Titolare ed estetista" },
   address: {
     street: "Via Luigi Pirandello 1",
@@ -32,14 +32,14 @@ export const site = {
   whatsapp: "", // PLACEHOLDER: empty = hidden
   email: "c.elafenice2020@gmail.com",
   ordersEmail: "c.elafenice2020@gmail.com", // receives preorders
-  // PLACEHOLDER. schema.org day names; labels and closed days are derived below.
+  // schema.org day names; labels and closed days are derived below.
   hours: [
     {
       days: ["Tuesday", "Wednesday", "Thursday", "Friday"],
       opens: "09:00",
-      closes: "19:00",
+      closes: "19:30",
     },
-    { days: ["Saturday"], opens: "09:00", closes: "17:00" },
+    { days: ["Saturday"], opens: "09:00", closes: "19:00" },
   ],
   // Keys are the labels shown in the footer.
   social: { Instagram: "", Facebook: "" }, // PLACEHOLDER: empty = hidden

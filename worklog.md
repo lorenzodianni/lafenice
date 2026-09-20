@@ -8,19 +8,11 @@ punto si toglie da qui.
   limiting, dati del cliente) sta in `docs/rollout.md`, con il perché di ogni
   scelta. Qui restano solo i punti ancora da decidere.
 
-## Dati mancanti dal cliente (nel mockup sono placeholder)
-- Ragione sociale, orari, URL social, anno di apertura (badge "Dal 2014": l'email
-  `c.elafenice2020@` fa pensare al 2020). Marcati `PLACEHOLDER` in `app/content/`.
-- WhatsApp: 371 457 1906 è un mobile, va abilitato come WhatsApp (`site.whatsapp`)?
-- Dominio: `lafenice-estetica.it` è reale/registrato? Il cliente lo vuole? Senza,
-  i preordini non si possono nemmeno inviare (`docs/rollout.md`, punto 3).
-- Prodotto: costo di spedizione (ora "Spedizione esclusa" senza importo),
-  formato/ml, INCI, foto reali, tempi di consegna.
-- Foto reali del centro (hero: 3 slide) e dei trattamenti (8 card). Ora sono
-  placeholder SVG in `app/assets/`.
-- Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
-  (71x92, 2x della dimensione mostrata) e `public/favicon.png`, entrambi ricavati
-  dal PNG 220x284 incluso in `docs/mockup.html`.
+## Dati mancanti dal cliente
+- La lista completa, con il perché di ogni domanda, sta in
+  `docs/domande-cliente.md`. In breve: nome del dominio, foto e logo, dati del
+  prodotto (spedizione, formato, INCI), social e WhatsApp.
+- Marcati `PLACEHOLDER` in `app/content/`: `grep -rn PLACEHOLDER app`.
 
 ## Da valutare più avanti
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o

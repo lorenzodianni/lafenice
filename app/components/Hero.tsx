@@ -172,8 +172,6 @@ export function Hero() {
               </a>
             ))}
           </div>
-
-          <span className={styles.badge}>Dal {site.foundingYear}</span>
         </div>
         <div className={`wrap ${styles.copy}`}>
           <p className="eyebrow">

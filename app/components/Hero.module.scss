@@ -132,19 +132,6 @@
   }
 }
 
-.badge {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  padding: 9px 15px;
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--plum);
-  font: 700 11px var(--sans);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  box-shadow: 0 10px 24px -12px rgba(58, 21, 38, 0.5);
-}
 
 .copy {
   max-width: 760px;
