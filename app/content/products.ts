@@ -3,11 +3,6 @@
 // does not have (titleAccent, tagline, delivery, shippingNote, highlights)
 // would become metafields. Images live in public/: JSON-LD needs URLs that do
 // not change with every build.
-export const euro = new Intl.NumberFormat("it-IT", {
-  style: "currency",
-  currency: "EUR",
-});
-
 export const products = [
   {
     handle: "detergente-viso-nuvola",
@@ -38,5 +33,11 @@ export const products = [
     ],
   },
 ];
+
+// Prices are strings (Shopify sends them as strings too): format, never do math.
+export const euro = new Intl.NumberFormat("it-IT", {
+  style: "currency",
+  currency: "EUR",
+});
 
 export type Product = (typeof products)[number];

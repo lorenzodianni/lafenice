@@ -30,7 +30,6 @@ punto si toglie da qui.
 - Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
   (71x92, 2x della dimensione mostrata) e `public/favicon.png`, entrambi ricavati
   dal PNG 220x284 incluso in `docs/mockup.html`.
-- Testo privacy policy: da far validare a un consulente.
 
 ## Account da creare (a carico del cliente)
 - Cloudflare: dominio + DNS, Workers, Web Analytics. Workers Builds collegato al

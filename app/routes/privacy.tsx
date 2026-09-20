@@ -24,7 +24,7 @@ export default function Privacy() {
       <p>
         Questa pagina spiega quali dati personali raccogliamo attraverso il
         sito, perché li trattiamo e come puoi controllarli. È resa ai sensi
-        degli articoli 13 e 14 del Regolamento (UE) 2016/679 (GDPR).
+        dell'articolo 13 del Regolamento (UE) 2016/679 (GDPR).
       </p>
 
       <h2>Titolare del trattamento</h2>
@@ -42,7 +42,7 @@ export default function Privacy() {
       <h2>Quali dati raccogliamo</h2>
       <ul>
         <li>
-          <b>Modulo di preordine</b>: nome, email e quantità (obbligatori),
+          <b>Modulo di preordine</b>: nome ed email (obbligatori), quantità,
           telefono e note (facoltativi), la presa visione di questa informativa
           e l'eventuale consenso a ricevere novità e promozioni.
         </li>
