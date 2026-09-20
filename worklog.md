@@ -11,8 +11,14 @@ punto si toglie da qui.
 ## Dati mancanti dal cliente
 - La lista completa, con il perché di ogni domanda, sta in
   `docs/domande-cliente.md`. In breve: nome del dominio, foto e logo, dati del
-  prodotto (spedizione, formato, INCI), social e WhatsApp.
-- Marcati `PLACEHOLDER` in `app/content/`: `grep -rn PLACEHOLDER app`.
+  prodotto (formato, INCI), social e WhatsApp.
+- Bloccano la vendita spedita, che è vendita a distanza: prezzo finale e regime
+  IVA, costo e corriere, se spedisce solo in Italia, mezzi di pagamento oltre al
+  bonifico, chi paga il reso. L'INCI serve prima dell'acquisto, non solo sulla
+  confezione.
+- Marcati `PLACEHOLDER` in `app/content/` e nelle pagine che citano quei dati
+  (`app/routes/terms.tsx`, `app/components/PreorderForm.tsx`):
+  `grep -rn PLACEHOLDER app`.
 
 ## Da valutare più avanti
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
