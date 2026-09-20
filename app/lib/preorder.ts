@@ -62,10 +62,11 @@ export function parsePreorder(form: FormData) {
     errors.delivery = "Scegli se ritirare in negozio o farti spedire l'ordine.";
   // Without an address a shipped order cannot be quoted: the shipping cost
   // depends on the destination, so it is asked here and not by email.
-  if (values.address.length > 300) errors.address = "Massimo 300 caratteri.";
-  else if (delivery === SHIPPING && !values.address)
+  if (values.delivery === SHIPPING && !values.address)
     errors.address =
       "Scrivi l'indirizzo di consegna: via e numero, CAP, città e provincia.";
+  else if (values.address.length > 300)
+    errors.address = "Massimo 300 caratteri.";
   if (values.notes.length > 1000) errors.notes = "Massimo 1000 caratteri.";
   if (!values.privacy)
     errors.privacy = "Conferma di aver letto l'informativa privacy.";

@@ -28,14 +28,6 @@ $invalid: #c0392b;
   }
 }
 
-// The delivery choice decides how the order is concluded and what is asked
-// below it: it gets its own row, not half of one.
-.wide {
-  @include up(sm) {
-    grid-column: 1 / -1;
-  }
-}
-
 .field {
   display: flex;
   flex-direction: column;

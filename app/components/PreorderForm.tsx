@@ -105,24 +105,27 @@ export function PreorderForm({
           </select>
           {error("quantity")}
         </div>
-        <div className={`${styles.field} ${styles.wide}`}>
-          <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
-          <select
-            {...field("delivery")}
-            required
-            defaultValue={values?.delivery ?? ""}
-          >
-            <option value="">Scegli...</option>
-            {/* The value attribute is what the CSS below matches on to show
-                the address field: `<option>{d}</option>` alone would not. */}
-            {deliveryOptions.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
-          {error("delivery")}
-        </div>
+      </div>
+
+      {/* Out of the grid: it decides how the order is concluded and what is
+          asked below it, so it takes a row of its own. */}
+      <div className={styles.field}>
+        <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
+        <select
+          {...field("delivery")}
+          required
+          defaultValue={values?.delivery ?? ""}
+        >
+          <option value="">Scegli...</option>
+          {/* The value attribute is what the selector in Form.module.scss
+              matches to show the address: `<option>{d}</option>` would not. */}
+          {deliveryOptions.map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
+        {error("delivery")}
       </div>
 
       {/* Shown by CSS only when the shipping option is selected, and for the
