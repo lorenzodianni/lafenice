@@ -76,6 +76,25 @@
   color: var(--ink-soft);
   font-size: 16px;
   line-height: 1.7;
+  // The client copy has real paragraph breaks.
+  white-space: pre-line;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 20px;
+
+  b {
+    color: var(--plum);
+    font: 400 32px var(--serif);
+  }
+
+  span {
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
 }
 
 .highlights {
