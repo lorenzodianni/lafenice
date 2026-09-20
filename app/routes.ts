@@ -8,4 +8,5 @@ export default [
   route("pages/newsletter", "routes/newsletter.tsx"),
   route("pages/grazie-newsletter", "routes/newsletter-thanks.tsx"),
   route("pages/iscrizione-confermata", "routes/newsletter-confirmed.tsx"),
+  route("policies/privacy-policy", "routes/privacy.tsx"),
 ] satisfies RouteConfig;

@@ -1,0 +1,29 @@
+// A legal text: narrow measure and headings smaller than a landing page.
+.page {
+  max-width: 70ch;
+  line-height: 1.65;
+
+  h2 {
+    margin: 36px 0 10px;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  a[href] {
+    color: var(--plum);
+    text-decoration: underline;
+  }
+}
+
+.updated {
+  color: var(--muted);
+  font-size: 14px;
+}
