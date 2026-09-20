@@ -105,20 +105,46 @@ export function PreorderForm({
           </select>
           {error("quantity")}
         </div>
-        <div className={styles.field}>
-          <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
-          <select
-            {...field("delivery")}
-            required
-            defaultValue={values?.delivery ?? ""}
-          >
-            <option value="">Scegli...</option>
-            {deliveryOptions.map((d) => (
-              <option key={d}>{d}</option>
-            ))}
-          </select>
-          {error("delivery")}
-        </div>
+      </div>
+
+      {/* Out of the grid: it decides how the order is concluded and what is
+          asked below it, so it takes a row of its own. */}
+      <div className={styles.field}>
+        <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
+        <select
+          {...field("delivery")}
+          required
+          defaultValue={values?.delivery ?? ""}
+        >
+          <option value="">Scegli...</option>
+          {/* The value attribute is what the selector in Form.module.scss
+              matches to show the address: `<option>{d}</option>` would not. */}
+          {deliveryOptions.map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
+        {error("delivery")}
+      </div>
+
+      {/* Shown by CSS only when the shipping option is selected, and for the
+          same reason it cannot be `required`: the browser validates hidden
+          fields too. The server decides, as for every other field. */}
+      <div className={`${styles.field} ${styles.address}`}>
+        <label htmlFor="preorder-address">Indirizzo di consegna *</label>
+        <textarea
+          {...field("address")}
+          rows={2}
+          maxLength={300}
+          autoComplete="street-address"
+          placeholder="Via e numero, CAP, città, provincia"
+          defaultValue={values?.address}
+        />
+        <span className={styles.hint}>
+          Senza non possiamo dirti quanto costa la spedizione.
+        </span>
+        {error("address")}
       </div>
 
       <div className={styles.field}>
@@ -127,7 +153,7 @@ export function PreorderForm({
           {...field("notes")}
           rows={3}
           maxLength={1000}
-          placeholder="Se vuoi la spedizione, la città di consegna. Oppure richieste particolari..."
+          placeholder="Citofono, orari, richieste particolari..."
           defaultValue={values?.notes}
         />
         {error("notes")}

@@ -5,7 +5,8 @@ export const quantities = ["1", "2", "3", "4", "5 o più"];
 // Decides which of the two email models the shop answers with: pickup closes
 // the sale in the shop, shipping closes it by email and is a distance sale
 // (see docs/email-preordine.md). No default, it has to be a real choice.
-export const deliveryOptions = ["Ritiro in negozio", "Spedizione a casa"];
+const SHIPPING = "Spedizione a casa";
+export const deliveryOptions = ["Ritiro in negozio", SHIPPING];
 
 const PHONE = /^[+\d\s().-]*$/;
 
@@ -17,6 +18,7 @@ export type PreorderValues = {
   phone: string;
   quantity: string;
   delivery: string;
+  address: string;
   notes: string;
   privacy: boolean;
   marketing: boolean;
@@ -31,12 +33,17 @@ export function parsePreorder(form: FormData) {
   // Single-line fields: collapse newlines/tabs, they end up in an email subject.
   const line = (key: string) => text(key).replace(/\s+/g, " ");
 
+  // Decides whether the address is asked at all, so it is read first.
+  const delivery = line("delivery");
   const values: PreorderValues = {
     name: line("name"),
     email: line("email"),
     phone: line("phone"),
     quantity: line("quantity"),
-    delivery: line("delivery"),
+    delivery,
+    // The form hides the address unless the order is shipped: an address left
+    // over from a previous choice must not reach the shop email.
+    address: delivery === SHIPPING ? text("address") : "",
     notes: text("notes"),
     privacy: form.get("privacy") === "on",
     marketing: form.get("marketing") === "on",
@@ -53,6 +60,13 @@ export function parsePreorder(form: FormData) {
     errors.quantity = "Scegli una quantità.";
   if (!deliveryOptions.includes(values.delivery))
     errors.delivery = "Scegli se ritirare in negozio o farti spedire l'ordine.";
+  // Without an address a shipped order cannot be quoted: the shipping cost
+  // depends on the destination, so it is asked here and not by email.
+  if (values.delivery === SHIPPING && !values.address)
+    errors.address =
+      "Scrivi l'indirizzo di consegna: via e numero, CAP, città e provincia.";
+  else if (values.address.length > 300)
+    errors.address = "Massimo 300 caratteri.";
   if (values.notes.length > 1000) errors.notes = "Massimo 1000 caratteri.";
   if (!values.privacy)
     errors.privacy = "Conferma di aver letto l'informativa privacy.";
@@ -80,7 +94,8 @@ export async function sendPreorder(
       listIds: [config.preorderListId],
       updateEnabled: true,
     });
-    if (values.marketing) await doubleOptin(values.email, config, fetchFn);
+    if (values.marketing)
+      await doubleOptin(values.email, config, undefined, fetchFn);
   };
 
   const notifyShop = () =>
@@ -99,6 +114,7 @@ export async function sendPreorder(
         `Telefono: ${values.phone || "-"}`,
         `Quantità: ${values.quantity}`,
         `Consegna: ${values.delivery}`,
+        `Indirizzo: ${values.address || "-"}`,
         `Note: ${values.notes || "-"}`,
         `Consenso marketing: ${values.marketing ? "sì (double opt-in inviato)" : "no"}`,
         "",

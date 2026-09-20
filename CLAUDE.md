@@ -100,8 +100,9 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
 
 ## Form
-- **Preordine**: nome*, email*, telefono, quantità, note, presa visione privacy*,
-  consenso marketing opzionale. Action → contatto Brevo in lista "Preordini" (+
+- **Preordine**: nome*, email*, telefono, quantità, consegna* (ritiro o
+  spedizione), indirizzo (obbligatorio solo con la spedizione: senza non si può
+  quotare), note, presa visione privacy*, consenso marketing opzionale. Action → contatto Brevo in lista "Preordini" (+
   double opt-in "Newsletter" se c'è il consenso) + email a `ordersEmail` con
   reply-to del cliente, poi redirect a `/pages/grazie-preordine`. Se Brevo fallisce
   la pagina torna con un errore e i campi compilati: mai finto successo.
@@ -109,7 +110,8 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   al ritiro oppure per email se il cliente chiede la spedizione. La scheda
   prodotto deve dirlo accanto al form, ed è quello che tiene il ritiro fuori
   dalla vendita a distanza.
-- **Newsletter**: nel footer di ogni pagina, email* + consenso* → double opt-in
+- **Newsletter**: nel footer di ogni pagina, email* + consenso* + data di
+  nascita facoltativa (attributo Brevo `BIRTHDAY`, promo compleanno) → double opt-in
   Brevo, lista "Newsletter". POST a `/pages/newsletter` (le pagine sono statiche),
   stesso schema del preordine: errori sulla pagina, redirect a
   `/pages/grazie-newsletter`. Le tre pagine newsletter esportano

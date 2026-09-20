@@ -35,6 +35,14 @@ Account, poi:
 - API key come secret del Worker: `npx wrangler secret put BREVO_API_KEY`.
 - Liste "Preordini" e "Newsletter" e template della doppia conferma: i tre ID
   vanno nei `vars` di `wrangler.jsonc`, oggi valgono 0.
+- Attributo contatto **`BIRTHDAY`, tipo Date**, da creare a mano: non esiste di
+  default. Il form newsletter lo manda con la doppia conferma, e Brevo rifiuta
+  un attributo sconosciuto: senza, l'iscrizione riesce lo stesso ma la data va
+  persa (`sendNewsletter` riprova senza), quindi l'errore non si vede dal sito
+  e resta solo nei log. Da verificare al primo test reale, insieme al
+  formato della data (mandiamo `YYYY-MM-DD`, come lo scrive `<input type="date">`).
+  Serve per le promozioni di compleanno, che si impostano in Brevo come
+  automazione sulla data.
 - **Autenticare il dominio come mittente** (record DKIM e SPF nel DNS
   Cloudflare). Non è opzionale, vedi sotto.
 
@@ -98,9 +106,9 @@ informazioni devono arrivare lì. I due modelli in `docs/email-preordine.md`
 come sono; il perché sta in quel file.
 
 Da chiedere al consulente mentre ci siamo: l'informativa privacy elenca i dati
-raccolti **dal sito**, ma con la spedizione arrivano per email anche indirizzo
-di consegna ed estremi del pagamento. Vanno aggiunti a "Quali dati
-raccogliamo".
+raccolti **dal sito** (l'indirizzo di consegna ora è tra questi), ma con la
+spedizione arrivano per email anche gli estremi del pagamento. Vanno aggiunti a
+"Quali dati raccogliamo".
 
 ## 7. Rate limiting sui form (dashboard Cloudflare, nessun codice)
 

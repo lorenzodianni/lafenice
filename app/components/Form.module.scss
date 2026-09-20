@@ -67,6 +67,23 @@ $invalid: #c0392b;
   textarea {
     resize: vertical;
   }
+
+  // ponytail: iOS Safari gives an empty date input its own intrinsic height
+  // and ignores the padding, so it ends up shorter than the text fields.
+  input[type="date"] {
+    min-height: 46px; // the height of the text fields next to it
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+// The address is only asked for the shipping option: always visible, it
+// confuses whoever comes to pick the order up in the shop. No JS, the selector
+// follows the selected option; where :has() is missing the whole rule is
+// dropped and the field just stays visible. The string is SHIPPING in
+// app/lib/preorder.ts.
+.form:not(:has(option[value="Spedizione a casa"]:checked)) .address {
+  display: none;
 }
 
 .check {

@@ -73,14 +73,14 @@ impegni. Le parti tra parentesi quadre vanno compilate.
 > **Prezzo**: [PREZZO] euro l'uno, IVA inclusa.
 > **Spedizione**: [COSTO] euro con [CORRIERE].
 > **Totale**: [TOTALE] euro, IVA e spedizione incluse. Non ci sono altri costi.
-> **Consegna**: prevista entro [DATA], all'indirizzo che mi indichi.
+> **Consegna**: prevista entro [DATA], a [INDIRIZZO]: l'indirizzo che mi hai
+> scritto nella richiesta. Dimmi se è cambiato qualcosa.
 > **Pagamento**: bonifico bancario su IBAN [IBAN], intestato a Micaela
 > Brunetti [oppure: l'altro mezzo che usi davvero]. Spedisco appena ricevo il
 > pagamento.
 >
 > **Per confermare rispondi a questa email scrivendo "confermo l'ordine e il
-> pagamento"**, con l'indirizzo di spedizione completo. Finché non lo fai non
-> c'è nessun impegno.
+> pagamento"**. Finché non lo fai non c'è nessun impegno.
 >
 > **Garanzia legale**: sul prodotto vale la garanzia legale di conformità di
 > due anni prevista dagli articoli 128 e seguenti del Codice del Consumo. Se

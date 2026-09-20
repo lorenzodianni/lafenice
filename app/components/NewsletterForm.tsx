@@ -52,6 +52,23 @@ export function NewsletterForm({
         {error("email")}
       </div>
 
+      {/* Optional, and it stays optional: the subscription must not depend on
+          it. Native date input, no picker library. */}
+      <div className={styles.field}>
+        <label htmlFor="newsletter-birthday">Data di nascita</label>
+        <input
+          {...field("birthday")}
+          type="date"
+          autoComplete="bday"
+          defaultValue={values?.birthday}
+        />
+        <span className={styles.hint}>
+          Facoltativa: ci serve solo per mandarti una promozione per il tuo
+          compleanno.
+        </span>
+        {error("birthday")}
+      </div>
+
       <div className={styles.check}>
         <input
           {...field("consent")}
