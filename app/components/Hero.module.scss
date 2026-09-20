@@ -11,7 +11,6 @@
 .media {
   position: relative;
   aspect-ratio: 4 / 5;
-  overflow: hidden;
   background: var(--pink);
 
   // Desktop: a slice of the viewport, so the copy stays above the fold. Not a
@@ -22,46 +21,94 @@
     height: 58vh;
     min-height: 420px;
   }
+}
 
-  // Slideshow: the slides are stacked and crossfade on their own. Delays are
-  // negative so every slide fades in, none pops on the first pass. Under
-  // `prefers-reduced-motion` global.scss kills the animation and only the
-  // first slide (the one with opacity 1) stays visible.
+// The slider is the scroll container itself: it swipes on a touch screen,
+// scrolls from the keyboard and snaps on a slide, all without JS. The dots
+// are anchors to each slide, so they work without JS too.
+.track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   img {
-    position: absolute;
-    inset: 0;
+    flex: 0 0 100%;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
-    animation: fade 18s infinite;
-
-    &:first-child {
-      opacity: 1;
-    }
-
-    &:nth-child(2) {
-      animation-delay: -12s;
-    }
-
-    &:nth-child(3) {
-      animation-delay: -6s;
-    }
+    scroll-snap-align: start;
   }
 }
 
-// One third of the cycle visible, then a crossfade into the next slide.
-@keyframes fade {
-  0%,
-  28% {
-    opacity: 1;
+// Only the script can move the track by one slide, so the arrows show up once
+// it has run.
+.arrow {
+  display: none;
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--plum);
+  font: 300 26px/1 var(--serif);
+  cursor: pointer;
+
+  [data-js] & {
+    display: grid;
+    place-items: center;
   }
-  33.4%,
-  94.4% {
-    opacity: 0;
+
+  &:hover {
+    background: var(--paper);
   }
-  100% {
-    opacity: 1;
+}
+
+.prev {
+  left: 14px;
+}
+
+.next {
+  right: 14px;
+}
+
+.dots {
+  display: flex;
+  gap: 9px;
+  position: absolute;
+  right: 18px;
+  bottom: 22px;
+}
+
+// The dot is a link with no visible text: the label is there for screen
+// readers only.
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(58, 21, 38, 0.25);
+
+  &[aria-current="true"] {
+    background: var(--plum);
   }
 }
 
@@ -131,7 +178,7 @@
   background: var(--paper);
 }
 
-.track {
+.marqueeTrack {
   display: flex;
   width: max-content;
   padding: 14px 0;

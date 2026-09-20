@@ -29,7 +29,10 @@ desktop-first con dati placeholder: il sito no.
   action: il prerender gira in Node e un import statico rompe la build.
 - **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
   una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
-  pagine sono HTML + CSS; l'unico JS è lo script inline che chiude il menu mobile.
+  pagine sono HTML + CSS; l'unico JS sono due script inline (vanilla, non React):
+  quello che chiude il menu mobile e quello dello slider hero (frecce, autoplay,
+  pallino attivo). Senza JS lo slider resta usabile: scorre, fa snap e i pallini
+  sono link alle slide.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.

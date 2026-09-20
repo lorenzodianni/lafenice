@@ -1,21 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
 <rect width="1200" height="600" fill="#FBEAF0"/>
-<rect y="432" width="1200" height="168" fill="#F4CFDC"/>
-<ellipse cx="470" cy="520" rx="380" ry="46" fill="#F7E4EA"/>
-<rect x="905" y="96" width="215" height="316" rx="107" fill="#FFFFFF" stroke="#3A1526" stroke-width="4"/>
-<line x1="1012" y1="120" x2="1012" y2="400" stroke="#3A1526" stroke-width="3"/>
-<line x1="912" y1="250" x2="1112" y2="250" stroke="#3A1526" stroke-width="3"/>
-<rect x="70" y="176" width="176" height="12" rx="3" fill="#3A1526"/>
-<circle cx="112" cy="156" r="22" fill="#E7D6DC"/><circle cx="160" cy="156" r="22" fill="#FBEAF0"/><circle cx="208" cy="156" r="22" fill="#E7D6DC"/>
-<circle cx="470" cy="176" r="80" fill="#FBEAF0" stroke="#3A1526" stroke-width="4"/><circle cx="470" cy="176" r="68" fill="#F7E4EA"/>
-<rect x="300" y="118" width="92" height="116" rx="6" fill="#FBEAF0" stroke="#3A1526" stroke-width="3"/>
-<ellipse cx="430" cy="474" rx="285" ry="26" fill="#DBC7CF"/>
-<rect x="168" y="356" width="524" height="74" rx="18" fill="#FFFFFF" stroke="#EFDCE3" stroke-width="2"/>
-<rect x="178" y="340" width="150" height="46" rx="16" fill="#FBEAF0"/>
-<rect x="470" y="368" width="150" height="32" rx="9" fill="#E7D6DC"/>
-<rect x="206" y="430" width="16" height="50" fill="#3A1526"/><rect x="622" y="430" width="16" height="50" fill="#3A1526"/>
-<rect x="766" y="372" width="74" height="60" rx="9" fill="#E7D6DC"/>
-<ellipse cx="782" cy="344" rx="26" ry="34" fill="#B4BEA9"/><ellipse cx="820" cy="336" rx="24" ry="40" fill="#B4BEA9"/><ellipse cx="804" cy="318" rx="20" ry="34" fill="#B4BEA9"/>
-<circle cx="700" cy="452" r="34" fill="#3A1526"/><ellipse cx="700" cy="450" rx="34" ry="12" fill="#4a2233"/>
-<text x="1150" y="576" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="20" letter-spacing="2" fill="#8A7A80">placeholder · centro estetico</text>
+<rect y="470" width="1200" height="130" fill="#F4CFDC"/>
+<rect x="90" y="120" width="420" height="350" rx="14" fill="#FFFFFF" stroke="#3A1526" stroke-width="4"/>
+<circle cx="300" cy="250" r="86" fill="#F7E4EA" stroke="#3A1526" stroke-width="3"/>
+<rect x="210" y="380" width="180" height="14" rx="7" fill="#EBB6C8"/>
+<rect x="240" y="410" width="120" height="14" rx="7" fill="#F4CFDC"/>
+<rect x="620" y="200" width="120" height="270" rx="60" fill="#FFFFFF" stroke="#3A1526" stroke-width="4"/>
+<rect x="790" y="150" width="120" height="320" rx="60" fill="#F7E4EA" stroke="#3A1526" stroke-width="4"/>
+<rect x="960" y="250" width="120" height="220" rx="60" fill="#EBB6C8" stroke="#3A1526" stroke-width="4"/>
+<ellipse cx="850" cy="500" rx="330" ry="34" fill="#EBB6C8" opacity="0.6"/>
+<text x="1150" y="576" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="20" letter-spacing="2" fill="#8A7A80">placeholder 2 &#183; cabina</text>
 </svg>
