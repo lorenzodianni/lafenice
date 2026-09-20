@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { site } from "~/content/site";
 import { CONFIRMED_PATH, doubleOptin } from "./brevo";
-import { parseNewsletter } from "./newsletter";
+import { parseNewsletter, sendNewsletter } from "./newsletter";
 
 const form = (fields: Record<string, string>) => {
   const f = new FormData();
@@ -44,6 +44,49 @@ describe("parseNewsletter", () => {
     );
     expect(Object.keys(errors).sort()).toEqual(["consent", "email"]);
     expect(spam).toBe(true);
+  });
+});
+
+describe("sendNewsletter", () => {
+  const config = {
+    apiKey: "key",
+    preorderListId: 1,
+    newsletterListId: 2,
+    doiTemplateId: 3,
+  };
+
+  it("subscribes anyway when Brevo refuses the birthday", async () => {
+    const bodies: Record<string, unknown>[] = [];
+    // A Brevo account without the BIRTHDAY attribute answers exactly like this.
+    const fetchFn = (async (_url: string, init: RequestInit) => {
+      const body = JSON.parse(String(init.body));
+      bodies.push(body);
+      return body.attributes
+        ? new Response("unknown attribute", { status: 400 })
+        : new Response(null, { status: 201 });
+    }) as typeof fetch;
+
+    await sendNewsletter(
+      { email: "maria@example.it", consent: true, birthday: "1985-02-28" },
+      config,
+      fetchFn,
+    );
+
+    expect(bodies).toHaveLength(2);
+    expect(bodies[1].attributes).toBeUndefined();
+  });
+
+  it("fails when the subscription itself fails", async () => {
+    const fetchFn = (async () =>
+      new Response("down", { status: 500 })) as typeof fetch;
+
+    await expect(
+      sendNewsletter(
+        { email: "maria@example.it", consent: true, birthday: "" },
+        config,
+        fetchFn,
+      ),
+    ).rejects.toThrow();
   });
 });
 

@@ -1,4 +1,4 @@
-import { isEmail } from "./brevo";
+import { type BrevoConfig, doubleOptin, isEmail } from "./brevo";
 
 export type NewsletterValues = {
   email: string;
@@ -40,4 +40,29 @@ export function parseNewsletter(form: FormData) {
   const spam = text("website") !== "";
 
   return { values, errors, spam };
+}
+
+// Brevo is the only store, as for the preorder. The birthday is optional and
+// must never cost a subscriber: if Brevo refuses the attribute, which has to
+// exist in the account (docs/rollout.md), the subscription is retried without
+// it. A refused call sends no confirmation email, so nothing goes out twice.
+export async function sendNewsletter(
+  values: NewsletterValues,
+  config: BrevoConfig,
+  fetchFn: typeof fetch = fetch,
+) {
+  if (!values.birthday)
+    return doubleOptin(values.email, config, undefined, fetchFn);
+
+  try {
+    await doubleOptin(
+      values.email,
+      config,
+      { BIRTHDAY: values.birthday },
+      fetchFn,
+    );
+  } catch (error) {
+    console.warn("Brevo refused the birthday, subscribing without it", error);
+    await doubleOptin(values.email, config, undefined, fetchFn);
+  }
 }

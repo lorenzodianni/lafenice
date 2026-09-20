@@ -37,8 +37,9 @@ Account, poi:
   vanno nei `vars` di `wrangler.jsonc`, oggi valgono 0.
 - Attributo contatto **`BIRTHDAY`, tipo Date**, da creare a mano: non esiste di
   default. Il form newsletter lo manda con la doppia conferma, e Brevo rifiuta
-  un attributo sconosciuto: senza, ogni iscrizione con la data di nascita
-  compilata finisce in errore. Da verificare al primo test reale, insieme al
+  un attributo sconosciuto: senza, l'iscrizione riesce lo stesso ma la data va
+  persa (`sendNewsletter` riprova senza), quindi l'errore non si vede dal sito
+  e resta solo nei log. Da verificare al primo test reale, insieme al
   formato della data (mandiamo `YYYY-MM-DD`, come lo scrive `<input type="date">`).
   Serve per le promozioni di compleanno, che si impostano in Brevo come
   automazione sulla data.
