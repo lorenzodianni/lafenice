@@ -23,12 +23,22 @@ export function Treatments() {
         <ul className={styles.grid}>
           {treatments.map((t, i) => (
             <li key={t.name} className={styles.card}>
-              <span className={styles.num}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3>{t.name}</h3>
-              <p>{t.description}</p>
-              <span className={styles.tag}>{t.duration}</span>
+              {/* Decorative: the heading right below already names it. */}
+              <img
+                className={styles.photo}
+                src={t.image}
+                alt=""
+                width={800}
+                height={600}
+                loading="lazy"
+              />
+              <div className={styles.body}>
+                <span className={styles.num}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3>{t.name}</h3>
+                <p>{t.description}</p>
+              </div>
             </li>
           ))}
         </ul>
