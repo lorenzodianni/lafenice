@@ -51,7 +51,7 @@ export default function Terms() {
       <ol>
         <li>
           Ci mandi la richiesta dal sito, dicendoci se vuoi ritirare in negozio
-          o ricevere il prodotto a casa.
+          o ricevere il prodotto a casa, con l'indirizzo di consegna.
         </li>
         <li>
           Ti rispondiamo per email con la disponibilità, il prezzo totale, le

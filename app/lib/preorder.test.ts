@@ -14,6 +14,7 @@ const valid = {
   phone: "+39 333 123 4567",
   quantity: "2",
   delivery: "Spedizione a casa",
+  address: "Via Roma 1\n20092 Cinisello Balsamo (MI)",
   notes: "Citofono Rossi",
   privacy: "on",
   marketing: "on",
@@ -33,6 +34,16 @@ describe("parsePreorder", () => {
     expect(spam).toBe(false);
     expect(values.name).toBe("Maria Rossi");
     expect(values.marketing).toBe(true);
+  });
+
+  it("wants the address only when the order is shipped", () => {
+    const shipped = parsePreorder(form({ ...valid, address: "" }));
+    expect(shipped.errors.address).toBeDefined();
+
+    const pickup = parsePreorder(
+      form({ ...valid, address: "", delivery: "Ritiro in negozio" }),
+    );
+    expect(pickup.errors).toEqual({});
   });
 
   it("rejects missing or malformed fields and flags the honeypot", () => {
@@ -67,6 +78,7 @@ describe("sendPreorder", () => {
     );
     const mail = calls.find((c) => c.path === "/smtp/email")?.body;
     expect(mail?.textContent).toContain("Consegna: Spedizione a casa");
+    expect(mail?.textContent).toContain("Indirizzo: Via Roma 1");
     expect(mail?.to).toEqual([{ email: site.ordersEmail }]);
     expect(mail?.replyTo).toEqual({ email: valid.email, name: "Maria Rossi" });
   });

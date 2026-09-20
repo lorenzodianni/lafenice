@@ -100,8 +100,9 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
 
 ## Form
-- **Preordine**: nome*, email*, telefono, quantità, note, presa visione privacy*,
-  consenso marketing opzionale. Action → contatto Brevo in lista "Preordini" (+
+- **Preordine**: nome*, email*, telefono, quantità, consegna* (ritiro o
+  spedizione), indirizzo (obbligatorio solo con la spedizione: senza non si può
+  quotare), note, presa visione privacy*, consenso marketing opzionale. Action → contatto Brevo in lista "Preordini" (+
   double opt-in "Newsletter" se c'è il consenso) + email a `ordersEmail` con
   reply-to del cliente, poi redirect a `/pages/grazie-preordine`. Se Brevo fallisce
   la pagina torna con un errore e i campi compilati: mai finto successo.

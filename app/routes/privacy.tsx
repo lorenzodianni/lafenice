@@ -43,7 +43,8 @@ export default function Privacy() {
       <ul>
         <li>
           <b>Modulo di preordine</b>: nome, email e la scelta tra ritiro e
-          spedizione (obbligatori), quantità, telefono e note (facoltativi), la
+          spedizione (obbligatori), l'indirizzo di consegna (obbligatorio solo
+          se scegli la spedizione), quantità, telefono e note (facoltativi), la
           presa visione di questa informativa e l'eventuale consenso a ricevere
           novità e promozioni.
         </li>
@@ -71,7 +72,9 @@ export default function Privacy() {
           disponibilità, tempi e modalità di consegna: base giuridica art. 6.1
           lett. b del GDPR (misure precontrattuali adottate su tua richiesta).
           Nome, email e la scelta tra ritiro e spedizione sono necessari: senza
-          non possiamo risponderti né dirti quanto costa.
+          non possiamo risponderti né dirti quanto costa. Se scegli la
+          spedizione ci serve anche l'indirizzo di consegna, perché da lì
+          dipendono le spese e i tempi.
         </li>
         <li>
           <b>Inviarti novità e promozioni</b>: base giuridica art. 6.1 lett. a

@@ -121,13 +121,33 @@ export function PreorderForm({
         </div>
       </div>
 
+      {/* Required only with the shipping option, so it cannot be `required`
+          here: the browser would block the pickup requests too. The server
+          decides, as for every other field. */}
+      <div className={styles.field}>
+        <label htmlFor="preorder-address">Indirizzo di consegna</label>
+        <textarea
+          {...field("address")}
+          rows={2}
+          maxLength={300}
+          autoComplete="street-address"
+          placeholder="Via e numero, CAP, città, provincia"
+          defaultValue={values?.address}
+        />
+        <span className={styles.hint}>
+          Serve solo se scegli la spedizione: senza non possiamo dirti quanto
+          costa.
+        </span>
+        {error("address")}
+      </div>
+
       <div className={styles.field}>
         <label htmlFor="preorder-notes">Note (facoltative)</label>
         <textarea
           {...field("notes")}
           rows={3}
           maxLength={1000}
-          placeholder="Se vuoi la spedizione, la città di consegna. Oppure richieste particolari..."
+          placeholder="Citofono, orari, richieste particolari..."
           defaultValue={values?.notes}
         />
         {error("notes")}
