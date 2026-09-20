@@ -144,5 +144,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   squash: i singoli commit con il loro perché sono il worklog.
 - Conventional Commits. Nel body sempre il **perché** delle scelte: git è il log
   delle decisioni prese.
+- `docs/rollout.md`: checklist del go-live (dominio, account, mittente email, rate
+  limiting) con il perché di ogni scelta. Da leggere prima di pubblicare.
 - `worklog.md`: solo decisioni aperte e lavori a metà tra una sessione e l'altra.
   Quando un punto si chiude, il perché va nel commit e il punto si toglie dal worklog.
