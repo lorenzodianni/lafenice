@@ -24,7 +24,9 @@
   }
 
   // Slideshow: the slides are stacked and crossfade on their own. Delays are
-  // negative so every slide fades in, none pops on the first pass.
+  // negative so every slide fades in, none pops on the first pass. Under
+  // `prefers-reduced-motion` global.scss kills the animation and only the
+  // first slide (the one with opacity 1) stays visible.
   img {
     position: absolute;
     inset: 0;
@@ -44,13 +46,6 @@
 
     &:nth-child(3) {
       animation-delay: -6s;
-    }
-  }
-
-  // Without motion only the first slide is shown.
-  @media (prefers-reduced-motion: reduce) {
-    img {
-      animation: none;
     }
   }
 }
@@ -149,11 +144,15 @@
 
   // Each copy is at least as wide as the viewport, so the two of them always
   // cover the 50% shift: no gap appears at the end of the loop on wide screens.
+  // The end padding is the separation at the seam, where the two copies meet:
+  // it lives inside the copy, so both stay the same width and the shift of
+  // exactly 50% keeps landing on the start of a copy.
   > span {
     display: flex;
     justify-content: space-evenly;
     gap: 46px;
     min-width: 100vw;
+    padding-inline-end: 46px;
   }
 
   b {

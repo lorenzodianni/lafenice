@@ -30,7 +30,9 @@ export function Hero() {
               alt={i === 0 ? "Interni del centro estetico La Fenice" : ""}
               width={1200}
               height={600}
-              {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+              // The other slides are in the viewport too, so `lazy` would
+              // not defer them: only their priority can drop.
+              fetchPriority={i === 0 ? "high" : "low"}
             />
           ))}
           <span className={styles.badge}>Dal {site.foundingYear}</span>

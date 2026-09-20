@@ -1,3 +1,12 @@
+import ceretta from "~/assets/trattamenti/ceretta.svg";
+import gelUnghie from "~/assets/trattamenti/gel-unghie.svg";
+import laser from "~/assets/trattamenti/laser.svg";
+import manicurePedicure from "~/assets/trattamenti/manicure-pedicure.svg";
+import massaggi from "~/assets/trattamenti/massaggi.svg";
+import pressoterapia from "~/assets/trattamenti/pressoterapia.svg";
+import puliziaViso from "~/assets/trattamenti/pulizia-viso.svg";
+import semipermanente from "~/assets/trattamenti/semipermanente.svg";
+
 // Single source for business facts: UI, JSON-LD, sitemap and llms.txt read from here.
 // PLACEHOLDER marks values copied from the mockup that the client must confirm
 // (see worklog.md).
@@ -38,53 +47,54 @@ export const site = {
 
 // Copy from the client. Blank lines inside a description are real paragraphs:
 // the cards render them with `white-space: pre-line`.
-// PLACEHOLDER images: real photos pending.
+// PLACEHOLDER images: real photos pending. Imported, not public/ URLs:
+// they are decorative, no JSON-LD needs their URL to stay stable.
 export const treatments = [
   {
     name: "Pulizia Viso",
-    image: "/images/trattamenti/pulizia-viso.svg",
+    image: puliziaViso,
     description:
       "Un trattamento dedicato alla detersione profonda e alla cura della pelle, ideale per eliminare impurità, cellule morte e sebo in eccesso. La pelle appare così più pulita, luminosa, morbida e fresca, pronta a ricevere al meglio i successivi trattamenti cosmetici.",
   },
   {
     name: "Manicure & Pedicure",
-    image: "/images/trattamenti/manicure-pedicure.svg",
+    image: manicurePedicure,
     description:
       "Un momento di cura e benessere dedicato a mani e piedi. Il trattamento comprende la cura delle unghie e delle cuticole, per un risultato ordinato, elegante e curato. Un piccolo rituale di bellezza per donare a mani e piedi un aspetto morbido, armonioso e impeccabile.",
   },
   {
     name: "Semipermanente Mani & Piedi",
-    image: "/images/trattamenti/semipermanente.svg",
+    image: semipermanente,
     description:
       "Colore, brillantezza e cura in un unico trattamento. Il semipermanente valorizza mani e piedi con un risultato elegante, uniforme e duraturo, per un look sempre impeccabile.",
   },
   {
     name: "Gel e ricostruzione unghie",
-    image: "/images/trattamenti/gel-unghie.svg",
+    image: gelUnghie,
     description:
       "Un trattamento dedicato a chi desidera unghie curate, armoniose e impeccabili. Il gel permette di valorizzare la forma dell'unghia e creare un risultato elegante e personalizzato.",
   },
   {
     name: "Laser",
-    image: "/images/trattamenti/laser.svg",
+    image: laser,
     description:
       "Un trattamento professionale pensato per ridurre progressivamente la crescita dei peli, attraverso l'azione mirata del laser.\n\nUn percorso personalizzato in base alle caratteristiche della pelle e del pelo, per una pelle più liscia, uniforme e curata nel tempo.",
   },
   {
     name: "Ceretta",
-    image: "/images/trattamenti/ceretta.svg",
+    image: ceretta,
     description:
       "Un servizio di epilazione accurato e professionale, studiato per rimuovere i peli alla radice e lasciare la pelle liscia, uniforme e piacevolmente morbida.",
   },
   {
     name: "Pressoterapia",
-    image: "/images/trattamenti/pressoterapia.svg",
+    image: pressoterapia,
     description:
       "Un trattamento dedicato al benessere e alla leggerezza delle gambe. Attraverso una piacevole compressione ritmica, la pressoterapia favorisce il drenaggio dei liquidi e la circolazione, aiutando a ridurre la sensazione di pesantezza e donando una piacevole sensazione di leggerezza.\n\nUn momento di relax e benessere ideale per prendersi cura delle proprie gambe.",
   },
   {
     name: "Massaggi",
-    image: "/images/trattamenti/massaggi.svg",
+    image: massaggi,
     description:
       "Un momento dedicato al benessere, per sciogliere le tensioni, ritrovare leggerezza e concedersi una piacevole pausa dedicata a te stessa.\n\nMassaggi decontratturanti schiena, benessere corpo, linfodrenanti e rimodellanti, pensati e personalizzati in base alle esigenze del corpo.",
   },
