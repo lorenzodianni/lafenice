@@ -1,7 +1,7 @@
 # La Fenice: sito vetrina
 
-Sito del Centro Estetico La Fenice (Novara, titolare Micaela Brunetti). Obiettivi:
-mostrare il centro e il primo prodotto (Detergente viso Rinascita), raccogliere
+Sito del Centro Estetico La Fenice (Cinisello Balsamo, titolare Micaela Brunetti). Obiettivi:
+mostrare il centro e il primo prodotto (Detergente viso Nuvola), raccogliere
 **preordini** (nessun pagamento online) e **iscrizioni newsletter/promo**.
 Solo italiano, mobile first, ottimizzato per SEO e motori AI. Possibile migrazione
 futura a **Shopify Hydrogen**: ogni scelta deve facilitarla.
@@ -81,7 +81,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 
 ## URL (convenzioni Shopify → zero redirect in migrazione)
 - `/` home: hero, teaser prodotto (CTA verso la scheda), trattamenti, studio, contatti
-- `/products/detergente-viso-rinascita` scheda prodotto + **unico** form preordine
+- `/products/detergente-viso-nuvola` scheda prodotto + **unico** form preordine
 - `/pages/grazie-preordine` destinazione dopo l'invio (redirect, `noindex`)
 - `/pages/newsletter` riceve tutti i form newsletter e ne mostra gli errori;
   `/pages/grazie-newsletter` dopo l'invio, `/pages/iscrizione-confermata` dopo il
