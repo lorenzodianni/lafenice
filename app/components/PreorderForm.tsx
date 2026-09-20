@@ -46,6 +46,17 @@ export function PreorderForm({
         </p>
       )}
 
+      {/* The order is concluded by email, so this is where the visitor is
+          told how it works, before sending anything. The detail (price,
+          shipping, payment, withdrawal) is in the sale terms. */}
+      <p className={styles.intro}>
+        Il modulo è una richiesta, non un ordine. Ti rispondiamo per email con
+        disponibilità, totale e spese di spedizione: l'ordine si conclude solo
+        quando lo confermi, pagando in negozio al ritiro o con bonifico se
+        preferisci riceverlo a casa.{" "}
+        <a href="/policies/terms-of-service">Condizioni di vendita</a>.
+      </p>
+
       <div className={styles.grid}>
         <div className={styles.field}>
           <label htmlFor="preorder-name">Nome e cognome *</label>
@@ -99,7 +110,7 @@ export function PreorderForm({
           {...field("notes")}
           rows={3}
           maxLength={1000}
-          placeholder="Città di consegna, richieste particolari..."
+          placeholder="Ritiro in negozio o spedizione? Richieste particolari..."
           defaultValue={values?.notes}
         />
         {error("notes")}
