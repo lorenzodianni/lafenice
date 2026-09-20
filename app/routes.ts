@@ -8,4 +8,10 @@ export default [
   route("pages/newsletter", "routes/newsletter.tsx"),
   route("pages/grazie-newsletter", "routes/newsletter-thanks.tsx"),
   route("pages/iscrizione-confermata", "routes/newsletter-confirmed.tsx"),
+  route("policies/privacy-policy", "routes/privacy.tsx"),
+  // Resource routes: a loader, no component. Prerendered to files with
+  // these exact names (build/client/sitemap.xml and so on).
+  route("sitemap.xml", "routes/sitemap.ts"),
+  route("robots.txt", "routes/robots.ts"),
+  route("llms.txt", "routes/llms.ts"),
 ] satisfies RouteConfig;

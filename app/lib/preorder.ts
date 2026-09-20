@@ -5,6 +5,8 @@ export const quantities = ["1", "2", "3", "4", "5 o più"];
 
 const PHONE = /^[+\d\s().-]*$/;
 
+// The privacy page lists these fields and says which are required: keep the
+// two in sync, it is what the visitor consents to.
 export type PreorderValues = {
   name: string;
   email: string;

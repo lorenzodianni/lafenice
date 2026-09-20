@@ -4,10 +4,9 @@ Solo cose non ancora decise o a metà. Chiuso un punto: il perché va nel commit
 punto si toglie da qui.
 
 ## Prossimo passo
-- Privacy policy (`/policies/privacy-policy`, già linkata da footer e form:
-  404 finché non esiste), sitemap/robots/llms.txt.
-- Prima di collegare Cloudflare (go-live): privacy deve esistere, i `PLACEHOLDER`
-  vanno sostituiti (altrimenti Google indicizza dati finti) e Brevo configurato.
+- Prima di collegare Cloudflare (go-live): il testo della privacy va validato da
+  un consulente, i `PLACEHOLDER` vanno sostituiti (altrimenti Google indicizza
+  dati finti) e Brevo configurato.
   Serve anche una regola di rate limiting Cloudflare (WAF, da dashboard) sulle POST
   a `/pages/newsletter` e `/products/*`: con il solo honeypot uno script può far
   partire email di double opt-in verso indirizzi altrui, consumando la quota Brevo
@@ -31,7 +30,6 @@ punto si toglie da qui.
 - Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
   (71x92, 2x della dimensione mostrata) e `public/favicon.png`, entrambi ricavati
   dal PNG 220x284 incluso in `docs/mockup.html`.
-- Testo privacy policy: da far validare a un consulente.
 
 ## Account da creare (a carico del cliente)
 - Cloudflare: dominio + DNS, Workers, Web Analytics. Workers Builds collegato al

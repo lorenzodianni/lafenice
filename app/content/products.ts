@@ -34,4 +34,10 @@ export const products = [
   },
 ];
 
+// Prices are strings (Shopify sends them as strings too): format, never do math.
+export const euro = new Intl.NumberFormat("it-IT", {
+  style: "currency",
+  currency: "EUR",
+});
+
 export type Product = (typeof products)[number];

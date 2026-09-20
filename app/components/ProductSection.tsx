@@ -1,11 +1,6 @@
 import { useId } from "react";
-import type { Product } from "~/content/products";
+import { euro, type Product } from "~/content/products";
 import styles from "./ProductSection.module.scss";
-
-const euro = new Intl.NumberFormat("it-IT", {
-  style: "currency",
-  currency: "EUR",
-});
 
 // The mockup's product block. The home renders it as a teaser (h2 + link to
 // the product page); the product page renders it as the main content (h1 +
