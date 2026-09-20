@@ -42,7 +42,8 @@ export function Footer({ newsletter }: { newsletter: boolean }) {
         )}
         <p className={styles.legal}>
           © 2026 {site.legalName} · {fullAddress} · P.IVA {site.vatId} ·{" "}
-          <a href="/policies/privacy-policy">Privacy</a>
+          <a href="/policies/privacy-policy">Privacy</a> ·{" "}
+          <a href="/policies/terms-of-service">Condizioni di vendita</a>
         </p>
       </div>
     </footer>

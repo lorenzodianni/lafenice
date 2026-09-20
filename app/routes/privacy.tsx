@@ -1,6 +1,6 @@
 import { fullAddress, phoneHref, site } from "~/content/site";
 import { pageMeta } from "~/lib/seo";
-import styles from "./privacy.module.scss";
+import styles from "./legal.module.scss";
 
 // PLACEHOLDER: draft written from what the site actually does (see brevo.ts,
 // preorder.ts, newsletter.ts). A consultant has to validate it before the go

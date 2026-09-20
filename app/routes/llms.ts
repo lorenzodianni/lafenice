@@ -33,7 +33,7 @@ export function loader() {
 [${product.title}](${productUrl}): ${summary(product.description)}
 
 - Prezzo: ${euro.format(Number(product.price))}, ${product.shippingNote.toLowerCase()}
-- Preordine: dal sito, senza alcun pagamento online. Il centro ricontatta chi ordina per confermare disponibilità e tempi.
+- Preordine: dal sito, senza alcun pagamento online. Il centro risponde per email con totale, spedizione e tempi; si paga in negozio al ritiro oppure con bonifico se il prodotto viene spedito.
 - Consegna: ${product.delivery}
 
 ## Trattamenti
@@ -48,6 +48,7 @@ I trattamenti non si prenotano online: si fissano per telefono o in negozio.
 - [${product.title}](${productUrl}): scheda e modulo di preordine
 - [Newsletter](${site.url}/pages/newsletter): iscrizione a novità e promozioni
 - [Informativa privacy](${site.url}/policies/privacy-policy)
+- [Condizioni di vendita](${site.url}/policies/terms-of-service): preordine, spedizione, pagamento, recesso
 `;
   return new Response(body, {
     headers: { "content-type": "text/plain; charset=utf-8" },
