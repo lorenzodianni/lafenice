@@ -7,8 +7,6 @@ import {
   treatments,
 } from "~/content/site";
 
-// PLACEHOLDER: the payment means in the preorder line, like terms.tsx and
-// PreorderForm.tsx, wait for the client's answer (docs/domande-cliente.md).
 // llms.txt: the whole site as plain markdown, so an assistant answering about
 // the centre reads the same facts as the pages, from app/content/. The page
 // list at the bottom mirrors the one in sitemap.ts.
@@ -35,7 +33,8 @@ export function loader() {
 [${product.title}](${productUrl}): ${summary(product.description)}
 
 - Prezzo: ${euro.format(Number(product.price))}, ${product.shippingNote.toLowerCase()}
-- Preordine: dal sito, senza alcun pagamento online. Il centro risponde per email con totale, spedizione e tempi; si paga in negozio al ritiro oppure con bonifico se il prodotto viene spedito.
+- Preordine: dal sito, senza alcun pagamento online. Il centro risponde per email con totale, spedizione e tempi, e l'ordine si conclude quando il cliente conferma.
+- Pagamento: ${product.paymentNote.toLowerCase()}
 - Consegna: ${product.delivery}
 
 ## Trattamenti

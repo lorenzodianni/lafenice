@@ -34,11 +34,14 @@ quei due testi.
 
 ## Prodotto Nuvola
 
-- Prezzo 14,90 euro confermato? È il prezzo finale IVA inclusa, cioè quello che
-  il cliente paga?
+- Prezzo 14,90 euro confermato? È il prezzo finale, cioè quello che il cliente
+  paga? Ed è in regime forfettario o applica l'IVA? Cambia cosa scriviamo nelle
+  condizioni di vendita e cosa deve dire in fattura.
 - Spedizione: quanto costa? È gratis sopra una certa cifra? Con quale corriere?
   Oggi il sito dice che l'importo arriva via email, che è il minimo consentito
   quando dipende dalla destinazione, ma una cifra sulla scheda vende di più.
+- Spedisce solo in Italia? Le condizioni di vendita oggi dicono così, ma non
+  glielo abbiamo mai chiesto e il modulo non filtra la destinazione.
 - Quali mezzi di pagamento accetta per la spedizione oltre al bonifico
   (PayPal, Satispay, altro)? Vanno elencati nell'email al cliente prima che
   confermi, quindi servono per nome.

@@ -20,6 +20,9 @@ export function meta() {
 
 export default function Terms() {
   const mail = <a href={`mailto:${site.email}`}>{site.email}</a>;
+  // The preorder thread lives on ordersEmail, so a withdrawal declaration has
+  // to land there: site.ts keeps the two apart on purpose (see rollout.md).
+  const orders = <a href={`mailto:${site.ordersEmail}`}>{site.ordersEmail}</a>;
 
   return (
     <main className={`wrap section ${styles.page}`}>
@@ -46,13 +49,15 @@ export default function Terms() {
         non ti impegna a nulla e non comporta alcun pagamento.
       </p>
       <ol>
-        <li>Ci mandi la richiesta dal sito.</li>
+        <li>
+          Ci mandi la richiesta dal sito, dicendoci se vuoi ritirare in negozio
+          o ricevere il prodotto a casa.
+        </li>
         <li>
           Ti rispondiamo per email con la disponibilità, il prezzo totale, le
           eventuali spese di spedizione, i mezzi di pagamento e i tempi di
           consegna.
         </li>
-        <li>Scegli se ritirare in negozio o ricevere il prodotto a casa.</li>
         <li>
           L'ordine si conclude quando lo confermi: <b>in negozio</b>, al momento
           del ritiro e del pagamento, oppure <b>per email</b>, se chiedi la
@@ -66,10 +71,13 @@ export default function Terms() {
 
       <h2>Prezzi e spese di spedizione</h2>
       <p>
-        Il prezzo indicato sul sito è in euro e comprende l'IVA. Le spese di
-        spedizione sono escluse: dipendono dalla quantità e dalla destinazione,
-        e te le comunichiamo nell'email di risposta prima della conferma. Con il
-        ritiro in negozio non ci sono spese di spedizione.
+        {/* PLACEHOLDER: in regime forfettario there is no VAT to include, so
+            this says "final price" until the client confirms which applies. */}
+        Il prezzo indicato sul sito è in euro ed è il prezzo finale, senza costi
+        aggiuntivi oltre alla spedizione. Le spese di spedizione sono escluse:
+        dipendono dalla quantità e dalla destinazione, e te le comunichiamo
+        nell'email di risposta prima della conferma. Con il ritiro in negozio
+        non ci sono spese di spedizione.
       </p>
 
       <h2>Pagamento</h2>
@@ -82,6 +90,7 @@ export default function Terms() {
       </p>
 
       <h2>Consegna</h2>
+      {/* PLACEHOLDER: which countries she ships to has never been asked. */}
       <p>
         Consegniamo in Italia. Il prodotto è in preordine: la data stimata è
         quella indicata nella scheda del prodotto e te la confermiamo per email
@@ -110,8 +119,8 @@ export default function Terms() {
       </p>
       <p>
         Per esercitarlo ti basta dircelo entro i 14 giorni con una dichiarazione
-        esplicita: una email a {mail} oppure il modulo qui sotto. Ti confermiamo
-        di averla ricevuta.
+        esplicita: una email a {orders} oppure il modulo qui sotto. Ti
+        confermiamo di averla ricevuta.
       </p>
       <p>
         {/* PLACEHOLDER: who pays the return shipping. Saying nothing means
@@ -134,7 +143,7 @@ export default function Terms() {
       <h3>Modulo tipo di recesso</h3>
       <p>Compilalo e inviacelo solo se vuoi recedere dal contratto.</p>
       <pre className={styles.formModel}>
-        {`Destinatario: ${site.legalName}, ${fullAddress}, ${site.email}
+        {`Destinatario: ${site.legalName}, ${fullAddress}, tel. ${site.phone}, ${site.ordersEmail}
 
 Con la presente io/noi comunico/comunichiamo il recesso dal mio/nostro contratto di vendita dei seguenti beni:
 

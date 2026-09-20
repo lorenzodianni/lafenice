@@ -70,7 +70,8 @@ export default function Privacy() {
           <b>Gestire il tuo preordine</b> e ricontattarti per confermare
           disponibilità, tempi e modalità di consegna: base giuridica art. 6.1
           lett. b del GDPR (misure precontrattuali adottate su tua richiesta).
-          Nome ed email sono necessari: senza non possiamo risponderti.
+          Nome, email e la scelta tra ritiro e spedizione sono necessari: senza
+          non possiamo risponderti né dirti quanto costa.
         </li>
         <li>
           <b>Inviarti novità e promozioni</b>: base giuridica art. 6.1 lett. a

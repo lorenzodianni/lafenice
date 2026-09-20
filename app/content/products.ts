@@ -25,6 +25,8 @@ export const products = [
     },
     price: "14.90",
     shippingNote: "Spedizione esclusa, calcolata via email", // PLACEHOLDER: cost not confirmed
+    // PLACEHOLDER: which means she takes besides the bank transfer.
+    paymentNote: "In negozio al ritiro, con bonifico se spedito",
     delivery: "circa 2-3 settimane", // PLACEHOLDER
     highlights: [
       "Senza pagamento online",

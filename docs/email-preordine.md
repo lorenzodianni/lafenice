@@ -36,13 +36,13 @@ chi legge il sito prima di scrivere, ma non sostituisce l'email.
 >
 > Ciao [NOME],
 >
-> grazie per la richiesta. Ti confermo che il prodotto sarà disponibile
-> indicativamente [DATA/PERIODO]: te ne metto da parte [QUANTITÀ] e ti avviso
-> appena arriva.
+> grazie per la richiesta. Il prodotto sarà disponibile indicativamente
+> [DATA/PERIODO]: ti avviso appena arriva e lo tengo da parte per qualche
+> giorno, senza nessun impegno da parte tua.
 >
-> Il prezzo è di [TOTALE] euro, IVA inclusa. Non devi anticipare nulla: paghi
-> qui in negozio quando vieni a ritirarlo, e in quel momento decidi se
-> confermare o lasciar perdere, senza impegno.
+> In negozio lo trovi a [PREZZO] euro. Non c'è niente da anticipare e niente da
+> confermare adesso: decidi quando vieni, e se non ti va più bene non serve
+> avvisarmi.
 >
 > Siamo in [INDIRIZZO], aperti [ORARI].
 >
@@ -52,7 +52,9 @@ chi legge il sito prima di scrivere, ma non sostituisce l'email.
 
 Da non scrivere in questa email: "ordine confermato", "procedo con l'ordine",
 un totale presentato come già dovuto, o la richiesta di rispondere per
-accettare. Sono le frasi che spostano la vendita online.
+accettare. Sono le frasi che spostano la vendita online. Per lo stesso motivo
+qui si dice il prezzo del prodotto e non un totale, e si parla di tenerlo da
+parte, non di riservarlo a fronte di un ordine.
 
 ---
 
@@ -99,7 +101,7 @@ impegni. Le parti tra parentesi quadre vanno compilate.
 >
 > **Modulo tipo di recesso** (compilalo solo se vuoi recedere):
 >
-> Destinatario: Micaela Brunetti, [INDIRIZZO], [EMAIL]
+> Destinatario: Micaela Brunetti, [INDIRIZZO], tel. [TELEFONO], [EMAIL]
 > Con la presente io/noi comunico/comunichiamo il recesso dal mio/nostro
 > contratto di vendita dei seguenti beni:
 > Ordinato il / ricevuto il:

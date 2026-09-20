@@ -88,7 +88,9 @@ export async function sendPreorder(
       sender: { name: `Sito ${site.name}`, email: site.ordersEmail },
       to: [{ email: site.ordersEmail }],
       replyTo: { email: values.email, name: values.name },
-      subject: `Preordine ${productTitle}: ${values.quantity} da ${values.name}`,
+      // The delivery choice is in the subject: it picks the reply model (see
+      // docs/email-preordine.md), so it has to be readable from the inbox list.
+      subject: `Preordine ${productTitle}: ${values.quantity}, ${values.delivery.toLowerCase()}, da ${values.name}`,
       textContent: [
         `Nuova richiesta di preordine (senza pagamento) per ${productTitle}.`,
         "",

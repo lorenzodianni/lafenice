@@ -127,7 +127,7 @@ export function PreorderForm({
           {...field("notes")}
           rows={3}
           maxLength={1000}
-          placeholder="Richieste particolari, domande sul prodotto..."
+          placeholder="Se vuoi la spedizione, la città di consegna. Oppure richieste particolari..."
           defaultValue={values?.notes}
         />
         {error("notes")}
@@ -171,6 +171,9 @@ export function PreorderForm({
         <button type="submit" className="btn">
           Invia richiesta di preordine
         </button>
+        {/* The intro says it too, but on a phone it has scrolled away by the
+            time you reach the button, which is where people hesitate. */}
+        <span className={styles.hint}>Nessun pagamento ora.</span>
       </div>
     </Form>
   );
