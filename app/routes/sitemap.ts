@@ -2,7 +2,8 @@ import { products } from "~/content/products";
 import { site } from "~/content/site";
 
 // Only the indexable pages: the thank-you pages are `noindex` (see seo.ts), so
-// listing them would send crawlers where we ask them not to look.
+// listing them would send crawlers where we ask them not to look. A new page
+// goes here and in the list at the bottom of llms.ts.
 const paths = [
   "/",
   ...products.map((p) => `/products/${p.handle}`),

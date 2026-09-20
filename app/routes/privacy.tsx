@@ -1,9 +1,10 @@
-import { fullAddress, site } from "~/content/site";
+import { fullAddress, phoneHref, site } from "~/content/site";
 import { pageMeta } from "~/lib/seo";
 import styles from "./privacy.module.scss";
 
-// Draft written from what the site actually does (see brevo.ts, preorder.ts,
-// newsletter.ts): before the go live a consultant has to validate it.
+// PLACEHOLDER: draft written from what the site actually does (see brevo.ts,
+// preorder.ts, newsletter.ts). A consultant has to validate it before the go
+// live, and the field lists below have to follow parsePreorder/parseNewsletter.
 export function meta() {
   return pageMeta(
     {
@@ -32,7 +33,7 @@ export default function Privacy() {
         <br />
         Per ogni richiesta puoi scriverci a{" "}
         <a href={`mailto:${site.email}`}>{site.email}</a> o chiamare il{" "}
-        {site.phone}.
+        <a href={phoneHref}>{site.phone}</a>.
         <br />
         Non abbiamo nominato un responsabile della protezione dei dati (DPO): la
         nostra attività non rientra tra quelle che ne impongono la nomina.
@@ -41,8 +42,8 @@ export default function Privacy() {
       <h2>Quali dati raccogliamo</h2>
       <ul>
         <li>
-          <b>Modulo di preordine</b>: nome ed email (obbligatori), telefono,
-          quantità e note (facoltativi), la presa visione di questa informativa
+          <b>Modulo di preordine</b>: nome, email e quantità (obbligatori),
+          telefono e note (facoltativi), la presa visione di questa informativa
           e l'eventuale consenso a ricevere novità e promozioni.
         </li>
         <li>

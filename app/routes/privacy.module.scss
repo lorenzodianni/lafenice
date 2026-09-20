@@ -17,7 +17,9 @@
     margin-bottom: 10px;
   }
 
-  a[href] {
+  // Scoped to the prose: a bare `a` here would also repaint a global .btn,
+  // since module rules win over the base layer.
+  :is(p, li) a {
     color: var(--plum);
     text-decoration: underline;
   }
