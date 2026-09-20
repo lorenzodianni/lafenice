@@ -14,14 +14,20 @@ punto si toglie da qui.
   che serve anche alle notifiche dei preordini.
 
 ## Dati mancanti dal cliente (nel mockup sono placeholder)
-- Ragione sociale, P.IVA, indirizzo, telefono, numero WhatsApp, orari, URL social,
-  anno di apertura (badge "Dal 2014"). Tutti marcati `PLACEHOLDER` in `app/content/`.
-- Dominio: `lafenice-estetica.it` è reale/registrato? Quali caselle esistono
-  (info@, ordini@) e dove vanno inoltrate (Cloudflare Email Routing)?
-- Prodotto: prezzo (`price` in `products.ts`; senza prezzo il JSON-LD `Offer` non è
-  idoneo ai rich result), formato/ml, INCI, foto reali, tempi di consegna.
-- Foto reali del centro (hero, studio). Ora in `app/assets/` ci sono i placeholder
-  SVG del mockup.
+- Ragione sociale, orari, URL social, anno di apertura (badge "Dal 2014": l'email
+  `c.elafenice2020@` fa pensare al 2020). Marcati `PLACEHOLDER` in `app/content/`.
+- WhatsApp: 371 457 1906 è un mobile, va abilitato come WhatsApp (`site.whatsapp`)?
+- Dominio: `lafenice-estetica.it` è reale/registrato? Oggi email e ordini vanno alla
+  casella Gmail: come mittente Brevo non è autenticabile (niente DKIM su gmail.com),
+  quindi le notifiche dei preordini rischiano lo spam. Con un dominio proprio si
+  risolve (Cloudflare Email Routing + mittente autenticato).
+  Prima del go-live serve un preordine di prova con la chiave vera: se Brevo
+  rifiuta un mittente su dominio gratuito, `sendPreorder` lancia e il form
+  risponde 502, cioè il preordine non si può inviare affatto.
+- Prodotto: costo di spedizione (ora "Spedizione esclusa" senza importo),
+  formato/ml, INCI, foto reali, tempi di consegna.
+- Foto reali del centro (hero: 3 slide) e dei trattamenti (8 card). Ora sono
+  placeholder SVG in `app/assets/`.
 - Logo vettoriale (SVG) o PNG ad alta risoluzione. Ora: `app/assets/logo.webp`
   (71x92, 2x della dimensione mostrata) e `public/favicon.png`, entrambi ricavati
   dal PNG 220x284 incluso in `docs/mockup.html`.

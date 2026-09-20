@@ -1,3 +1,12 @@
+import ceretta from "~/assets/trattamenti/ceretta.svg";
+import gelUnghie from "~/assets/trattamenti/gel-unghie.svg";
+import laser from "~/assets/trattamenti/laser.svg";
+import manicurePedicure from "~/assets/trattamenti/manicure-pedicure.svg";
+import massaggi from "~/assets/trattamenti/massaggi.svg";
+import pressoterapia from "~/assets/trattamenti/pressoterapia.svg";
+import puliziaViso from "~/assets/trattamenti/pulizia-viso.svg";
+import semipermanente from "~/assets/trattamenti/semipermanente.svg";
+
 // Single source for business facts: UI, JSON-LD, sitemap and llms.txt read from here.
 // PLACEHOLDER marks values copied from the mockup that the client must confirm
 // (see worklog.md).
@@ -6,23 +15,23 @@ export const site = {
   url: "https://www.lafenice-estetica.it", // PLACEHOLDER: domain not confirmed
   name: "La Fenice",
   legalName: "Centro Estetico La Fenice", // PLACEHOLDER
-  vatId: "00000000000", // PLACEHOLDER
+  vatId: "11407830964",
   kind: "Centro Estetico",
   description:
-    "Centro estetico a Novara: trattamenti viso e corpo su misura, massaggi, epilazione e make-up in uno spazio dove prendersi cura di sé è un rito.",
+    "Centro estetico a Cinisello Balsamo (Milano): pulizia viso, manicure e pedicure, ricostruzione unghie, laser, ceretta, pressoterapia e massaggi su misura.",
   foundingYear: 2014, // PLACEHOLDER
   owner: { name: "Micaela Brunetti", role: "Titolare ed estetista" },
   address: {
-    street: "Via Esempio 12", // PLACEHOLDER
-    postalCode: "28100",
-    city: "Novara",
-    province: "NO",
+    street: "Via Luigi Pirandello 1",
+    postalCode: "20092",
+    city: "Cinisello Balsamo",
+    province: "MI",
     country: "IT",
   },
-  phone: "+39 0321 000 000", // PLACEHOLDER
+  phone: "+39 371 457 1906",
   whatsapp: "", // PLACEHOLDER: empty = hidden
-  email: "info@lafenice-estetica.it", // PLACEHOLDER
-  ordersEmail: "ordini@lafenice-estetica.it", // PLACEHOLDER: receives preorders
+  email: "c.elafenice2020@gmail.com",
+  ordersEmail: "c.elafenice2020@gmail.com", // receives preorders
   // PLACEHOLDER. schema.org day names; labels and closed days are derived below.
   hours: [
     {
@@ -36,42 +45,58 @@ export const site = {
   social: { Instagram: "", Facebook: "" }, // PLACEHOLDER: empty = hidden
 };
 
+// Copy from the client. Blank lines inside a description separate real
+// paragraphs: the cards split on them and render one `<p>` each.
+// PLACEHOLDER images: real photos pending. Imported, not public/ URLs:
+// they are decorative, no JSON-LD needs their URL to stay stable.
 export const treatments = [
   {
-    name: "Viso",
+    name: "Pulizia Viso",
+    image: puliziaViso,
     description:
-      "Pulizie profonde, trattamenti illuminanti e protocolli anti-età personalizzati.",
-    duration: "da 45 min",
+      "Un trattamento dedicato alla detersione profonda e alla cura della pelle, ideale per eliminare impurità, cellule morte e sebo in eccesso. La pelle appare così più pulita, luminosa, morbida e fresca, pronta a ricevere al meglio i successivi trattamenti cosmetici.",
   },
   {
-    name: "Corpo",
+    name: "Manicure & Pedicure",
+    image: manicurePedicure,
     description:
-      "Trattamenti rassodanti, drenanti e rituali di idratazione per una pelle rinnovata.",
-    duration: "da 60 min",
+      "Un momento di cura e benessere dedicato a mani e piedi. Il trattamento comprende la cura delle unghie e delle cuticole, per un risultato ordinato, elegante e curato. Un piccolo rituale di bellezza per donare a mani e piedi un aspetto morbido, armonioso e impeccabile.",
   },
   {
-    name: "Mani & Piedi",
+    name: "Semipermanente Mani & Piedi",
+    image: semipermanente,
     description:
-      "Manicure e pedicure curative ed estetiche, con finiture semipermanenti.",
-    duration: "da 40 min",
+      "Colore, brillantezza e cura in un unico trattamento. Il semipermanente valorizza mani e piedi con un risultato elegante, uniforme e duraturo, per un look sempre impeccabile.",
   },
   {
-    name: "Epilazione",
+    name: "Gel e ricostruzione unghie",
+    image: gelUnghie,
     description:
-      "Ceretta e trattamenti delicati, con attenzione alle pelli più sensibili.",
-    duration: "da 20 min",
+      "Un trattamento dedicato a chi desidera unghie curate, armoniose e impeccabili. Il gel permette di valorizzare la forma dell'unghia e creare un risultato elegante e personalizzato.",
+  },
+  {
+    name: "Laser",
+    image: laser,
+    description:
+      "Un trattamento professionale pensato per ridurre progressivamente la crescita dei peli, attraverso l'azione mirata del laser.\n\nUn percorso personalizzato in base alle caratteristiche della pelle e del pelo, per una pelle più liscia, uniforme e curata nel tempo.",
+  },
+  {
+    name: "Ceretta",
+    image: ceretta,
+    description:
+      "Un servizio di epilazione accurato e professionale, studiato per rimuovere i peli alla radice e lasciare la pelle liscia, uniforme e piacevolmente morbida.",
+  },
+  {
+    name: "Pressoterapia",
+    image: pressoterapia,
+    description:
+      "Un trattamento dedicato al benessere e alla leggerezza delle gambe. Attraverso una piacevole compressione ritmica, la pressoterapia favorisce il drenaggio dei liquidi e la circolazione, aiutando a ridurre la sensazione di pesantezza e donando una piacevole sensazione di leggerezza.\n\nUn momento di relax e benessere ideale per prendersi cura delle proprie gambe.",
   },
   {
     name: "Massaggi",
+    image: massaggi,
     description:
-      "Rilassanti, decontratturanti e drenanti per sciogliere tensioni e ritrovare leggerezza.",
-    duration: "da 50 min",
-  },
-  {
-    name: "Make-up",
-    description:
-      "Trucco giorno, evento e spose, con consulenza personalizzata sui tuoi tratti.",
-    duration: "su appuntamento",
+      "Un momento dedicato al benessere, per sciogliere le tensioni, ritrovare leggerezza e concedersi una piacevole pausa dedicata a te stessa.\n\nMassaggi decontratturanti schiena, benessere corpo, linfodrenanti e rimodellanti, pensati e personalizzati in base alle esigenze del corpo.",
   },
 ];
 

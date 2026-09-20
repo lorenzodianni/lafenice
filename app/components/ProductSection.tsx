@@ -2,6 +2,11 @@ import { useId } from "react";
 import type { Product } from "~/content/products";
 import styles from "./ProductSection.module.scss";
 
+const euro = new Intl.NumberFormat("it-IT", {
+  style: "currency",
+  currency: "EUR",
+});
+
 // The mockup's product block. The home renders it as a teaser (h2 + link to
 // the product page); the product page renders it as the main content (h1 +
 // preorder form), so the image is its LCP and loads eagerly.
@@ -19,6 +24,7 @@ export function ProductSection({
   const titleId = useId();
   const isPage = Heading === "h1";
   const [before, after] = product.title.split(product.titleAccent);
+  const paragraphs = product.description.split("\n\n");
 
   return (
     <section
@@ -58,7 +64,17 @@ export function ProductSection({
               </>
             )}
           </Heading>
-          <p className={styles.desc}>{product.description}</p>
+          <div className={styles.desc}>
+            {/* The home is a teaser: the whole copy would make it a duplicate
+                of the product page for a crawler. */}
+            {(isPage ? paragraphs : paragraphs.slice(0, 1)).map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </div>
+          <p className={styles.price}>
+            <b>{euro.format(Number(product.price))}</b>
+            <span>{product.shippingNote}</span>
+          </p>
           <ul className={styles.highlights}>
             {product.highlights.map((h) => (
               <li key={h}>{h}</li>

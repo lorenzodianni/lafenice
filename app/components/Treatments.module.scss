@@ -34,56 +34,53 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  // Between the two: four columns here would be too narrow for the copy.
   @include up(md) {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  // Eight treatments: four columns are two full rows, three would leave two
+  // cards alone on the last one.
+  @include up(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
+// Not a link: no hover lift, no pointer affordance. Booking happens in the
+// contacts section, not here.
 .card {
-  position: relative;
   overflow: hidden;
-  padding: 26px 24px 24px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+}
 
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--plum);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.35s;
-  }
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--pink-soft);
+}
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 22px 40px -24px rgba(58, 21, 38, 0.4);
-
-    &::after {
-      transform: scaleY(1);
-    }
-  }
+.body {
+  padding: 22px 24px 26px;
 
   h3 {
-    margin: 12px 0 8px;
+    margin: 10px 0 8px;
     font-size: 22px;
     font-weight: 500;
     line-height: 1.1;
   }
 
   p {
-    margin: 0;
+    margin: 0 0 14px;
     color: var(--muted);
     font-size: 14.5px;
     line-height: 1.6;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -92,11 +89,3 @@
   font: italic 500 13px var(--serif);
 }
 
-.tag {
-  display: block;
-  margin-top: 16px;
-  color: var(--plum);
-  font: 700 11px var(--sans);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}

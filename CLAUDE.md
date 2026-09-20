@@ -1,7 +1,7 @@
 # La Fenice: sito vetrina
 
-Sito del Centro Estetico La Fenice (Novara, titolare Micaela Brunetti). Obiettivi:
-mostrare il centro e il primo prodotto (Detergente viso Rinascita), raccogliere
+Sito del Centro Estetico La Fenice (Cinisello Balsamo, titolare Micaela Brunetti). Obiettivi:
+mostrare il centro e il primo prodotto (Detergente viso Nuvola), raccogliere
 **preordini** (nessun pagamento online) e **iscrizioni newsletter/promo**.
 Solo italiano, mobile first, ottimizzato per SEO e motori AI. Possibile migrazione
 futura a **Shopify Hydrogen**: ogni scelta deve facilitarla.
@@ -29,7 +29,15 @@ desktop-first con dati placeholder: il sito no.
   action: il prerender gira in Node e un import statico rompe la build.
 - **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
   una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
-  pagine sono HTML + CSS; l'unico JS è lo script inline che chiude il menu mobile.
+  pagine sono HTML + CSS. Il JS sul client è solo: due script inline (menu
+  mobile, slider hero) e `@blossom-carousel/web` (~9 kB gzip), che aggiunge il
+  drag col puntatore sopra lo scroll nativo di `<blossom-carousel>`. Si carica
+  come `<script type="module">` da un import `?url`, mai come import normale:
+  il prerender gira nel Worker, che non ha `customElements`. Frecce, pallini,
+  autoplay e loop infinito (tre copie delle slide, si resta nella copia di
+  mezzo) sono nostri: i controlli di Blossom tengono un indice interno che i
+  salti del loop renderebbero sbagliato. Senza JS lo slider resta usabile
+  (scorre e fa snap, sono nostri gli stili) e le frecce restano nascoste.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.
@@ -81,7 +89,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 
 ## URL (convenzioni Shopify → zero redirect in migrazione)
 - `/` home: hero, teaser prodotto (CTA verso la scheda), trattamenti, studio, contatti
-- `/products/detergente-viso-rinascita` scheda prodotto + **unico** form preordine
+- `/products/detergente-viso-nuvola` scheda prodotto + **unico** form preordine
 - `/pages/grazie-preordine` destinazione dopo l'invio (redirect, `noindex`)
 - `/pages/newsletter` riceve tutti i form newsletter e ne mostra gli errori;
   `/pages/grazie-newsletter` dopo l'invio, `/pages/iscrizione-confermata` dopo il
