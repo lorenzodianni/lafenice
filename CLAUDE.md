@@ -29,7 +29,7 @@ desktop-first con dati placeholder: il sito no.
   action: il prerender gira in Node e un import statico rompe la build.
 - **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
   una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
-  pagine sono HTML + CSS. Il JS sul client e solo: due script inline (menu
+  pagine sono HTML + CSS. Il JS sul client è solo: due script inline (menu
   mobile, slider hero) e `@blossom-carousel/web` (~9 kB gzip), che aggiunge il
   drag col puntatore sopra lo scroll nativo di `<blossom-carousel>`. Si carica
   come `<script type="module">` da un import `?url`, mai come import normale:

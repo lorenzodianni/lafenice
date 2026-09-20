@@ -89,7 +89,6 @@
 
 .dots {
   display: flex;
-  gap: 9px;
   position: absolute;
   left: 50%;
   bottom: 22px;
@@ -106,19 +105,29 @@
   white-space: nowrap;
 }
 
+// The dot is drawn on the pseudo-element: the link itself is the 24px target
+// that a finger needs (WCAG 2.5.8).
 .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: var(--plum);
-  opacity: 0.3;
-  transition: opacity 0.2s;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
 
-  &:hover {
+  &::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--plum);
+    opacity: 0.3;
+    transition: opacity 0.2s;
+  }
+
+  &:hover::before {
     opacity: 0.55;
   }
 
-  &[aria-current="true"] {
+  &[aria-current="true"]::before {
     opacity: 1;
   }
 }

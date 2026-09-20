@@ -24,6 +24,7 @@ export function ProductSection({
   const titleId = useId();
   const isPage = Heading === "h1";
   const [before, after] = product.title.split(product.titleAccent);
+  const paragraphs = product.description.split("\n\n");
 
   return (
     <section
@@ -64,7 +65,9 @@ export function ProductSection({
             )}
           </Heading>
           <div className={styles.desc}>
-            {product.description.split("\n\n").map((p) => (
+            {/* The home is a teaser: the whole copy would make it a duplicate
+                of the product page for a crawler. */}
+            {(isPage ? paragraphs : paragraphs.slice(0, 1)).map((p) => (
               <p key={p}>{p}</p>
             ))}
           </div>

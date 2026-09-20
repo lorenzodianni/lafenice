@@ -21,6 +21,9 @@ punto si toglie da qui.
   casella Gmail: come mittente Brevo non è autenticabile (niente DKIM su gmail.com),
   quindi le notifiche dei preordini rischiano lo spam. Con un dominio proprio si
   risolve (Cloudflare Email Routing + mittente autenticato).
+  Prima del go-live serve un preordine di prova con la chiave vera: se Brevo
+  rifiuta un mittente su dominio gratuito, `sendPreorder` lancia e il form
+  risponde 502, cioè il preordine non si può inviare affatto.
 - Prodotto: costo di spedizione (ora "Spedizione esclusa" senza importo),
   formato/ml, INCI, foto reali, tempi di consegna.
 - Foto reali del centro (hero: 3 slide) e dei trattamenti (8 card). Ora sono

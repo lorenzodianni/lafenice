@@ -34,42 +34,50 @@ const COPIES = [0, 1, 2];
 const sliderScript = `(function(){
 var c=document.getElementById("${CAROUSEL_ID}"),box=c&&c.parentElement;
 if(!c)return;
-var n=${slides.length},dots=[].slice.call(box.querySelectorAll("[data-dot]"));
+var n=${slides.length},dots=[].slice.call(box.querySelectorAll("[data-dot]")),at=0,last=0;
 box.dataset.js="1";
 var still=matchMedia("(prefers-reduced-motion: reduce)").matches;
-var set=function(){return c.clientWidth*n};
-// "instant" and not a plain assignment: the library's CSS sets
-// scroll-behavior: smooth on the track, which would animate the jump and
-// fight the scroll still in flight.
-var jump=function(x){c.scrollTo({left:x,behavior:"instant"})};
-var start=function(){jump(set())};
-start();addEventListener("resize",start);
-var go=function(d){c.scrollBy({left:d*c.clientWidth,behavior:still?"auto":"smooth"})};
-box.querySelector("[data-prev]").onclick=function(){go(-1)};
-box.querySelector("[data-next]").onclick=function(){go(1)};
+// Fractional: clientWidth is rounded, and on a fractional viewport that
+// rounding drifts by a pixel per slide until the loop stops normalising.
+var wid=function(){return c.getBoundingClientRect().width};
+var set=function(){return wid()*n};
+// Never "auto": the library's CSS sets scroll-behavior: smooth on the track,
+// and "auto" defers to it, which would animate the jumps of the loop and the
+// reduced motion case too.
+var to=function(x,fast){c.scrollTo({left:x,behavior:fast||still?"instant":"smooth"})};
+var go=function(d){to(c.scrollLeft+d*wid())};
 var norm=function(){
-var w=c.clientWidth,s=set(),x=c.scrollLeft,off=x%w;
+var w=wid(),s=set(),x=c.scrollLeft,off=x%w;
 // Between two slides means the scroll is still running: the jump would land
 // off a slide.
 if(off>2&&off<w-2)return;
-if(x>=2*s)jump(x-s);else if(x<s)jump(x+s);
+if(x>=2*s)to(x-s,1);else if(x<s)to(x+s,1);
 };
+// Back to the middle copy, on the slide in view. Reading the width forces a
+// layout, so the first one waits for the frame instead of holding up the
+// parser.
+var home=function(){last=wid();to(set()+at*last,1)};
+requestAnimationFrame(home);
+// Only a real width change: on Android the URL bar collapsing fires resize.
+addEventListener("resize",function(){if(wid()!==last)home()});
+box.querySelector("[data-prev]").onclick=function(){go(-1)};
+box.querySelector("[data-next]").onclick=function(){go(1)};
 if("onscrollend" in c)c.addEventListener("scrollend",norm);
 else{var settle;c.addEventListener("scroll",function(){
 clearTimeout(settle);settle=setTimeout(norm,250)},{passive:true})}
-var at=0;
 c.addEventListener("scroll",function(){
-var i=Math.round(c.scrollLeft/c.clientWidth)%n;
+var i=Math.round(c.scrollLeft/wid())%n;
 if(i===at)return;
 at=i;
 dots.forEach(function(d,k){d.setAttribute("aria-current",k===i?"true":"false")});
 },{passive:true});
 dots.forEach(function(d,k){d.addEventListener("click",function(e){
-e.preventDefault();
-c.scrollTo({left:set()+k*c.clientWidth,behavior:still?"auto":"smooth"})})});
+e.preventDefault();to(set()+k*wid())})});
 if(still)return;
 var timer=setInterval(function(){if(!document.hidden)go(1)},6000);
-["pointerdown","keydown","wheel"].forEach(function(e){
+// No wheel: the hero fills the top of the page, so scrolling past it with the
+// pointer over it would stop the slideshow nobody touched.
+["pointerdown","keydown"].forEach(function(e){
 box.addEventListener(e,function(){clearInterval(timer)},{once:true,passive:true})});
 })()`;
 
@@ -112,9 +120,10 @@ export function Hero() {
                   src={src}
                   data-blossom-slide=""
                   // Decorative duplicates: one description is enough for the
-                  // whole set.
+                  // whole set, and it goes on the first one in the document,
+                  // which is what a crawler or a page without JS reads.
                   alt={
-                    copy === 1 && i === 0
+                    copy === 0 && i === 0
                       ? "Interni del centro estetico La Fenice"
                       : ""
                   }
