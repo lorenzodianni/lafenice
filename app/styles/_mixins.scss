@@ -4,6 +4,7 @@
 $breakpoints: (
   sm: 560px,
   md: 880px,
+  lg: 1120px,
 );
 
 @mixin up($name) {
