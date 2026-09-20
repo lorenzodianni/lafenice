@@ -1,6 +1,7 @@
 import { Form } from "react-router";
 import { site } from "~/content/site";
 import {
+  deliveryOptions,
   type PreorderErrors,
   type PreorderValues,
   quantities,
@@ -45,6 +46,19 @@ export function PreorderForm({
           <a href={`mailto:${site.ordersEmail}`}>{site.ordersEmail}</a>.
         </p>
       )}
+
+      {/* The order is concluded by email, so this is where the visitor is
+          told how it works, before sending anything. The detail (price,
+          shipping, payment, withdrawal) is in the sale terms.
+          PLACEHOLDER: "con bonifico" until the client says which other means
+          she takes (docs/domande-cliente.md). Same sentence in terms.tsx. */}
+      <p className={styles.intro}>
+        Il modulo è una richiesta, non un ordine. Ti rispondiamo per email con
+        disponibilità, totale e spese di spedizione: l'ordine si conclude solo
+        quando lo confermi, pagando in negozio al ritiro o con bonifico se
+        preferisci riceverlo a casa.{" "}
+        <a href="/policies/terms-of-service">Condizioni di vendita</a>.
+      </p>
 
       <div className={styles.grid}>
         <div className={styles.field}>
@@ -91,6 +105,20 @@ export function PreorderForm({
           </select>
           {error("quantity")}
         </div>
+        <div className={styles.field}>
+          <label htmlFor="preorder-delivery">Come vuoi riceverlo *</label>
+          <select
+            {...field("delivery")}
+            required
+            defaultValue={values?.delivery ?? ""}
+          >
+            <option value="">Scegli...</option>
+            {deliveryOptions.map((d) => (
+              <option key={d}>{d}</option>
+            ))}
+          </select>
+          {error("delivery")}
+        </div>
       </div>
 
       <div className={styles.field}>
@@ -99,7 +127,7 @@ export function PreorderForm({
           {...field("notes")}
           rows={3}
           maxLength={1000}
-          placeholder="Città di consegna, richieste particolari..."
+          placeholder="Se vuoi la spedizione, la città di consegna. Oppure richieste particolari..."
           defaultValue={values?.notes}
         />
         {error("notes")}
@@ -143,9 +171,9 @@ export function PreorderForm({
         <button type="submit" className="btn">
           Invia richiesta di preordine
         </button>
-        <span className={styles.hint}>
-          Nessun pagamento: ti ricontattiamo noi per confermare.
-        </span>
+        {/* The intro says it too, but on a phone it has scrolled away by the
+            time you reach the button, which is where people hesitate. */}
+        <span className={styles.hint}>Nessun pagamento ora.</span>
       </div>
     </Form>
   );

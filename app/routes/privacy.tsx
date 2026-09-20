@@ -1,6 +1,6 @@
 import { fullAddress, phoneHref, site } from "~/content/site";
 import { pageMeta } from "~/lib/seo";
-import styles from "./privacy.module.scss";
+import styles from "./legal.module.scss";
 
 // PLACEHOLDER: draft written from what the site actually does (see brevo.ts,
 // preorder.ts, newsletter.ts). A consultant has to validate it before the go
@@ -42,9 +42,10 @@ export default function Privacy() {
       <h2>Quali dati raccogliamo</h2>
       <ul>
         <li>
-          <b>Modulo di preordine</b>: nome ed email (obbligatori), quantità,
-          telefono e note (facoltativi), la presa visione di questa informativa
-          e l'eventuale consenso a ricevere novità e promozioni.
+          <b>Modulo di preordine</b>: nome, email e la scelta tra ritiro e
+          spedizione (obbligatori), quantità, telefono e note (facoltativi), la
+          presa visione di questa informativa e l'eventuale consenso a ricevere
+          novità e promozioni.
         </li>
         <li>
           <b>Modulo newsletter</b>: il tuo indirizzo email e il consenso a
@@ -69,7 +70,8 @@ export default function Privacy() {
           <b>Gestire il tuo preordine</b> e ricontattarti per confermare
           disponibilità, tempi e modalità di consegna: base giuridica art. 6.1
           lett. b del GDPR (misure precontrattuali adottate su tua richiesta).
-          Nome ed email sono necessari: senza non possiamo risponderti.
+          Nome, email e la scelta tra ritiro e spedizione sono necessari: senza
+          non possiamo risponderti né dirti quanto costa.
         </li>
         <li>
           <b>Inviarti novità e promozioni</b>: base giuridica art. 6.1 lett. a

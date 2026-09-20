@@ -84,11 +84,23 @@ del prodotto, foto reali. Senza, Google indicizza dati inventati.
 Le foto servono anche per `og:image` (anteprima dei link su WhatsApp e social),
 che oggi non c'è: gli SVG placeholder non sono validi come Open Graph.
 
-## 6. Privacy policy
+## 6. Testi legali: privacy e condizioni di vendita
 
-Il testo di `/policies/privacy-policy` è un primo getto scritto su quello che
-il sito fa davvero, marcato `PLACEHOLDER`. Prima del lancio lo deve validare un
-consulente.
+`/policies/privacy-policy` e `/policies/terms-of-service` sono primi getti
+scritti su quello che il sito fa davvero, marcati `PLACEHOLDER`. Prima del
+lancio li deve validare un consulente, insieme al punto sotto.
+
+### La parte che non sta sul sito
+
+La pagina da sola non basta: la vendita si conclude via email, e le
+informazioni devono arrivare lì. I due modelli in `docs/email-preordine.md`
+(uno per il ritiro, uno per la spedizione) vanno passati alla titolare e usati
+come sono; il perché sta in quel file.
+
+Da chiedere al consulente mentre ci siamo: l'informativa privacy elenca i dati
+raccolti **dal sito**, ma con la spedizione arrivano per email anche indirizzo
+di consegna ed estremi del pagamento. Vanno aggiunti a "Quali dati
+raccogliamo".
 
 ## 7. Rate limiting sui form (dashboard Cloudflare, nessun codice)
 

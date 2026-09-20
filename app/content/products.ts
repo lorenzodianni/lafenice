@@ -21,14 +21,16 @@ export const products = [
     seo: {
       title: "Detergente viso Nuvola in preordine",
       description:
-        "Nuvola, detergente viso delicato con glicerina, pantenolo e ceramide NP. Preordinalo senza pagamento online: ti ricontattiamo per confermare i tempi.",
+        "Nuvola, detergente viso delicato con glicerina, pantenolo e ceramide NP. Preordinalo senza pagamento online: ti rispondiamo per email con totale, spedizione e tempi.",
     },
     price: "14.90",
-    shippingNote: "Spedizione esclusa", // PLACEHOLDER: cost not confirmed
+    shippingNote: "Spedizione esclusa, calcolata via email", // PLACEHOLDER: cost not confirmed
+    // PLACEHOLDER: which means she takes besides the bank transfer.
+    paymentNote: "In negozio al ritiro, con bonifico se spedito",
     delivery: "circa 2-3 settimane", // PLACEHOLDER
     highlights: [
       "Senza pagamento online",
-      "Ti ricontattiamo per confermare",
+      "Ti rispondiamo per email con il totale",
       "Quantità limitata",
     ],
   },

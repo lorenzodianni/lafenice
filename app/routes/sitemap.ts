@@ -9,6 +9,7 @@ const paths = [
   ...products.map((p) => `/products/${p.handle}`),
   "/pages/newsletter",
   "/policies/privacy-policy",
+  "/policies/terms-of-service",
 ];
 
 // No <lastmod>: the only date we have is the build date, which says nothing

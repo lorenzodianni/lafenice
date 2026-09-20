@@ -94,7 +94,9 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `/pages/newsletter` riceve tutti i form newsletter e ne mostra gli errori;
   `/pages/grazie-newsletter` dopo l'invio, `/pages/iscrizione-confermata` dopo il
   click nell'email del double opt-in (entrambe `noindex`)
-- `/policies/privacy-policy`
+- `/policies/privacy-policy`, `/policies/terms-of-service` (condizioni di
+  vendita e recesso: la spedizione è vendita a distanza, il perché e i modelli
+  di email stanno in `docs/email-preordine.md`)
 - `/sitemap.xml`, `/robots.txt`, `/llms.txt` generati da `app/content/`
 
 ## Form
@@ -103,6 +105,10 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   double opt-in "Newsletter" se c'è il consenso) + email a `ordersEmail` con
   reply-to del cliente, poi redirect a `/pages/grazie-preordine`. Se Brevo fallisce
   la pagina torna con un errore e i campi compilati: mai finto successo.
+  Il modulo è una **richiesta, non un ordine**: l'ordine si conclude in negozio
+  al ritiro oppure per email se il cliente chiede la spedizione. La scheda
+  prodotto deve dirlo accanto al form, ed è quello che tiene il ritiro fuori
+  dalla vendita a distanza.
 - **Newsletter**: nel footer di ogni pagina, email* + consenso* → double opt-in
   Brevo, lista "Newsletter". POST a `/pages/newsletter` (le pagine sono statiche),
   stesso schema del preordine: errori sulla pagina, redirect a
@@ -121,7 +127,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - **Nessun cookie non tecnico → nessun cookie banner.** Quindi niente Google Analytics
   né embed Google Maps (immagine statica + link a Maps); analytics = Cloudflare Web
   Analytics (cookieless). Ogni nuovo script di terze parti va valutato contro questa regola.
-- Footer: ragione sociale, sede, P.IVA, link privacy.
+- Footer: ragione sociale, sede, P.IVA, link a privacy e condizioni di vendita.
 
 ## SEO / AI
 - `<html lang="it">`, un solo `h1` per pagina, HTML semantico.

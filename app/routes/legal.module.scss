@@ -1,0 +1,50 @@
+// Shared by /policies/privacy-policy and /policies/terms-of-service: a legal
+// text, narrow measure and headings smaller than a landing page.
+.page {
+  max-width: 70ch;
+  line-height: 1.65;
+
+  h2 {
+    margin: 36px 0 10px;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    // global.scss zeroes the heading margins: this rule is only the spacing,
+    // the UA size (1.17em) is already what we want.
+    margin: 28px 0 8px;
+  }
+
+  :is(ul, ol) {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  // Scoped to the prose: a bare `a` here would also repaint a global .btn,
+  // since module rules win over the base layer.
+  :is(p, li) a {
+    color: var(--plum);
+    text-decoration: underline;
+  }
+}
+
+.formModel {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--pink-soft);
+  // The blank lines and the labels are the layout: keep them, but let long
+  // lines wrap on a phone instead of scrolling sideways.
+  white-space: pre-wrap;
+  font: inherit;
+  font-size: 14px;
+}
+
+.updated {
+  color: var(--muted);
+  font-size: 14px;
+}
