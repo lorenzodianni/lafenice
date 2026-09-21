@@ -34,7 +34,7 @@
   // (without JS the track has edges).
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  // A mouse drag on the slider must not select the photos either.
+  // A mouse drag on the slider must not select the photos.
   user-select: none;
 
   &::-webkit-scrollbar {

@@ -68,21 +68,19 @@ const slides = [
   },
 ];
 
-const CAROUSEL_ID = "hero-slider";
+const SLIDER_ID = "hero-slider";
 
 // Infinite loop: the strip holds three copies of the slides and the script
 // keeps the visitor in the middle copy, jumping a copy back or forward once the
 // scroll has settled. The copies are identical, so the jump is invisible.
 const COPIES = [0, 1, 2];
 
-// The swipe is the native scroll, with the same feel on a finger and on a
-// trackpad. No drag library: Blossom's momentum flung a mouse drag of half a
-// slide two slides ahead, with no option to stop at one. This script adds the
-// arrows (hidden until it runs), the dots and the autoplay. The dots are
-// anchors to the middle copy, so they work without JS too. Plain JS, because
-// the home ships no React to the client.
+// The swipe is the native scroll, the same on a finger and on a trackpad: this
+// script adds the arrows, the dots and the autoplay. The dots are anchors to
+// the middle copy, so they work without JS too. Plain JS, because the home
+// ships no React to the client.
 const sliderScript = `(function(){
-var c=document.getElementById("${CAROUSEL_ID}"),box=c&&c.parentElement;
+var c=document.getElementById("${SLIDER_ID}"),box=c&&c.parentElement;
 if(!c)return;
 var n=${slides.length},dots=[].slice.call(box.querySelectorAll("[data-dot]")),at=0,last=0;
 box.dataset.js="1";
@@ -121,16 +119,17 @@ dots.forEach(function(d,k){d.setAttribute("aria-current",k===i?"true":"false")})
 dots.forEach(function(d,k){d.addEventListener("click",function(e){
 e.preventDefault();to(set()+k*wid())})});
 if(still)return;
-var timer=setInterval(function(){if(!document.hidden)go(1)},6000);
-var stop=function(){clearInterval(timer)};
+// Re-armed by every scroll of the track, whoever moves it: a step fires only
+// after six seconds of stillness, never in the middle of a swipe, where it
+// would land two slides ahead. A trackpad swipe pauses it; a page scroll past
+// the hero does not touch it.
+var timer,arm=function(){clearTimeout(timer);
+timer=setTimeout(function(){if(!document.hidden)go(1);arm()},6000)};
+arm();
+c.addEventListener("scroll",arm,{passive:true});
+var stop=function(){clearTimeout(timer);c.removeEventListener("scroll",arm)};
 ["pointerdown","keydown"].forEach(function(e){
 box.addEventListener(e,stop,{once:true,passive:true})});
-// A horizontal wheel is a trackpad swipe on the slider: an autoplay step in the
-// middle of it would land two slides ahead. Not a vertical one: the hero fills
-// the top of the page, and scrolling past it must not stop a slideshow nobody
-// touched.
-box.addEventListener("wheel",function(e){
-if(Math.abs(e.deltaX)>Math.abs(e.deltaY))stop()},{passive:true});
 })()`;
 
 // One chevron, mirrored for the previous button: an SVG sits exactly in the
@@ -160,8 +159,7 @@ export function Hero() {
     <>
       <section className={styles.hero}>
         <div className={styles.media}>
-          {/* A scroll container that snaps, with or without JS. */}
-          <div id={CAROUSEL_ID} className={styles.track}>
+          <div id={SLIDER_ID} className={styles.track}>
             {COPIES.map((copy) =>
               slides.map((s, i) => (
                 <img
@@ -192,8 +190,6 @@ export function Hero() {
             )}
           </div>
 
-          {/* Only the script moves the track by one slide, so CSS keeps the
-              arrows hidden until it runs. */}
           <button
             className={`${styles.arrow} ${styles.prev}`}
             type="button"
