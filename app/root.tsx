@@ -90,6 +90,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="wrap section">
+      {/* No route meta reaches an error page: React hoists this into <head>. */}
+      <title>{title}</title>
       <h1>{title}</h1>
       <p>{details}</p>
       <a className="btn" href="/">
