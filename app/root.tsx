@@ -14,6 +14,7 @@ import {
 import type { Route } from "./+types/root";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { site } from "./content/site";
 import "@fontsource-variable/fraunces/opsz.css";
 import "@fontsource-variable/fraunces/opsz-italic.css";
 import "@fontsource-variable/mulish";
@@ -90,6 +91,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="wrap section">
+      {/* An error renders only the root route, which has no meta: React
+          hoists this <title> into <head>. */}
+      <title>{`${title} | ${site.name}`}</title>
       <h1>{title}</h1>
       <p>{details}</p>
       <a className="btn" href="/">

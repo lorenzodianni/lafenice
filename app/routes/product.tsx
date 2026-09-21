@@ -47,7 +47,9 @@ export async function action({ request, params }: Route.ActionArgs) {
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  if (!loaderData) return [{ title: "Pagina non trovata" }];
+  // An unknown handle renders the root error boundary, which sets its own
+  // title: this only narrows the type.
+  if (!loaderData) return [];
   const { product } = loaderData;
   const path = `/products/${product.handle}`;
   const url = `${site.url}${path}`;
