@@ -10,12 +10,10 @@ import styles from "./ProductSection.module.scss";
 export function ProductSection({
   product,
   heading: Heading,
-  id,
   children,
 }: {
   product: Product;
   heading: "h1" | "h2";
-  id?: string;
   children: React.ReactNode;
 }) {
   const titleId = useId();
@@ -24,11 +22,7 @@ export function ProductSection({
   const paragraphs = product.description.split("\n\n");
 
   return (
-    <section
-      id={id}
-      className={`section ${styles.section}`}
-      aria-labelledby={titleId}
-    >
+    <section className={`section ${styles.section}`} aria-labelledby={titleId}>
       <div className={`wrap ${styles.inner}`}>
         <div className={styles.visual}>
           <span className={styles.ribbon}>Anteprima · Nuova linea</span>

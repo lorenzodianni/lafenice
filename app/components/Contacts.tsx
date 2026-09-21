@@ -1,8 +1,8 @@
-import mapImage from "~/assets/mappa.webp";
 import {
   cityLine,
   closedDays,
   fullAddress,
+  mapImage,
   mapsUrl,
   openingHours,
   phoneHref,
@@ -77,7 +77,7 @@ export function Contacts() {
             loading="lazy"
           />
           <span className={styles.credit} aria-hidden="true">
-            © Google
+            Dati mappa ©2026 Google
           </span>
           <span className={styles.mapLabel}>
             Apri in Google Maps

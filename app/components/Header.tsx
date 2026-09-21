@@ -1,9 +1,10 @@
 import logo from "~/assets/logo.svg";
+import { products } from "~/content/products";
 import { site } from "~/content/site";
 import styles from "./Header.module.scss";
 
 const links = [
-  { href: "/#preordine", label: "Preordine", accent: true },
+  { href: `/products/${products[0].handle}`, label: "Preordine", accent: true },
   { href: "/#trattamenti", label: "Trattamenti" },
   { href: "/#studio", label: "Lo studio" },
   { href: "/#contatti", label: "Contatti" },

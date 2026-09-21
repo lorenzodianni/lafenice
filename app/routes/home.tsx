@@ -59,7 +59,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <ProductSection product={products[0]} heading="h2" id="preordine">
+      <ProductSection product={products[0]} heading="h2">
         <a className="btn" href={`/products/${products[0].handle}`}>
           Preordina ora
         </a>
