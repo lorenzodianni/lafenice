@@ -10,8 +10,8 @@ punto si toglie da qui.
 
 ## Dati mancanti dal cliente
 - La lista completa, con il perché di ogni domanda, sta in
-  `docs/domande-cliente.md`. In breve: nome del dominio, foto e logo, dati del
-  prodotto (formato, INCI), social e WhatsApp.
+  `docs/domande-cliente.md`. In breve: nome del dominio, foto dei trattamenti e
+  del prodotto, dati del prodotto (formato, INCI), social e WhatsApp.
 - Bloccano la vendita spedita, che è vendita a distanza: prezzo finale e regime
   IVA, costo e corriere, se spedisce solo in Italia, mezzi di pagamento oltre al
   bonifico, chi paga il reso. L'INCI serve prima dell'acquisto, non solo sulla
@@ -21,8 +21,12 @@ punto si toglie da qui.
   `grep -rn PLACEHOLDER app`.
 
 ## Da valutare più avanti
+- Immagini: le foto dello studio sono WebP fatti a mano con cwebp e dichiarati
+  in `Hero.tsx`. Quando arrivano le foto dei trattamenti e del prodotto, o
+  quelle professionali, decidere insieme per tutte: dati in `app/content/` con i
+  nomi dei campi Shopify (come `featuredImage`) e come generare i srcset (a
+  mano o con una pipeline).
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
   arrivano i prezzi.
-- Pipeline immagini (es. `vite-imagetools`) quando arrivano le foto reali.
 - Animazioni di comparsa allo scroll del mockup: tolte (erano JS). Se servono, solo
   CSS con `animation-timeline: view()`.

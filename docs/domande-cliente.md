@@ -20,17 +20,17 @@ quei due testi.
   `lafenicecinisello.com`, `lafenice-estetica.com`, `centroesteticolafenice.com`?
   Meglio corto e dettabile al telefono.
 
-## Foto e logo (la cosa che richiede più tempo)
+## Foto (la cosa che richiede più tempo)
 
-- Ha foto professionali del centro? Servono 3 immagini grandi per la parte alta
-  della home e 8 per i trattamenti.
-- Foto del prodotto Nuvola, meglio se su fondo chiaro e neutro.
-- Serve anche un'immagine orizzontale per l'anteprima dei link su WhatsApp e
-  Facebook: se manca, quando qualcuno condivide il sito esce un riquadro vuoto.
-- Ha il logo in vettoriale (.ai, .eps, .svg) o un PNG grande? Quello che abbiamo
-  è largo 220 pixel e si sgrana appena lo si ingrandisce.
-- Se non ha niente di pronto: mezza giornata di un fotografo, oppure si parte
-  con foto fatte bene col telefono e si sostituiscono dopo.
+- Le foto del centro sono arrivate, fatte col telefono: per ora stanno nella
+  parte alta della home. Sono lunghe 1600 pixel, la misura a cui WhatsApp
+  riduce le foto, e sul computer si vedono ingrandite e un po' morbide: se ha
+  gli originali, meglio per email o WeTransfer.
+- Se ne rifà di professionali, meglio orizzontali: sul computer quella parte è
+  una striscia larga e di una foto verticale si vede solo un quarto.
+- Mancano le 8 foto dei trattamenti e quella del prodotto Nuvola, meglio se su
+  fondo chiaro e neutro. Se non ha niente di pronto: mezza giornata di un
+  fotografo, oppure foto fatte bene col telefono e si sostituiscono dopo.
 
 ## Prodotto Nuvola
 

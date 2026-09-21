@@ -5,14 +5,74 @@ import "@blossom-carousel/web/style.css";
 // and, with the React wrapper, React on the client.
 import blossomUrl from "@blossom-carousel/web?url";
 import { Fragment } from "react";
-import hero1 from "~/assets/placeholder-hero.svg";
-import hero2 from "~/assets/placeholder-hero-2.svg";
-import hero3 from "~/assets/placeholder-hero-3.svg";
+import angoloAttesa from "~/assets/studio/angolo-attesa.webp";
+import angoloAttesa800 from "~/assets/studio/angolo-attesa-800.webp";
+import biglietto from "~/assets/studio/biglietto.webp";
+import biglietto800 from "~/assets/studio/biglietto-800.webp";
+import cabina from "~/assets/studio/cabina.webp";
+import cabina800 from "~/assets/studio/cabina-800.webp";
+import ingresso from "~/assets/studio/ingresso.webp";
+import ingresso800 from "~/assets/studio/ingresso-800.webp";
+import postazioneUnghie from "~/assets/studio/postazione-unghie.webp";
+import postazioneUnghie800 from "~/assets/studio/postazione-unghie-800.webp";
+import sala from "~/assets/studio/sala.webp";
 import { site, treatments } from "~/content/site";
 import styles from "./Hero.module.scss";
 
-// PLACEHOLDER: real photos pending.
-const slides = [hero1, hero2, hero3];
+// WebP made once with cwebp from the client's photos (no build pipeline for
+// six pictures). `small` is the 800w file for phones. The hall has none: it is
+// landscape, and cropped into the portrait frame of a phone it shows at about
+// 1.7 times the viewport width, so 800w would be too small there.
+// `position` keeps the subject in the frame: on a desktop the frame is a wide
+// strip that shows about a quarter of a portrait photo's height, and on a
+// phone the hall loses its sides, sign included.
+const slides = [
+  {
+    src: sala,
+    width: 1600,
+    height: 1148,
+    position: "10%",
+    alt: "La sala del centro estetico La Fenice, con la reception e la postazione unghie",
+  },
+  {
+    src: ingresso,
+    small: ingresso800,
+    width: 1022,
+    height: 1600,
+    position: "50% 68%",
+    alt: "L'ingresso, con la vetrata e il bancone con l'insegna La Fenice",
+  },
+  {
+    src: cabina,
+    small: cabina800,
+    width: 1066,
+    height: 1600,
+    position: "50% 70%",
+    alt: "La cabina dei trattamenti con il lettino",
+  },
+  {
+    src: postazioneUnghie,
+    small: postazioneUnghie800,
+    width: 1066,
+    height: 1600,
+    alt: "La postazione per manicure e unghie, con l'espositore degli smalti",
+  },
+  {
+    src: angoloAttesa,
+    small: angoloAttesa800,
+    width: 1000,
+    height: 1600,
+    alt: "L'angolo d'attesa con la poltrona e i prodotti in vendita",
+  },
+  {
+    src: biglietto,
+    small: biglietto800,
+    width: 1066,
+    height: 1600,
+    position: "50% 30%",
+    alt: "Il biglietto da visita con il logo La Fenice, tra i fiori",
+  },
+];
 
 const CAROUSEL_ID = "hero-slider";
 
@@ -28,7 +88,7 @@ const COPIES = [0, 1, 2];
 // scroll. Everything with a state of its own is ours, because Blossom's own
 // controls keep an index that the jumps of the infinite loop would make stale:
 // the arrows (hidden until this script runs), the dots (its own would draw one
-// per slide, that is nine) and the autoplay, which it does not have. The dots
+// per slide, copies included) and the autoplay, which it does not have. The dots
 // are anchors to the middle copy, so they work without JS too. Plain JS,
 // because the home ships no React to the client.
 const sliderScript = `(function(){
@@ -112,24 +172,25 @@ export function Hero() {
               styles are ours, Blossom adds drag and the controls. */}
           <blossom-carousel id={CAROUSEL_ID} className={styles.track}>
             {COPIES.map((copy) =>
-              slides.map((src, i) => (
+              slides.map((s, i) => (
                 <img
-                  key={`${copy}-${src}`}
+                  key={`${copy}-${s.src}`}
                   // Only the middle copy is a link target for the dots.
                   id={copy === 1 ? `hero-slide-${i + 1}` : undefined}
-                  src={src}
+                  src={s.src}
+                  srcSet={s.small && `${s.small} 800w, ${s.src} ${s.width}w`}
+                  // The frame is always the full viewport width. Only with a
+                  // srcset: alone, sizes is invalid HTML.
+                  sizes={s.small && "100vw"}
+                  style={{ objectPosition: s.position }}
                   data-blossom-slide=""
-                  // Decorative duplicates: one description is enough for the
-                  // whole set, and it goes on the first one in the document,
-                  // which is what a crawler or a page without JS reads.
-                  alt={
-                    copy === 0 && i === 0
-                      ? "Interni del centro estetico La Fenice"
-                      : ""
-                  }
-                  width={1200}
-                  height={600}
-                  // Every copy has the same three URLs, so what the preload
+                  // The other copies are decorative duplicates: each photo is
+                  // described once, where a screen reader or a crawler meets
+                  // it first in the document.
+                  alt={copy === 0 ? s.alt : ""}
+                  width={s.width}
+                  height={s.height}
+                  // Every copy has the same URLs, so what the preload
                   // scanner meets first is what gets fetched: the priority
                   // goes on the first copy, the rest must not compete.
                   fetchPriority={copy === 0 && i === 0 ? "high" : "low"}
@@ -158,9 +219,9 @@ export function Hero() {
           </button>
 
           <div className={styles.dots}>
-            {slides.map((src, i) => (
+            {slides.map((s, i) => (
               <a
-                key={src}
+                key={s.src}
                 className={styles.dot}
                 href={`#hero-slide-${i + 1}`}
                 data-dot=""

@@ -1,4 +1,4 @@
-import logo from "~/assets/logo.webp";
+import logo from "~/assets/logo.svg";
 import { fullAddress, site, socialLinks } from "~/content/site";
 import styles from "./Footer.module.scss";
 import { NewsletterForm, newsletterPitch } from "./NewsletterForm";
@@ -24,7 +24,7 @@ export function Footer({ newsletter }: { newsletter: boolean }) {
         </section>
       )}
       <div className={`wrap ${styles.inner}`}>
-        <img src={logo} alt="" width={36} height={46} loading="lazy" />
+        <img src={logo} alt="" width={35} height={46} loading="lazy" />
         <span className={styles.wordmark}>
           <b>{site.name}</b>
           <span>{site.owner.name}</span>

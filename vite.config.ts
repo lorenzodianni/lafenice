@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [cloudflare({ viteEnvironment: { name: "ssr" } }), reactRouter()],
   build: {
-    // No asset inlined as base64: the hero alone repeats three images nine
+    // No asset inlined as base64: the hero alone repeats every photo three
     // times, and an image in its own hashed file is cached apart from the page.
     assetsInlineLimit: 0,
   },

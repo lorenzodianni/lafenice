@@ -88,7 +88,10 @@ orari, social, anno di apertura, WhatsApp, costo di spedizione, formato e INCI
 del prodotto, foto reali. Senza, Google indicizza dati inventati.
 
 Le foto servono anche per `og:image` (anteprima dei link su WhatsApp e social),
-che oggi non c'è: gli SVG placeholder non sono validi come Open Graph.
+che oggi non c'è: senza, chi condivide il sito vede un riquadro vuoto. La foto
+della sala (orizzontale, in `app/assets/studio/`) può già farlo: va copiata in
+`public/images/` per avere un URL stabile, e lo stesso URL può sostituire il
+favicon come `image` nel JSON-LD `BeautySalon` della home.
 
 ## 6. Testi legali: privacy e condizioni di vendita
 

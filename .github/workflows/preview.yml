@@ -30,14 +30,16 @@ jobs:
       # The pages link to root paths (/assets/..., /policies/...), but a project
       # site lives under /<repo>/. The preview also stays out of search engines:
       # robots.txt only counts at the root of github.io, so a meta tag it is.
-      # The grep fails the job if a root path is left, e.g. from a srcset or a
-      # hydrated route: extend the sed when it does.
+      # React writes srcSet in camel case, and a srcset lists its other
+      # candidates after ", ". The grep fails the job if a root path is left,
+      # e.g. from a hydrated route: extend the sed when it does.
       - name: Rebase the URLs and add noindex
         env:
           BASE: /${{ github.event.repository.name }}/
         run: |
           find build/client \( -name '*.html' -o -name '*.css' \) -exec sed -i -E \
-            -e "s#(href|src)=\"/([^/])#\1=\"$BASE\2#g" \
+            -e "s#(href|src|srcSet)=\"/([^/])#\1=\"$BASE\2#g" \
+            -e "s#, /(assets|images)/#, $BASE\1/#g" \
             -e "s#url\(/([^/])#url($BASE\1#g" \
             -e "s#<head>#<head><meta name=\"robots\" content=\"noindex\">#" {} +
           if grep -rEn '["( ,]/(assets|images)/' build/client --include='*.html' --include='*.css'; then
