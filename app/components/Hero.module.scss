@@ -23,15 +23,21 @@
   }
 }
 
-// Our own styles, not the library's: they make the carousel a scroll
-// container that snaps even before (or without) the Blossom script, which
-// styles `[blossom-carousel]`, an attribute it adds at runtime.
+// The slider itself: a native scroll container that snaps. The script only
+// adds the controls, the autoplay and the loop.
 .track {
   display: flex;
   height: 100%;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  // A swipe past the first slide must not go back in the browser history
+  // (without JS the track has edges).
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
+  // A mouse drag on the slider must not select the photos, nor a finger
+  // resting on one open the iOS save and share menu.
+  user-select: none;
+  -webkit-touch-callout: none;
 
   &::-webkit-scrollbar {
     display: none;
@@ -43,11 +49,11 @@
     height: 100%;
     object-fit: cover;
     scroll-snap-align: center;
+    // One slide per swipe: without it a quick flick flies over several.
+    scroll-snap-stop: always;
   }
 }
 
-// Blossom builds the button inside each control, so the look goes on the
-// button. Until the script defines the elements they do nothing: hidden.
 // Only the script can move the track by one slide, so the arrows appear once
 // it has run.
 .arrow {

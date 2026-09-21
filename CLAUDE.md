@@ -34,14 +34,15 @@ desktop-first con dati placeholder: il sito no.
 - **Niente React sul client di default**: `root.tsx` include `<Scripts/>` solo se
   una route esporta `handle = { hydrate: true }` (in dev sempre, per l'HMR). Le
   pagine sono HTML + CSS. Il JS sul client è solo: due script inline (menu
-  mobile, slider hero) e `@blossom-carousel/web` (~9 kB gzip), che aggiunge il
-  drag col puntatore sopra lo scroll nativo di `<blossom-carousel>`. Si carica
-  come `<script type="module">` da un import `?url`, mai come import normale:
-  il prerender gira nel Worker, che non ha `customElements`. Frecce, pallini,
-  autoplay e loop infinito (tre copie delle slide, si resta nella copia di
-  mezzo) sono nostri: i controlli di Blossom tengono un indice interno che i
-  salti del loop renderebbero sbagliato. Senza JS lo slider resta usabile
-  (scorre e fa snap, sono nostri gli stili) e le frecce restano nascoste.
+  mobile, slider hero). Lo slider è lo scroll nativo con snap
+  (`scroll-snap-stop: always`, una slide per swipe, col dito come col
+  trackpad); lo script aggiunge frecce, pallini, autoplay e loop infinito (tre
+  copie delle slide, si resta nella copia di mezzo). Niente librerie di drag:
+  Blossom, provata, con la sua inerzia faceva saltare due slide a un drag col
+  mouse. Senza JS lo slider resta usabile (scorre e fa snap) e le frecce
+  restano nascoste. Una libreria solo client che registra custom element va
+  caricata come `<script type="module">` da un import `?url`, mai con un
+  import normale: il prerender gira nel Worker, che non ha `customElements`.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.
