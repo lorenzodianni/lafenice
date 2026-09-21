@@ -15,7 +15,6 @@
     "postinstall": "wrangler types"
   },
   "dependencies": {
-    "@blossom-carousel/web": "^1.5.1",
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource-variable/mulish": "^5.3.0",
     "isbot": "^5.2.2",

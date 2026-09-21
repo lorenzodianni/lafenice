@@ -1,9 +1,3 @@
-import "@blossom-carousel/web/style.css";
-// The library registers custom elements, so it must run in the browser only:
-// imported as a URL and loaded as a module script, never as a normal import,
-// which would put it in the server build (the Worker has no `customElements`)
-// and, with the React wrapper, React on the client.
-import blossomUrl from "@blossom-carousel/web?url";
 import { Fragment } from "react";
 import angoloAttesa from "~/assets/studio/angolo-attesa.webp";
 import angoloAttesa800 from "~/assets/studio/angolo-attesa-800.webp";
@@ -76,21 +70,17 @@ const slides = [
 
 const CAROUSEL_ID = "hero-slider";
 
-// Infinite loop, hand made: Blossom's own `repeat` is experimental and does
-// not settle on a slide when they are full width. Instead the strip holds
-// three copies of the slides, every one of them a Blossom slide so its arrows
-// and drag can cross the seams, and the script keeps the visitor in the middle
-// copy, jumping a copy back or forward once the scroll has settled. The copies
-// are identical, so the jump is invisible.
+// Infinite loop: the strip holds three copies of the slides and the script
+// keeps the visitor in the middle copy, jumping a copy back or forward once the
+// scroll has settled. The copies are identical, so the jump is invisible.
 const COPIES = [0, 1, 2];
 
-// Blossom drives the track: drag with the pointer on top of the native
-// scroll. Everything with a state of its own is ours, because Blossom's own
-// controls keep an index that the jumps of the infinite loop would make stale:
-// the arrows (hidden until this script runs), the dots (its own would draw one
-// per slide, copies included) and the autoplay, which it does not have. The dots
-// are anchors to the middle copy, so they work without JS too. Plain JS,
-// because the home ships no React to the client.
+// The swipe is the native scroll, with the same feel on a finger and on a
+// trackpad. No drag library: Blossom's momentum flung a mouse drag of half a
+// slide two slides ahead, with no option to stop at one. This script adds the
+// arrows (hidden until it runs), the dots and the autoplay. The dots are
+// anchors to the middle copy, so they work without JS too. Plain JS, because
+// the home ships no React to the client.
 const sliderScript = `(function(){
 var c=document.getElementById("${CAROUSEL_ID}"),box=c&&c.parentElement;
 if(!c)return;
@@ -101,9 +91,6 @@ var still=matchMedia("(prefers-reduced-motion: reduce)").matches;
 // rounding drifts by a pixel per slide until the loop stops normalising.
 var wid=function(){return c.getBoundingClientRect().width};
 var set=function(){return wid()*n};
-// Never "auto": the library's CSS sets scroll-behavior: smooth on the track,
-// and "auto" defers to it, which would animate the jumps of the loop and the
-// reduced motion case too.
 var to=function(x,fast){c.scrollTo({left:x,behavior:fast||still?"instant":"smooth"})};
 var go=function(d){to(c.scrollLeft+d*wid())};
 var norm=function(){
@@ -135,10 +122,15 @@ dots.forEach(function(d,k){d.addEventListener("click",function(e){
 e.preventDefault();to(set()+k*wid())})});
 if(still)return;
 var timer=setInterval(function(){if(!document.hidden)go(1)},6000);
-// No wheel: the hero fills the top of the page, so scrolling past it with the
-// pointer over it would stop the slideshow nobody touched.
+var stop=function(){clearInterval(timer)};
 ["pointerdown","keydown"].forEach(function(e){
-box.addEventListener(e,function(){clearInterval(timer)},{once:true,passive:true})});
+box.addEventListener(e,stop,{once:true,passive:true})});
+// A horizontal wheel is a trackpad swipe on the slider: an autoplay step in the
+// middle of it would land two slides ahead. Not a vertical one: the hero fills
+// the top of the page, and scrolling past it must not stop a slideshow nobody
+// touched.
+box.addEventListener("wheel",function(e){
+if(Math.abs(e.deltaX)>Math.abs(e.deltaY))stop()},{passive:true});
 })()`;
 
 // One chevron, mirrored for the previous button: an SVG sits exactly in the
@@ -168,9 +160,8 @@ export function Hero() {
     <>
       <section className={styles.hero}>
         <div className={styles.media}>
-          {/* Without JS this is still a scroll container that snaps: the
-              styles are ours, Blossom adds drag and the controls. */}
-          <blossom-carousel id={CAROUSEL_ID} className={styles.track}>
+          {/* A scroll container that snaps, with or without JS. */}
+          <div id={CAROUSEL_ID} className={styles.track}>
             {COPIES.map((copy) =>
               slides.map((s, i) => (
                 <img
@@ -183,7 +174,6 @@ export function Hero() {
                   // srcset: alone, sizes is invalid HTML.
                   sizes={s.small && "100vw"}
                   style={{ objectPosition: s.position }}
-                  data-blossom-slide=""
                   // The other copies are decorative duplicates: each photo is
                   // described once, where a screen reader or a crawler meets
                   // it first in the document.
@@ -197,10 +187,10 @@ export function Hero() {
                 />
               )),
             )}
-          </blossom-carousel>
+          </div>
 
-          {/* The controls only work once the elements are defined, so CSS
-              keeps them hidden until then. */}
+          {/* Only the script moves the track by one slide, so CSS keeps the
+              arrows hidden until it runs. */}
           <button
             className={`${styles.arrow} ${styles.prev}`}
             type="button"
@@ -264,7 +254,6 @@ export function Hero() {
         </div>
       </div>
 
-      <script type="module" src={blossomUrl} />
       <script
         // biome-ignore lint/security/noDangerouslySetInnerHtml: static string, no user input
         dangerouslySetInnerHTML={{ __html: sliderScript }}
