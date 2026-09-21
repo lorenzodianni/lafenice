@@ -24,7 +24,7 @@ export function ProductSection({
   return (
     <section className={`section ${styles.section}`} aria-labelledby={titleId}>
       <div className={`wrap ${styles.inner}`}>
-        <div className={styles.visual}>
+        <div className={`${styles.visual} ${isPage ? styles.sticky : ""}`}>
           <span className={styles.ribbon}>Anteprima · Nuova linea</span>
           <img
             className={styles.media}
