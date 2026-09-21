@@ -174,6 +174,9 @@ export function Hero() {
                   // srcset: alone, sizes is invalid HTML.
                   sizes={s.small && "100vw"}
                   style={{ objectPosition: s.position }}
+                  // A mouse drag on the slider must not pull a ghost copy of
+                  // the photo along.
+                  draggable={false}
                   // The other copies are decorative duplicates: each photo is
                   // described once, where a screen reader or a crawler meets
                   // it first in the document.
