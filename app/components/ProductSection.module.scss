@@ -27,13 +27,21 @@
 }
 
 // Product page only: the form makes the text column long, so the image
-// follows the scroll and stops at the end of the pink section. Side by side
-// only: stacked on mobile it would cover the form.
+// follows the scroll and stops with the form, at the end of the grid row.
+// Side by side only: stacked on mobile it would cover the form.
 .sticky {
   @include up(md) {
     position: sticky;
     top: 24px;
     align-self: start;
+
+    // The whole column has to fit the screen, or the delivery box stays
+    // below the fold (1366x768 laptops): the photo crops shorter instead.
+    // 134px = 24 above + 16 + 70 delivery box + 24 below.
+    // ponytail: fixed box height; landscape phones above md get a thin crop.
+    .media {
+      max-height: calc(100svh - 134px);
+    }
   }
 }
 
