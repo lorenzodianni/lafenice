@@ -1,0 +1,51 @@
+# Client preview on GitHub Pages, rebuilt on every push to main.
+# Production is not here: it deploys from the Cloudflare Git integration.
+# Pages is static hosting, so the forms cannot send (a POST gets a 405).
+name: Preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # The pages link to root paths (/assets/..., /policies/...), but a project
+      # site lives under /<repo>/. The preview also stays out of search engines:
+      # robots.txt only counts at the root of github.io, so a meta tag it is.
+      # ponytail: rewrites only the first URL of a srcset, fix it here when the
+      # real photos bring srcset in.
+      - name: Rebase the URLs and add noindex
+        env:
+          BASE: /${{ github.event.repository.name }}/
+        run: |
+          find build/client \( -name '*.html' -o -name '*.css' \) -exec sed -i -E \
+            -e "s#(href|src|action)=\"/([^/])#\1=\"$BASE\2#g" \
+            -e "s#url\(/([^/])#url($BASE\1#g" \
+            -e "s#<head>#<head><meta name=\"robots\" content=\"noindex\">#" {} +
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: build/client
+      - id: deployment
+        uses: actions/deploy-pages@v5

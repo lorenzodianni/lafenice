@@ -147,6 +147,10 @@ lato server nell'action.
 
 ## 8. Dopo la pubblicazione
 
+- Spegnere l'anteprima: disattivare GitHub Pages dalle impostazioni del repo e
+  togliere `.github/workflows/preview.yml`. È pubblica, ha form che non inviano
+  e duplica il sito vero; il `noindex` la tiene fuori da Google, non da chi ha
+  il link.
 - Google Business Profile: per un centro estetico è la leva principale della
   SEO locale, più del sito.
 - Google Search Console e Bing Webmaster Tools (Bing alimenta ChatGPT search e
