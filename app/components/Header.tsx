@@ -1,4 +1,4 @@
-import logo from "~/assets/logo.webp";
+import logo from "~/assets/logo.svg";
 import { site } from "~/content/site";
 import styles from "./Header.module.scss";
 
@@ -33,7 +33,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <a className={styles.brand} href="/">
-        <img src={logo} alt="" width={33} height={42} />
+        <img src={logo} alt="" width={32} height={42} />
         <span className={styles.wordmark}>
           <b>{site.name}</b>
           <span>{site.kind}</span>
