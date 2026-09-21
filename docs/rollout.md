@@ -4,27 +4,27 @@ Ordine consigliato: ogni punto sblocca i successivi. Qui sta anche il perché di
 ogni scelta, così non si ridiscute a distanza di mesi. I dubbi ancora aperti
 restano in `worklog.md`.
 
-## 1. Dominio (blocca tutto il resto)
+## 1. Cloudflare (blocca tutto il resto)
 
-Il dominio è un `.com` intestato alla cliente, nome ancora da scegliere (vedi
-`docs/domande-cliente.md`). Si compra da Cloudflare Registrar, dall'account del
-punto 2, che quindi si apre per primo: il `.com` è tra le estensioni che vende,
-a prezzo di costo anche al rinnovo (circa 10 dollari l'anno). Rispetto a un registrar
-esterno è un account in meno, e il DNS è già su Cloudflare: niente nameserver
-da spostare. Serve un metodo di pagamento sull'account.
-
-Finito questo, aggiornare `site.url` in `app/content/site.ts` (oggi
-`PLACEHOLDER`): è la base di canonical, Open Graph, JSON-LD, sitemap e
-llms.txt.
-
-## 2. Cloudflare
-
-Account a carico del cliente. Serve per: DNS, hosting del Worker, Email
-Routing e Web Analytics (senza cookie, quindi nessun banner).
+Account a carico del cliente, con un metodo di pagamento per il dominio.
+Serve per: dominio, DNS, hosting del Worker, Email Routing e Web Analytics
+(senza cookie, quindi nessun banner).
 
 Workers Builds collegato al repo: build `npm run build`, deploy
 `npx wrangler deploy` (legge la config generata in `build/server/wrangler.json`
 tramite `.wrangler/deploy/config.json`).
+
+## 2. Dominio
+
+Il dominio è un `.com` intestato alla cliente, nome ancora da scegliere (vedi
+`docs/domande-cliente.md`). Si compra da Cloudflare Registrar, dall'account del
+punto 1: il `.com` è tra le estensioni che vende, a prezzo di costo anche al
+rinnovo (circa 10 dollari l'anno). Rispetto a un registrar esterno è un
+account in meno, e il DNS è già su Cloudflare: niente nameserver da spostare.
+
+Finito questo, aggiornare `site.url` in `app/content/site.ts` (oggi
+`PLACEHOLDER`): è la base di canonical, Open Graph, JSON-LD, sitemap e
+llms.txt.
 
 ## 3. Brevo
 
@@ -147,10 +147,12 @@ lato server nell'action.
 
 ## 8. Dopo la pubblicazione
 
-- Spegnere l'anteprima: disattivare GitHub Pages dalle impostazioni del repo e
-  togliere `.github/workflows/preview.yml`. È pubblica, ha form che non inviano
-  e duplica il sito vero; il `noindex` la tiene fuori da Google, non da chi ha
-  il link.
+- Spegnere l'anteprima: disattivare GitHub Pages dalle impostazioni del repo,
+  togliere `.github/workflows/preview.yml` e l'eccezione che la cita in
+  CLAUDE.md. È pubblica, ha form che non inviano e duplica il sito vero; il
+  `noindex` la tiene fuori da Google, non da chi ha il link. Il repo è
+  pubblico solo perché Pages sul piano gratuito lo richiede: si può rimettere
+  privato.
 - Google Business Profile: per un centro estetico è la leva principale della
   SEO locale, più del sito.
 - Google Search Console e Bing Webmaster Tools (Bing alimenta ChatGPT search e
@@ -175,4 +177,6 @@ domani si passa a Hydrogen, loader, action e componenti si spostano così come
 sono. È gratis per uso commerciale (il piano Hobby di Vercel lo vieta) e un
 account solo copre DNS, hosting, inoltro email e analytics senza cookie.
 
-Il registrar del dominio è un'altra cosa e può restare Aruba o chi si vuole.
+Anche il dominio si compra lì (punto 2), ma è una scelta separata: un
+registrar esterno funziona lo stesso, al prezzo di un account in più e dei
+nameserver da spostare.
