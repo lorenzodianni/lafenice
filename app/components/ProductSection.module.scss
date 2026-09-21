@@ -26,6 +26,17 @@
   position: relative;
 }
 
+// Product page only: the form makes the text column long, so the image
+// follows the scroll and stops at the end of the pink section. Side by side
+// only: stacked on mobile it would cover the form.
+.sticky {
+  @include up(md) {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+  }
+}
+
 .ribbon {
   position: absolute;
   left: 14px;
