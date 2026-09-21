@@ -6,14 +6,12 @@ restano in `worklog.md`.
 
 ## 1. Dominio (blocca tutto il resto)
 
-Registrare `lafenice-estetica.it` (o quello che si sceglie) presso un registrar
-italiano: Aruba, Namecheap, OVH, 10-15 euro l'anno. Cloudflare Registrar vende
-a prezzo di costo ma copre un elenco limitato di estensioni e quasi
-sicuramente non fa `.it`: da verificare in dashboard, altrimenti si compra
-altrove.
-
-Poi puntare i nameserver del dominio su Cloudflare. Il registrar resta dove si
-è comprato, il DNS lo gestisce Cloudflare: servono a cose diverse.
+Il dominio è un `.com` intestato alla cliente, nome ancora da scegliere (vedi
+`docs/domande-cliente.md`). Si compra da Cloudflare Registrar, dall'account del
+punto 2, che quindi si apre per primo: il `.com` è tra le estensioni che vende,
+a prezzo di costo anche al rinnovo (circa 10 dollari l'anno). Rispetto a un registrar
+esterno è un account in meno, e il DNS è già su Cloudflare: niente nameserver
+da spostare. Serve un metodo di pagamento sull'account.
 
 Finito questo, aggiornare `site.url` in `app/content/site.ts` (oggi
 `PLACEHOLDER`): è la base di canonical, Open Graph, JSON-LD, sitemap e
