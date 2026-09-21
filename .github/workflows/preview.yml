@@ -6,7 +6,6 @@ name: Preview
 on:
   push:
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -41,7 +40,7 @@ jobs:
           BASE: /${{ github.event.repository.name }}/
         run: |
           find build/client \( -name '*.html' -o -name '*.css' \) -exec sed -i -E \
-            -e "s#(href|src|action)=\"/([^/])#\1=\"$BASE\2#g" \
+            -e "s#(href|src)=\"/([^/])#\1=\"$BASE\2#g" \
             -e "s#url\(/([^/])#url($BASE\1#g" \
             -e "s#<head>#<head><meta name=\"robots\" content=\"noindex\">#" {} +
       - uses: actions/upload-pages-artifact@v5

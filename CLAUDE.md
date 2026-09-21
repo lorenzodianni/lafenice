@@ -15,14 +15,13 @@ desktop-first con dati placeholder: il sito no.
   Hydrogen così come sono. Niente RR 8 finché Hydrogen non lo supporta
   (`npm view @shopify/hydrogen peerDependencies`).
 - **Cloudflare Workers** (runtime workerd, lo stesso di Oxygen). Config:
-  `ssr: true` + `prerender`: ogni path statico, più le schede prodotto, è HTML
-  generato a build. Mai `ssr: false` (SPA mode): le action non girerebbero e i
-  form senza JS morirebbero.
+  `ssr: true` + `prerender`: ogni path statico è HTML generato a build, schede
+  prodotto comprese (il contenuto viene da `products.ts`). Mai `ssr: false`
+  (SPA mode): le action non girerebbero e i form senza JS morirebbero.
   Deploy da integrazione Git di Cloudflare, niente CI custom. Unica eccezione:
-  `.github/workflows/preview.yml` pubblica a ogni push su `main` un'anteprima
-  statica per la cliente su GitHub Pages (`lorenzodianni.github.io/lafenice`):
-  URL riscritti sotto `/lafenice/`, `noindex`, form che non inviano. Non è la
-  produzione, e per questo le schede prodotto sono prerenderizzate.
+  `.github/workflows/preview.yml`, anteprima statica per la cliente su GitHub
+  Pages (form che non inviano, `noindex`), da spegnere al go-live
+  (`docs/rollout.md` §8).
 - **Path che ricevono un form = serviti dal Worker.** Gli asset statici
   rispondono a ogni metodo: una POST su una pagina prerenderizzata riceve un 405
   vuoto e non arriva mai all'action. Ogni path che riceve una POST va in

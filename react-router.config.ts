@@ -4,9 +4,10 @@ import { products } from "./app/content/products";
 export default {
   // ssr must stay true: form actions run in the Worker.
   ssr: true,
-  // Every static path, plus the product pages. On Cloudflare those are in
-  // run_worker_first (wrangler.jsonc), so the Worker answers and their HTML
-  // is never served: it exists for the static GitHub Pages preview.
+  // Every static path, product pages included: their content is static too
+  // (products.ts). On Cloudflare /products/* goes to the Worker first
+  // (run_worker_first, wrangler.jsonc), which renders it anyway; the HTML is
+  // for static hosts such as the GitHub Pages preview.
   prerender: ({ getStaticPaths }) => [
     ...getStaticPaths(),
     ...products.map((p) => `/products/${p.handle}`),
