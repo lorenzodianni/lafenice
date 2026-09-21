@@ -5,7 +5,7 @@ export function Treatments() {
   return (
     <section
       id="trattamenti"
-      className="section"
+      className={`section ${styles.section}`}
       aria-labelledby="trattamenti-title"
     >
       <div className="wrap">

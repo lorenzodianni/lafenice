@@ -1,5 +1,11 @@
 @use "mixins" as *;
 
+// Full width, gutter only: eight cards read better with room to breathe than
+// boxed in the 1200px column. The grid below still caps them at four across.
+.section {
+  --max-width: none;
+}
+
 .head {
   display: flex;
   flex-direction: column;
