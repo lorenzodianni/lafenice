@@ -4,7 +4,9 @@ import styles from "./ProductSection.module.scss";
 
 // The mockup's product block. The home renders it as a teaser (h2 + link to
 // the product page); the product page renders it as the main content (h1 +
-// preorder form), so the image is its LCP and loads eagerly.
+// preorder form), so the image is its LCP and loads eagerly. The teaser keeps
+// only what sells the product: delivery estimate and preorder highlights are
+// about the request, so they sit next to the form, not twice on the site.
 export function ProductSection({
   product,
   heading: Heading,
@@ -40,10 +42,12 @@ export function ProductSection({
               ? { fetchPriority: "high" as const }
               : { loading: "lazy" as const })}
           />
-          <p className={styles.eta}>
-            <b>Consegna stimata</b>
-            <span>{product.delivery}</span>
-          </p>
+          {isPage && (
+            <p className={styles.eta}>
+              <b>Consegna stimata</b>
+              <span>{product.delivery}</span>
+            </p>
+          )}
         </div>
 
         <div>
@@ -70,11 +74,13 @@ export function ProductSection({
             <b>{euro.format(Number(product.price))}</b>
             <span>{product.shippingNote}</span>
           </p>
-          <ul className={styles.highlights}>
-            {product.highlights.map((h) => (
-              <li key={h}>{h}</li>
-            ))}
-          </ul>
+          {isPage && (
+            <ul className={styles.highlights}>
+              {product.highlights.map((h) => (
+                <li key={h}>{h}</li>
+              ))}
+            </ul>
+          )}
           {children}
         </div>
       </div>
