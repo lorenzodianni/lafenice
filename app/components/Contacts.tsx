@@ -1,3 +1,4 @@
+import mapImage from "~/assets/mappa.webp";
 import {
   cityLine,
   closedDays,
@@ -65,6 +66,16 @@ export function Contacts() {
 
         {/* No map embed: it would set third-party cookies (see CLAUDE.md). */}
         <a className={styles.map} href={mapsUrl}>
+          {/* Decorative: the link text says where it goes. A Google Maps
+              screenshot whose own pin marks the salon at the centre. */}
+          <img
+            className={styles.mapImage}
+            src={mapImage}
+            alt=""
+            width={800}
+            height={800}
+            loading="lazy"
+          />
           <span className={styles.credit} aria-hidden="true">
             © Google
           </span>

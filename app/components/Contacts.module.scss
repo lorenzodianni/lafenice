@@ -66,13 +66,21 @@
   min-height: 260px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  // Decorative, a Google Maps screenshot whose own pin marks the salon at the
-  // centre: the link text says where it goes.
-  background: var(--pink-soft) url("../assets/mappa.webp") center / cover;
+  background: var(--pink-soft);
 
   @include up(md) {
     min-height: 300px;
   }
+}
+
+// An <img>, not a CSS background: the map is at the bottom of the home and
+// only a lazy image skips the download for visitors who never scroll there.
+.mapImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 // Google's terms want its attribution visible on Maps content.

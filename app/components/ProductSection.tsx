@@ -6,7 +6,7 @@ import styles from "./ProductSection.module.scss";
 // the product page); the product page renders it as the main content (h1 +
 // preorder form), so the image is its LCP and loads eagerly. The teaser keeps
 // only what sells the product: delivery estimate and preorder highlights are
-// about the request, so they sit next to the form, not twice on the site.
+// about the request, so they show only on the product page, with the form.
 export function ProductSection({
   product,
   heading: Heading,
