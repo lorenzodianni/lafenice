@@ -31,9 +31,8 @@ jobs:
       # site lives under /<repo>/. The preview also stays out of search engines:
       # robots.txt only counts at the root of github.io, so a meta tag it is.
       # React writes srcSet in camel case, and a srcset lists its other
-      # candidates after ", ". The grep fails the job
-      # if a root path is left, e.g. from a hydrated route: extend the sed
-      # when it does.
+      # candidates after ", ". The grep fails the job if a root path is left,
+      # e.g. from a hydrated route: extend the sed when it does.
       - name: Rebase the URLs and add noindex
         env:
           BASE: /${{ github.event.repository.name }}/

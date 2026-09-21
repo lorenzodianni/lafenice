@@ -164,7 +164,7 @@ export function Hero() {
                   src={s.src}
                   srcSet={s.small && `${s.small} 800w, ${s.src} ${s.width}w`}
                   // The frame is always the full viewport width.
-                  sizes={s.small && "100vw"}
+                  sizes="100vw"
                   style={{ objectPosition: s.position }}
                   data-blossom-slide=""
                   // Decorative duplicates: one description is enough for the
