@@ -12,14 +12,19 @@ export function Studio() {
         <p className="eyebrow">Lo studio</p>
         <h2 id="studio-title">La fenice come promessa</h2>
         <p>
-          La Fenice nasce dal desiderio di offrire uno spazio accogliente dove
-          l'estetica incontra la cura della persona. Il simbolo che ci
-          accompagna racconta esattamente questo: la capacità di rigenerarsi, di
-          tornare a sentirsi bene nella propria pelle.
+          Dicembre 2020 ha segnato per me l'inizio di un nuovo capitolo, nato
+          dal desiderio di ricominciare e dalla volontà di trasformare un sogno
+          in realtà.
+        </p>
+        <p>Proprio da questo desiderio di rinascita nasce il nome La Fenice.</p>
+        <p>
+          Da questo sogno prende forma un luogo dove bellezza, benessere e cura
+          di sé si incontrano, in un ambiente dove ogni persona possa sentirsi
+          accolta, ascoltata e coccolata.
         </p>
         <p>
-          Ogni trattamento è studiato sulla persona, con prodotti professionali
-          e tempo dedicato. Senza fretta, senza protocolli uguali per tutte.
+          La Fenice è il simbolo di un nuovo inizio, della forza di credere
+          ancora nei propri sogni e della bellezza di rinascere.
         </p>
         <p className={`eyebrow ${styles.sign}`}>
           <b>{site.owner.name}</b>
