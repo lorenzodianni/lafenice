@@ -34,8 +34,8 @@ jobs:
       # The pages link to root paths (/assets/..., /policies/...), but a project
       # site lives under /<repo>/. The preview also stays out of search engines:
       # robots.txt only counts at the root of github.io, so a meta tag it is.
-      # ponytail: rewrites only the first URL of a srcset, fix it here when the
-      # real photos bring srcset in.
+      # ponytail: srcset is not rewritten at all (the rule matches src="),
+      # add one here when the real photos bring srcset in.
       - name: Rebase the URLs and add noindex
         env:
           BASE: /${{ github.event.repository.name }}/
