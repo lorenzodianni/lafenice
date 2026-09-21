@@ -22,13 +22,13 @@ quei due testi.
 
 ## Foto e logo (la cosa che richiede più tempo)
 
-- Ha foto professionali del centro? Servono 3 immagini grandi per la parte alta
-  della home e 8 per i trattamenti.
+- Le foto del centro sono arrivate, fatte col telefono: per ora stanno nella
+  parte alta della home. Mancano le 8 dei trattamenti. Se ne rifà di
+  professionali, meglio orizzontali: sul computer quella parte è una striscia
+  larga e di una foto verticale si vede solo un quarto.
 - Foto del prodotto Nuvola, meglio se su fondo chiaro e neutro.
 - Serve anche un'immagine orizzontale per l'anteprima dei link su WhatsApp e
   Facebook: se manca, quando qualcuno condivide il sito esce un riquadro vuoto.
-- Ha il logo in vettoriale (.ai, .eps, .svg) o un PNG grande? Quello che abbiamo
-  è largo 220 pixel e si sgrana appena lo si ingrandisce.
 - Se non ha niente di pronto: mezza giornata di un fotografo, oppure si parte
   con foto fatte bene col telefono e si sostituiscono dopo.
 
