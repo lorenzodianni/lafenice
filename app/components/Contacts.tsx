@@ -65,7 +65,9 @@ export function Contacts() {
 
         {/* No map embed: it would set third-party cookies (see CLAUDE.md). */}
         <a className={styles.map} href={mapsUrl}>
-          <span className={styles.pin} aria-hidden="true" />
+          <span className={styles.credit} aria-hidden="true">
+            © Google
+          </span>
           <span className={styles.mapLabel}>
             Apri in Google Maps
             <small>{fullAddress}</small>
