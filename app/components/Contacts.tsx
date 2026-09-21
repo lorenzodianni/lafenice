@@ -2,6 +2,7 @@ import {
   cityLine,
   closedDays,
   fullAddress,
+  mapImage,
   mapsUrl,
   openingHours,
   phoneHref,
@@ -65,7 +66,19 @@ export function Contacts() {
 
         {/* No map embed: it would set third-party cookies (see CLAUDE.md). */}
         <a className={styles.map} href={mapsUrl}>
-          <span className={styles.pin} aria-hidden="true" />
+          {/* Decorative: the link text says where it goes. A Google Maps
+              screenshot whose own pin marks the salon at the centre. */}
+          <img
+            className={styles.mapImage}
+            src={mapImage}
+            alt=""
+            width={800}
+            height={800}
+            loading="lazy"
+          />
+          <span className={styles.credit} aria-hidden="true">
+            Dati mappa ©2026 Google
+          </span>
           <span className={styles.mapLabel}>
             Apri in Google Maps
             <small>{fullAddress}</small>

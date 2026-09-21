@@ -102,6 +102,8 @@ export const treatments = [
 
 export const cityLine = `${site.address.postalCode} ${site.address.city} (${site.address.province})`;
 export const fullAddress = `${site.address.street}, ${cityLine}`;
+// A screenshot of the salon's street: redo it if the address changes.
+export { default as mapImage } from "~/assets/mappa.webp";
 export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.name} ${fullAddress}`)}`;
 export const phoneHref = `tel:${site.phone.replace(/\s/g, "")}`;
 export const whatsappHref =
