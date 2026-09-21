@@ -5,7 +5,7 @@ Da spuntare mentre la si sente. Quando una risposta arriva, il valore va in
 
 Già chiuse: dominio intestato a lei (`.com`, nome da scegliere), ditta
 individuale con P.IVA 11407830964 (niente REA), orari (mar-ven 9-19:30, sab
-9-19, dom e lun chiuso), anno di apertura tolto dal sito.
+9-19, dom e lun chiuso), anno di apertura (2020, dal testo dello studio).
 
 Come si chiude la vendita: il cliente scrive dal sito, la titolare risponde per
 email con il totale e l'eventuale spedizione. Chi ritira paga in negozio, chi se

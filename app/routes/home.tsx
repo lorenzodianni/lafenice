@@ -33,6 +33,7 @@ export function meta(_: Route.MetaArgs) {
         email: site.email,
         vatID: site.vatId,
         founder: { "@type": "Person", name: site.owner.name },
+        foundingDate: String(site.foundingYear),
         address: {
           "@type": "PostalAddress",
           streetAddress: site.address.street,

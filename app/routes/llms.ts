@@ -22,6 +22,7 @@ export function loader() {
 > ${site.description}
 
 - ${site.owner.role}: ${site.owner.name}
+- Aperto nel ${site.foundingYear}
 - Indirizzo: ${fullAddress}
 - Telefono: ${site.phone}
 - Email: ${site.email}

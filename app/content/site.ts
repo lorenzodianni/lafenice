@@ -21,6 +21,9 @@ export const site = {
   description:
     "Centro estetico a Cinisello Balsamo (Milano): pulizia viso, manicure e pedicure, ricostruzione unghie, laser, ceretta, pressoterapia e massaggi su misura.",
   owner: { name: "Micaela Brunetti", role: "Titolare ed estetista" },
+  // From the owner's story (Studio.tsx): "Dicembre 2020". Year only, the
+  // legal opening month may differ.
+  foundingYear: 2020,
   address: {
     street: "Via Luigi Pirandello 1",
     postalCode: "20092",
