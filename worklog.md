@@ -21,6 +21,11 @@ punto si toglie da qui.
   `grep -rn PLACEHOLDER app`.
 
 ## Da valutare più avanti
+- Immagini: le foto dello studio sono WebP fatti a mano con cwebp e dichiarati
+  in `Hero.tsx`. Quando arrivano le foto dei trattamenti e del prodotto, o
+  quelle professionali, decidere insieme per tutte: dati in `app/content/` con i
+  nomi dei campi Shopify (come `featuredImage`) e come generare i srcset (a
+  mano o con una pipeline).
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
   arrivano i prezzi.
 - Animazioni di comparsa allo scroll del mockup: tolte (erano JS). Se servono, solo

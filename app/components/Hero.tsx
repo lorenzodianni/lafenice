@@ -27,13 +27,20 @@ import styles from "./Hero.module.scss";
 // strip that shows about a quarter of a portrait photo's height, and on a
 // phone the hall loses its sides, sign included.
 const slides = [
-  { src: sala, width: 1600, height: 1148, position: "10%" },
+  {
+    src: sala,
+    width: 1600,
+    height: 1148,
+    position: "10%",
+    alt: "La sala del centro estetico La Fenice, con la reception e la postazione unghie",
+  },
   {
     src: ingresso,
     small: ingresso800,
     width: 1022,
     height: 1600,
     position: "50% 68%",
+    alt: "L'ingresso, con la vetrata e il bancone con l'insegna La Fenice",
   },
   {
     src: cabina,
@@ -41,20 +48,29 @@ const slides = [
     width: 1066,
     height: 1600,
     position: "50% 70%",
+    alt: "La cabina dei trattamenti con il lettino",
   },
   {
     src: postazioneUnghie,
     small: postazioneUnghie800,
     width: 1066,
     height: 1600,
+    alt: "La postazione per manicure e unghie, con l'espositore degli smalti",
   },
-  { src: angoloAttesa, small: angoloAttesa800, width: 1000, height: 1600 },
+  {
+    src: angoloAttesa,
+    small: angoloAttesa800,
+    width: 1000,
+    height: 1600,
+    alt: "L'angolo d'attesa con la poltrona e i prodotti in vendita",
+  },
   {
     src: biglietto,
     small: biglietto800,
     width: 1066,
     height: 1600,
     position: "50% 30%",
+    alt: "Il biglietto da visita con il logo La Fenice, tra i fiori",
   },
 ];
 
@@ -72,7 +88,7 @@ const COPIES = [0, 1, 2];
 // scroll. Everything with a state of its own is ours, because Blossom's own
 // controls keep an index that the jumps of the infinite loop would make stale:
 // the arrows (hidden until this script runs), the dots (its own would draw one
-// per slide, that is nine) and the autoplay, which it does not have. The dots
+// per slide, copies included) and the autoplay, which it does not have. The dots
 // are anchors to the middle copy, so they work without JS too. Plain JS,
 // because the home ships no React to the client.
 const sliderScript = `(function(){
@@ -163,18 +179,15 @@ export function Hero() {
                   id={copy === 1 ? `hero-slide-${i + 1}` : undefined}
                   src={s.src}
                   srcSet={s.small && `${s.small} 800w, ${s.src} ${s.width}w`}
-                  // The frame is always the full viewport width.
-                  sizes="100vw"
+                  // The frame is always the full viewport width. Only with a
+                  // srcset: alone, sizes is invalid HTML.
+                  sizes={s.small && "100vw"}
                   style={{ objectPosition: s.position }}
                   data-blossom-slide=""
-                  // Decorative duplicates: one description is enough for the
-                  // whole set, and it goes on the first one in the document,
-                  // which is what a crawler or a page without JS reads.
-                  alt={
-                    copy === 0 && i === 0
-                      ? "Interni del centro estetico La Fenice"
-                      : ""
-                  }
+                  // The other copies are decorative duplicates: each photo is
+                  // described once, where a screen reader or a crawler meets
+                  // it first in the document.
+                  alt={copy === 0 ? s.alt : ""}
                   width={s.width}
                   height={s.height}
                   // Every copy has the same URLs, so what the preload
