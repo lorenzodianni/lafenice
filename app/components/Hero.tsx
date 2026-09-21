@@ -90,8 +90,14 @@ var still=matchMedia("(prefers-reduced-motion: reduce)").matches;
 var wid=function(){return c.getBoundingClientRect().width};
 var set=function(){return wid()*n};
 var to=function(x,fast){c.scrollTo({left:x,behavior:fast||still?"instant":"smooth"})};
-var go=function(d){to(c.scrollLeft+d*wid())};
+// Counted from the slide the track is heading to, not from where it is: a
+// second press during the smooth scroll adds a slide instead of snapping back
+// to the same one. Reset once the scroll settles.
+var want=null;
+var go=function(d){var w=wid();
+want=(want===null?Math.round(c.scrollLeft/w):want)+d;to(want*w)};
 var norm=function(){
+want=null;
 var w=wid(),s=set(),x=c.scrollLeft,off=x%w;
 // Between two slides means the scroll is still running: the jump would land
 // off a slide.
@@ -127,9 +133,11 @@ var timer,arm=function(){clearTimeout(timer);
 timer=setTimeout(function(){if(!document.hidden)go(1);arm()},6000)};
 arm();
 c.addEventListener("scroll",arm,{passive:true});
+// Using the controls stops it for good: a click or a tap, or focus from the
+// keyboard or a screen reader. Not pointerdown: on a phone the hero fills the
+// screen, and the swipe up that scrolls the page starts on a photo.
 var stop=function(){clearTimeout(timer);c.removeEventListener("scroll",arm)};
-["pointerdown","keydown"].forEach(function(e){
-box.addEventListener(e,stop,{once:true,passive:true})});
+["click","focusin"].forEach(function(e){box.addEventListener(e,stop,{once:true})});
 })()`;
 
 // One chevron, mirrored for the previous button: an SVG sits exactly in the

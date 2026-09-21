@@ -40,7 +40,9 @@ desktop-first con dati placeholder: il sito no.
   copie delle slide, si resta nella copia di mezzo). Niente librerie di drag:
   Blossom, provata, con la sua inerzia faceva saltare due slide a un drag col
   mouse. Senza JS lo slider resta usabile (scorre e fa snap) e le frecce
-  restano nascoste.
+  restano nascoste. Una libreria solo client che registra custom element va
+  caricata come `<script type="module">` da un import `?url`, mai con un
+  import normale: il prerender gira nel Worker, che non ha `customElements`.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
   contatti, liste, double opt-in, email transazionali. Nessun DB nostro.

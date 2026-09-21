@@ -28,5 +28,10 @@ punto si toglie da qui.
   mano o con una pipeline).
 - Pagina `/pages/trattamenti` dedicata (SEO locale) se i trattamenti crescono o
   arrivano i prezzi.
+- Slider hero: manca un comando di pausa visibile per l'autoplay (WCAG
+  2.2.2, contenuto che si muove per più di 5 secondi). Oggi si ferma al
+  primo click, tap o focus sui controlli, si mette in pausa quando si
+  scorrono le foto e non parte con `prefers-reduced-motion`. Da decidere:
+  un bottone pausa/play accanto ai pallini, oppure niente autoplay.
 - Animazioni di comparsa allo scroll del mockup: tolte (erano JS). Se servono, solo
   CSS con `animation-timeline: view()`.
