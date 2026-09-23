@@ -12,7 +12,7 @@ import semipermanente from "~/assets/trattamenti/semipermanente.svg";
 // (see worklog.md).
 
 export const site = {
-  url: "https://www.lafenice-estetica.com", // PLACEHOLDER: .com, name not chosen yet
+  url: "https://www.lafenicecentroestetico.com",
   name: "La Fenice",
   // Sole trader ("ditta individuale"): the legal name is the owner's own name.
   legalName: "Micaela Brunetti",

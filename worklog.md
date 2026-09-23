@@ -10,8 +10,8 @@ punto si toglie da qui.
 
 ## Dati mancanti dal cliente
 - La lista completa, con il perché di ogni domanda, sta in
-  `docs/domande-cliente.md`. In breve: nome del dominio, foto dei trattamenti e
-  del prodotto, dati del prodotto (formato, INCI), social e WhatsApp.
+  `docs/domande-cliente.md`. In breve: foto dei trattamenti e del prodotto,
+  dati del prodotto (formato, INCI), social e WhatsApp.
 - Bloccano la vendita spedita, che è vendita a distanza: prezzo finale e regime
   IVA, costo e corriere, se spedisce solo in Italia, mezzi di pagamento oltre al
   bonifico, chi paga il reso. L'INCI serve prima dell'acquisto, non solo sulla

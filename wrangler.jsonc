@@ -15,6 +15,15 @@
     // to the Worker first (a prerendered copy, if any, is never served).
     "run_worker_first": ["/products/*", "/pages/newsletter"]
   },
+  // The deploy creates the DNS records and certificates, so the domain setup
+  // lives here and not in the dashboard. www is canonical (site.url): the bare
+  // domain is attached only so a Redirect Rule can send it to www
+  // (docs/rollout.md §2). No workers.dev: it would be a second public copy.
+  "routes": [
+    { "pattern": "www.lafenicecentroestetico.com", "custom_domain": true },
+    { "pattern": "lafenicecentroestetico.com", "custom_domain": true }
+  ],
+  "workers_dev": false,
   // PLACEHOLDER: Brevo list and template IDs, set once the account exists.
   // The API key is a secret: `npx wrangler secret put BREVO_API_KEY`
   // (locally: BREVO_API_KEY=... in .dev.vars).

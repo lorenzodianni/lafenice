@@ -12,19 +12,75 @@ Serve per: dominio, DNS, hosting del Worker, Email Routing e Web Analytics
 
 Workers Builds collegato al repo: build `npm run build`, deploy
 `npx wrangler deploy` (legge la config generata in `build/server/wrangler.json`
-tramite `.wrangler/deploy/config.json`).
+tramite `.wrangler/deploy/config.json`). Il Worker in dashboard si deve
+chiamare `lafenice`, come `name` in `wrangler.jsonc`, o la build fallisce.
+
+Il repo si collega solo al go-live (punto 2): collegarlo fa partire subito un
+deploy, e il sito vero va online sul dominio (`routes` in `wrangler.jsonc`).
+Fino ad allora la cliente vede il sito nell'anteprima su GitHub Pages, e i form
+si provano in locale con `npm run preview` e la chiave Brevo vera in
+`.dev.vars`: in produzione senza chiave le chiamate falliscono, il salto esiste
+solo in dev.
 
 ## 2. Dominio
 
-Il dominio è un `.com` intestato alla cliente, nome ancora da scegliere (vedi
-`docs/domande-cliente.md`). Si compra da Cloudflare Registrar, dall'account del
-punto 1: il `.com` è tra le estensioni che vende, a prezzo di costo anche al
-rinnovo (circa 10 dollari l'anno). Rispetto a un registrar esterno è un
-account in meno, e il DNS è già su Cloudflare: niente nameserver da spostare.
+`lafenicecentroestetico.com`, comprato il 23 settembre 2026 da Cloudflare
+Registrar, dall'account del punto 1, intestato alla titolare come persona
+(ditta individuale: campo Organization vuoto). Cloudflare lo vende a prezzo di
+costo anche al rinnovo (circa 10 dollari l'anno). Rispetto a un registrar
+esterno è un account in meno, e il DNS è già su Cloudflare: niente nameserver
+da spostare.
 
-Finito questo, aggiornare `site.url` in `app/content/site.ts` (oggi
-`PLACEHOLDER`): è la base di canonical, Open Graph, JSON-LD, sitemap e
-llms.txt.
+Già fatto nel codice: `site.url` (base di canonical, Open Graph, JSON-LD,
+sitemap e llms.txt) punta a `https://www.lafenicecentroestetico.com`, e
+`routes` in `wrangler.jsonc` aggancia al Worker `www` e il dominio nudo. Il
+deploy crea da solo record DNS e certificati.
+
+Email Address Obfuscation è spenta (Security, Settings). È attiva di default:
+riscrive gli indirizzi email nell'HTML e li ricostruisce con uno script, quindi
+senza JS, e per i crawler che non lo eseguono, l'email del centro sparisce.
+
+Verifica dell'intestataria (ICANN): non è arrivata nessuna email, solo la
+conferma d'acquisto, perché l'intestataria ha la stessa email già verificata
+dell'account. Registrations mostra il dominio Active senza avvisi e il
+registro `.com` (RDAP) non ha `clientHold`. Se un giorno il sito smette di
+rispondere, è il primo posto da guardare.
+
+### Fino al go-live: pagina "in arrivo"
+
+Il sito vero non va online finché testi, foto e dati non sono definitivi
+(punti 5 e 6). Sul dominio intanto risponde il Worker `lafenice` con lo script
+di `docs/coming-soon.js`, incollato a mano nell'editor della dashboard: una
+pagina sola con indirizzo, telefono, orari e P.IVA (va sul sito di
+un'impresa). È `noindex`, così Google non si tiene "sito in arrivo" come
+descrizione anche dopo il lancio. Il Worker è lo stesso che al go-live riceve il
+sito vero: i domini restano agganciati e non c'è niente da staccare.
+
+1. Compute, Workers & Pages, Create, Start with Hello World: nome **`lafenice`**
+   (il `name` di `wrangler.jsonc`), Deploy. Poi Edit code, incollare
+   `docs/coming-soon.js` al posto del codice di esempio, Deploy.
+2. Settings, Domains & Routes, Add, Custom domain: `www.lafenicecentroestetico.com`
+   e `lafenicecentroestetico.com`.
+3. **Redirect 301 dal dominio nudo a `www`**: Rules, Redirect Rules, template
+   "Redirect from root to WWW", con "Preserve query string". Senza, il dominio
+   nudo serve una seconda copia del sito.
+4. **Always Use HTTPS** (SSL/TLS, Edge Certificates): è spento di default, e
+   senza le visite in `http://` ricevono la pagina in chiaro.
+
+Fatto il 23 settembre 2026 e verificato con curl: `http://` e il dominio nudo
+arrivano a `https://www.` mantenendo percorso e query string.
+
+### Go-live
+
+1. Punti 3-6 chiusi.
+2. Worker `lafenice`, Settings, Build: collegare il repo (build
+   `npm run build`, deploy `npx wrangler deploy`). Il primo build sostituisce la
+   pagina con il sito vero. Se un Worker creato dall'editor non si può
+   collegare, cancellarlo e ricrearlo da Import a repository con lo stesso
+   nome: i domini li riaggancia `routes`, il secret `BREVO_API_KEY` va rimesso.
+3. Sul dominio vero: home, scheda prodotto, un preordine e un'iscrizione
+   newsletter.
+4. Cancellare `docs/coming-soon.js` e questa sezione, poi punto 8.
 
 ## 3. Brevo
 
@@ -60,8 +116,10 @@ risponde 502. Il preordine non arriva nello spam, non si può proprio inviare.
 
 Quindi, quando c'è il dominio:
 
-- Brevo spedisce da `ordini@dominio`, autenticato.
-- Cloudflare Email Routing inoltra `ordini@dominio` alla Gmail esistente.
+- Brevo spedisce da `ordini@lafenicecentroestetico.com`, autenticato.
+- Cloudflare Email Routing inoltra `ordini@lafenicecentroestetico.com` alla
+  Gmail esistente. Attivo dal 23 settembre 2026 e provato con un'email vera;
+  catch-all spento, se no lo spam verso indirizzi inventati finirebbe in Gmail.
 - In `app/content/site.ts` va separato il mittente dal destinatario: oggi
   `app/lib/preorder.ts` usa `site.ordersEmail` per entrambi.
 - Per rispondere *con* l'indirizzo del dominio serve un SMTP vero (casella
