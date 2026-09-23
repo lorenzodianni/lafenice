@@ -84,13 +84,31 @@ arrivano a `https://www.` mantenendo percorso e query string.
 
 ## 3. Brevo
 
-Account, poi:
+Account aperto il 23 settembre 2026 a nome del centro, piano Free (300 email
+al giorno), telefono verificato. Fatto:
 
-- API key come secret del Worker: `npx wrangler secret put BREVO_API_KEY`.
-- Liste "Preordini" e "Newsletter" e template della doppia conferma: i tre ID
-  vanno nei `vars` di `wrangler.jsonc`, oggi valgono 0.
-- Attributo contatto **`BIRTHDAY`, tipo Date**, da creare a mano: non esiste di
-  default. Il form newsletter lo manda con la doppia conferma, e Brevo rifiuta
+- Dominio autenticato con la configurazione automatica Cloudflare (brevo-code,
+  DKIM `brevo1`/`brevo2`, DMARC `p=none`, CNAME `r` e `img`): nessun SPF
+  aggiunto, resta l'unico di Email Routing. Sottodominio brandizzato saltato,
+  serve solo a mostrare i link col nostro dominio.
+- Mittente `ordini@lafenicecentroestetico.com` (`senderEmail` in `site.ts`),
+  verificato. Quello con la Gmail creato da Brevo è stato eliminato.
+- Liste "Preordini" (ID 3) e "Newsletter" (ID 4), nei `vars` di
+  `wrangler.jsonc`.
+- Attributo `BIRTHDAY`, tipo Data.
+
+Da fare:
+
+- Template della doppia conferma, per il consenso marketing dal preordine:
+  HTML in `docs/brevo-doi.html`, tag `optin`, mittente `ordini@`. Il suo ID va
+  in `BREVO_DOI_TEMPLATE_ID`, oggi 0.
+- Chiave API (SMTP e API) e IP autorizzati spenti (Sicurezza): il Worker non
+  esce da un IP fisso. La chiave va come Secret del Worker `lafenice`
+  (Settings, Variables and Secrets), che sopravvive ai deploy di Workers
+  Builds, e in `.dev.vars` per i test del punto 4.
+
+Note sull'attributo **`BIRTHDAY`**: non esiste di default. Il form newsletter lo
+manda con la doppia conferma, e Brevo rifiuta
   un attributo sconosciuto: senza, l'iscrizione riesce lo stesso ma la data va
   persa (`sendNewsletter` riprova senza), quindi l'errore non si vede dal sito
   e resta solo nei log. Da verificare al primo test reale, insieme al
@@ -120,8 +138,8 @@ Quindi, quando c'è il dominio:
 - Cloudflare Email Routing inoltra `ordini@lafenicecentroestetico.com` alla
   Gmail esistente. Attivo dal 23 settembre 2026 e provato con un'email vera;
   catch-all spento, se no lo spam verso indirizzi inventati finirebbe in Gmail.
-- In `app/content/site.ts` va separato il mittente dal destinatario: oggi
-  `app/lib/preorder.ts` usa `site.ordersEmail` per entrambi.
+- In `app/content/site.ts` il mittente (`senderEmail`) è separato dal
+  destinatario (`ordersEmail`, la Gmail).
 - Per rispondere *con* l'indirizzo del dominio serve un SMTP vero (casella
   Aruba da pochi euro, o Zoho): riguarda solo come la titolare scrive ai suoi
   clienti, non il sito.

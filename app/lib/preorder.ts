@@ -100,7 +100,7 @@ export async function sendPreorder(
 
   const notifyShop = () =>
     call("/smtp/email", {
-      sender: { name: `Sito ${site.name}`, email: site.ordersEmail },
+      sender: { name: `Sito ${site.name}`, email: site.senderEmail },
       to: [{ email: site.ordersEmail }],
       replyTo: { email: values.email, name: values.name },
       // The delivery choice is in the subject: it picks the reply model (see

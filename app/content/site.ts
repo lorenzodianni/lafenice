@@ -35,6 +35,9 @@ export const site = {
   whatsapp: "", // PLACEHOLDER: empty = hidden
   email: "c.elafenice2020@gmail.com",
   ordersEmail: "c.elafenice2020@gmail.com", // receives preorders
+  // Sender of every Brevo email: Brevo only sends from an authenticated domain,
+  // never from Gmail. Cloudflare Email Routing forwards it to ordersEmail.
+  senderEmail: "ordini@lafenicecentroestetico.com",
   // schema.org day names; labels and closed days are derived below.
   hours: [
     {
