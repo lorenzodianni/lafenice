@@ -5,7 +5,6 @@ const config = {
   apiKey: "key",
   preorderListId: 1,
   newsletterListId: 2,
-  doiTemplateId: 3,
 };
 const now = Date.parse("2026-09-24T10:00:00Z");
 const answer = (json: unknown) =>

@@ -1,6 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { site } from "~/content/site";
-import { CONFIRMED_PATH, doubleOptin } from "./brevo";
 import { parseNewsletter, sendNewsletter } from "./newsletter";
 
 const form = (fields: Record<string, string>) => {
@@ -52,7 +50,6 @@ describe("sendNewsletter", () => {
     apiKey: "key",
     preorderListId: 1,
     newsletterListId: 2,
-    doiTemplateId: 3,
   };
 
   it("subscribes straight into the list, anyway when Brevo refuses the birthday", async () => {
@@ -89,41 +86,5 @@ describe("sendNewsletter", () => {
         fetchFn,
       ),
     ).rejects.toThrow();
-  });
-});
-
-describe("doubleOptin", () => {
-  it("asks Brevo to confirm into the newsletter list, back to our page", async () => {
-    let body: Record<string, unknown> = {};
-    const fetchFn = (async (url: string, init: RequestInit) => {
-      expect(url).toBe(
-        "https://api.brevo.com/v3/contacts/doubleOptinConfirmation",
-      );
-      body = JSON.parse(String(init.body));
-      return new Response(null, { status: 201 });
-    }) as typeof fetch;
-
-    const config = {
-      apiKey: "key",
-      preorderListId: 1,
-      newsletterListId: 2,
-      doiTemplateId: 3,
-    };
-    await doubleOptin("maria@example.it", config, undefined, fetchFn);
-
-    expect(body).toEqual({
-      email: "maria@example.it",
-      includeListIds: [2],
-      templateId: 3,
-      redirectionUrl: `${site.url}${CONFIRMED_PATH}`,
-    });
-
-    await doubleOptin(
-      "maria@example.it",
-      config,
-      { BIRTHDAY: "1985-02-28" },
-      fetchFn,
-    );
-    expect(body.attributes).toEqual({ BIRTHDAY: "1985-02-28" });
   });
 });

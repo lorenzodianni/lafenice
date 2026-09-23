@@ -24,13 +24,11 @@
     { "pattern": "lafenicecentroestetico.com", "custom_domain": true }
   ],
   "workers_dev": false,
-  // Brevo list and template IDs, from the account (docs/rollout.md §3).
-  // PLACEHOLDER: the double opt-in template ID, once the template exists.
+  // Brevo list IDs, from the account (docs/rollout.md §3).
   // The API key is a secret: `npx wrangler secret put BREVO_API_KEY`
   // (locally: BREVO_API_KEY=... in .dev.vars).
   "vars": {
     "BREVO_PREORDER_LIST_ID": 3,
-    "BREVO_NEWSLETTER_LIST_ID": 4,
-    "BREVO_DOI_TEMPLATE_ID": 0
+    "BREVO_NEWSLETTER_LIST_ID": 4
   }
 }

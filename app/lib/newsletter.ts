@@ -55,7 +55,7 @@ export async function sendNewsletter(
   const subscribe = (attributes?: Record<string, string>) =>
     upsertContact(
       values.email,
-      config.newsletterListId,
+      [config.newsletterListId],
       config,
       attributes,
       fetchFn,

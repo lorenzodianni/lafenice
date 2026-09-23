@@ -47,7 +47,7 @@ desktop-first con dati placeholder: il sito no.
   import normale: il prerender gira nel Worker, che non ha `customElements`.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
-  contatti, liste, double opt-in, email transazionali e i conteggi del tetto
+  contatti, liste, email transazionali e i conteggi del tetto
   anti-abuso. Nessun DB nostro.
 - **SCSS** (`sass-embedded`, compilato da Vite): colori e font come CSS custom
   properties del mockup in `app/styles/global.scss`; breakpoint e mixin in
@@ -82,7 +82,7 @@ app/
   content/     site.ts (nome, indirizzo, orari, contatti, social, dati legali), products.ts
   components/  layout (Header, Footer) e sezioni + *.module.scss
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
-  lib/         seo.ts (meta comuni), brevo.ts (client API, double opt-in, tetto),
+  lib/         seo.ts (meta comuni), brevo.ts (client API, contatti, tetto),
                preorder.ts, newsletter.ts (validazione) + test
   styles/      global.scss, _mixins.scss
   assets/      immagini importate dai componenti
@@ -100,8 +100,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `/products/detergente-viso-nuvola` scheda prodotto + **unico** form preordine
 - `/pages/grazie-preordine` destinazione dopo l'invio (redirect, `noindex`)
 - `/pages/newsletter` riceve tutti i form newsletter e ne mostra gli errori;
-  `/pages/grazie-newsletter` dopo l'invio, `/pages/iscrizione-confermata` dopo il
-  click nell'email del double opt-in (entrambe `noindex`)
+  `/pages/grazie-newsletter` dopo l'invio (`noindex`)
 - `/policies/privacy-policy`, `/policies/terms-of-service` (condizioni di
   vendita e recesso: la spedizione è vendita a distanza, il perché e i modelli
   di email stanno in `docs/email-preordine.md`)
@@ -111,7 +110,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - **Preordine**: nome*, email*, telefono, quantità, consegna* (ritiro o
   spedizione), indirizzo (obbligatorio solo con la spedizione: senza non si può
   quotare), note, presa visione privacy*, consenso marketing opzionale. Action → contatto Brevo in lista "Preordini" (+
-  double opt-in "Newsletter" se c'è il consenso) + email da `senderEmail` a
+  lista "Newsletter" se c'è il consenso) + email da `senderEmail` a
   `ordersEmail` con
   reply-to del cliente, poi redirect a `/pages/grazie-preordine`. Se Brevo fallisce
   la pagina torna con un errore e i campi compilati: mai finto successo.
@@ -124,7 +123,7 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   diretta alla lista "Newsletter", senza email di conferma (scelta della cliente,
   il 23 settembre 2026). POST a `/pages/newsletter` (le pagine sono statiche),
   stesso schema del preordine: errori sulla pagina, redirect a
-  `/pages/grazie-newsletter`. Le tre pagine newsletter esportano
+  `/pages/grazie-newsletter`. Le due pagine newsletter esportano
   `handle = { hideNewsletter: true }`: niente form ripetuto nel footer.
 - `<Form>` di React Router: deve funzionare anche senza JS.
 - Validazione sempre lato server, honeypot anti-spam. Segreti solo come secret del
@@ -139,8 +138,8 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 
 ## GDPR / legale
 - Consenso marketing separato, esplicito, mai preselezionato. La prova del
-  consenso: per il form newsletter l'invio stesso, con la data di creazione del
-  contatto in Brevo; per il consenso dal preordine il double opt-in di Brevo.
+  consenso è l'invio del form (newsletter o preordine), con la data di creazione
+  del contatto in Brevo: niente double opt-in, scelta della cliente.
 - **Nessun cookie non tecnico → nessun cookie banner.** Quindi niente Google Analytics
   né embed Google Maps (immagine statica + link a Maps); analytics = Cloudflare Web
   Analytics (cookieless). Ogni nuovo script di terze parti va valutato contro questa regola.

@@ -46,8 +46,7 @@ const html = `<!doctype html>
 </body>
 </html>`;
 
-// Every path gets the page: the double opt-in link in Brevo's emails already
-// points to /pages/iscrizione-confermata on this domain.
+// Every path gets the page, whatever link someone follows.
 export default {
   fetch() {
     return new Response(html, {

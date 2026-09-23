@@ -1,16 +1,10 @@
-import { site } from "~/content/site";
-
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const isEmail = (s: string) => s.length <= 254 && EMAIL.test(s);
-
-// Where the link in Brevo's confirmation email lands.
-export const CONFIRMED_PATH = "/pages/iscrizione-confermata";
 
 export type BrevoConfig = {
   apiKey: string;
   preorderListId: number;
   newsletterListId: number;
-  doiTemplateId: number;
 };
 
 // Takes env as an argument: this module also loads during prerendering (Node),
@@ -19,7 +13,6 @@ export const brevoConfig = (env: Cloudflare.Env): BrevoConfig => ({
   apiKey: env.BREVO_API_KEY ?? "",
   preorderListId: env.BREVO_PREORDER_LIST_ID,
   newsletterListId: env.BREVO_NEWSLETTER_LIST_ID,
-  doiTemplateId: env.BREVO_DOI_TEMPLATE_ID,
 });
 
 // Brevo REST API v3 via fetch, no SDK. Any non-2xx throws: callers must never
@@ -48,19 +41,22 @@ export function brevo(apiKey: string, fetchFn: typeof fetch = fetch) {
 }
 
 // Creates the contact or updates it in place: a second signup is not an error.
-// An address that unsubscribed stays so: updateEnabled does not lift Brevo's
+// No confirmation email anywhere (the client's choice, see CLAUDE.md). An
+// address that unsubscribed stays so: updateEnabled does not lift Brevo's
 // blacklist, and without a confirmation email nobody proves a new signup.
 export const upsertContact = (
   email: string,
-  listId: number,
+  listIds: number[],
   config: BrevoConfig,
+  // Brevo attribute IDs, uppercase, which must exist in the account
+  // (docs/rollout.md). Left out of the body when there are none.
   attributes?: Record<string, string>,
   fetchFn = fetch,
 ) =>
   brevo(config.apiKey, fetchFn)("/contacts", {
     email,
     attributes,
-    listIds: [listId],
+    listIds,
     updateEnabled: true,
   });
 
@@ -88,9 +84,9 @@ export async function newsletterCapReached(
   return (page?.contacts?.length ?? 0) >= HOURLY_CAP;
 }
 
-// Preorders send email (the shop notification, maybe a double opt-in), and the
-// same address twice is still two emails: what piles up is sends. Also the
-// guard on the daily Brevo quota the shop notifications depend on.
+// Every preorder emails the shop, and the same address twice is still two
+// emails: what piles up is sends. Also the guard on the daily Brevo quota the
+// shop notifications depend on.
 export async function emailCapReached(
   config: BrevoConfig,
   fetchFn = fetch,
@@ -108,23 +104,3 @@ export async function emailCapReached(
   );
   return recent.length >= HOURLY_CAP;
 }
-
-// Brevo emails a confirmation link and adds the address to the newsletter list
-// only once it is clicked: that click is the proof of consent. Used for the
-// marketing consent in the preorder form; the newsletter form subscribes
-// directly (the client's choice, see CLAUDE.md).
-export const doubleOptin = (
-  email: string,
-  config: BrevoConfig,
-  // Brevo attribute names, uppercase, already created in the account
-  // (docs/rollout.md). Left out of the body when there are none.
-  attributes?: Record<string, string>,
-  fetchFn = fetch,
-) =>
-  brevo(config.apiKey, fetchFn)("/contacts/doubleOptinConfirmation", {
-    email,
-    attributes,
-    includeListIds: [config.newsletterListId],
-    templateId: config.doiTemplateId,
-    redirectionUrl: `${site.url}${CONFIRMED_PATH}`,
-  });

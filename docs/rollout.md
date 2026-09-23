@@ -99,24 +99,22 @@ al giorno), telefono verificato. Fatto:
 
 Da fare:
 
-- Template della doppia conferma, per il consenso marketing dal preordine:
-  HTML in `docs/brevo-doi.html`, tag `optin`, mittente `ordini@`. Il suo ID va
-  in `BREVO_DOI_TEMPLATE_ID`, oggi 0.
 - Chiave API (SMTP e API) e IP autorizzati spenti (Sicurezza): il Worker non
   esce da un IP fisso. La chiave va come Secret del Worker `lafenice`
   (Settings, Variables and Secrets), che sopravvive ai deploy di Workers
   Builds, e in `.dev.vars` per i test del punto 4.
 
+Nessuna email di conferma, né dal form newsletter né dal consenso marketing
+del preordine: scelta della cliente del 23 settembre 2026. Il contatto entra
+direttamente nella lista; i limiti contro l'abuso sono al punto 7.
+
 Note sull'attributo **`BIRTHDAY`**: non esiste di default. Il form newsletter lo
-manda con l'iscrizione, e Brevo rifiuta
-  un attributo sconosciuto: senza, l'iscrizione riesce lo stesso ma la data va
-  persa (`sendNewsletter` riprova senza), quindi l'errore non si vede dal sito
-  e resta solo nei log. Da verificare al primo test reale, insieme al
-  formato della data (mandiamo `YYYY-MM-DD`, come lo scrive `<input type="date">`).
-  Serve per le promozioni di compleanno, che si impostano in Brevo come
-  automazione sulla data.
-- **Autenticare il dominio come mittente** (record DKIM e SPF nel DNS
-  Cloudflare). Non è opzionale, vedi sotto.
+manda con l'iscrizione, e Brevo rifiuta un attributo sconosciuto: senza,
+l'iscrizione riesce lo stesso ma la data va persa (`sendNewsletter` riprova
+senza), quindi l'errore non si vede dal sito e resta solo nei log. Da
+verificare al primo test reale, insieme al formato della data (mandiamo
+`YYYY-MM-DD`, come lo scrive `<input type="date">`). Serve per le promozioni di
+compleanno, che si impostano in Brevo come automazione sulla data.
 
 ### Perché la casella Gmail non basta come mittente
 
@@ -148,10 +146,10 @@ Quindi, quando c'è il dominio:
 
 Questi comportamenti sono stati ipotizzati e provati solo con una fetch finta:
 
-- `sendPreorder` crea il contatto e poi chiama
-  `/contacts/doubleOptinConfirmation` sullo stesso indirizzo. Che Brevo accetti
-  la doppia conferma per un contatto che esiste già è da verificare: se la
-  rifiuta, invertire l'ordine o saltare la creazione quando c'è il consenso.
+- `sendPreorder` salva il nome nell'attributo `FIRSTNAME`. Brevo crea gli
+  attributi predefiniti nella lingua dell'account, e in uno italiano potrebbe
+  chiamarlo `NOME`: se `FIRSTNAME` non c'è in Attributi di contatto, o si crea
+  o si cambia il nome nel codice. Senza, il preordine fallisce con 502.
 - Form newsletter con un indirizzo già iscritto: `POST /contacts` con
   `updateEnabled` dovrebbe aggiornarlo senza errore. Se Brevo risponde con un
   errore, l'utente vede "non siamo riusciti a completare l'iscrizione" (502).
@@ -224,11 +222,11 @@ Perché servono, form per form:
   spam: Brevo sospende gli account con troppe segnalazioni, e da quell'account
   escono anche le notifiche dei preordini.
 - **Preordini**: ogni invio manda una email al negozio e, con il consenso
-  marketing, una doppia conferma all'indirizzo scritto nel form. Una raffica
-  riempirebbe la Gmail, manderebbe email a sconosciuti e brucerebbe la quota
+  marketing, lo iscrive anche alla newsletter. Una raffica
+  riempirebbe la Gmail, iscriverebbe sconosciuti e brucerebbe la quota
   Brevo (300 al giorno): finita quella, il preordine di un cliente vero non
   arriva più. Il tetto conta le email, non i contatti: lo stesso indirizzo
-  ripetuto resta un contatto solo, ma sono comunque due email.
+  ripetuto resta un contatto solo, ma ogni invio è una email.
 
 ### Perché non una captcha, per ora
 
