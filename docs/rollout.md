@@ -60,8 +60,13 @@ sito vero: i domini restano agganciati e non c'è niente da staccare.
 2. Settings, Domains & Routes, Add, Custom domain: `www.lafenicecentroestetico.com`
    e `lafenicecentroestetico.com`.
 3. **Redirect 301 dal dominio nudo a `www`**: Rules, Redirect Rules, template
-   "Redirect from root to WWW". Senza, il dominio nudo serve una seconda copia
-   del sito.
+   "Redirect from root to WWW", con "Preserve query string". Senza, il dominio
+   nudo serve una seconda copia del sito.
+4. **Always Use HTTPS** (SSL/TLS, Edge Certificates): è spento di default, e
+   senza le visite in `http://` ricevono la pagina in chiaro.
+
+Fatto il 23 settembre 2026 e verificato con curl: `http://` e il dominio nudo
+arrivano a `https://www.` mantenendo percorso e query string.
 
 ### Go-live
 
