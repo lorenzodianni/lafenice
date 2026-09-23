@@ -21,7 +21,9 @@ desktop-first con dati placeholder: il sito no.
   Deploy da integrazione Git di Cloudflare, niente CI custom. Unica eccezione:
   `.github/workflows/preview.yml`, anteprima statica per la cliente su GitHub
   Pages (form che non inviano, `noindex`), da spegnere al go-live
-  (`docs/rollout.md` §8).
+  (`docs/rollout.md` §8). Fino al go-live sul dominio c'è solo la pagina di
+  `docs/coming-soon.js`, incollata a mano nel Worker: il repo si collega al
+  Worker solo al lancio (`docs/rollout.md` §2).
 - **Path che ricevono un form = serviti dal Worker.** Gli asset statici
   rispondono a ogni metodo: una POST su una pagina prerenderizzata riceve un 405
   vuoto e non arriva mai all'action. Ogni path che riceve una POST va in
