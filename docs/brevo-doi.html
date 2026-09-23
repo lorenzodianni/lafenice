@@ -2,7 +2,9 @@
 <!--
   Brevo double opt-in template (docs/rollout.md §3). Pasted as HTML code in
   Marketing, Templates; the template needs the tag "optin" and the link
-  {{ doubleoptin }}. Brevo forbids promotional content in it.
+  {{ doubleoptin }}. Brevo forbids promotional content in it. The logo is a
+  PNG (email clients drop SVG) served from our domain: by the coming-soon
+  Worker until go-live, then by public/images/logo-email.png.
   ponytail: address and VAT number duplicate app/content/site.ts, since Brevo
   cannot read it. Update both if they change.
 -->
@@ -17,8 +19,7 @@
 <tr><td align="center" style="padding:32px 16px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#ffffff;border-radius:18px;">
   <tr><td style="padding:40px 32px;text-align:center;color:#2b1a20;">
-    <p style="margin:0 0 4px;font:12px/1.4 Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#5a2e3d;">Centro Estetico</p>
-    <h1 style="margin:0 0 24px;font:400 36px/1.1 Georgia,serif;color:#3a1526;">La Fenice</h1>
+    <img src="https://www.lafenicecentroestetico.com/images/logo-email.png" width="240" height="231" alt="Centro Estetico La Fenice" style="display:block;width:240px;max-width:100%;height:auto;margin:0 auto 24px;border:0;">
     <p style="margin:0 0 24px;font:16px/1.6 Arial,sans-serif;">Grazie per l'iscrizione alla newsletter. Per completarla, conferma il tuo indirizzo email:</p>
     <a href="{{ doubleoptin }}" style="display:inline-block;padding:14px 28px;background:#3a1526;color:#ffffff;border-radius:999px;text-decoration:none;font:600 16px Arial,sans-serif;">Conferma l'iscrizione</a>
     <p style="margin:24px 0 0;font:14px/1.6 Arial,sans-serif;color:#5a2e3d;">Se non l'hai chiesta tu, ignora questa email: senza conferma non riceverai altro da noi.</p>
