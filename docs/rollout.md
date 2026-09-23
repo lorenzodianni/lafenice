@@ -155,6 +155,12 @@ Questi comportamenti sono stati ipotizzati e provati solo con una fetch finta:
 - Form newsletter con un indirizzo già iscritto: `POST /contacts` con
   `updateEnabled` dovrebbe aggiornarlo senza errore. Se Brevo risponde con un
   errore, l'utente vede "non siamo riusciti a completare l'iscrizione" (502).
+- Il tetto orario: `GET /contacts/lists/4/contacts?modifiedSince=` deve
+  restituire i contatti toccati nell'ultima ora, e
+  `GET /smtp/statistics/events?event=requests&days=2` le email appena spedite,
+  con `date` leggibile da `Date.parse`. Se una delle due risponde in un formato
+  diverso, il tetto non scatta mai (o scatta sempre): va provato mandando
+  qualche form e leggendo le risposte.
 
 ## 5. Dati del cliente
 
@@ -186,23 +192,43 @@ raccolti **dal sito** (l'indirizzo di consegna ora è tra questi), ma con la
 spedizione arrivano per email anche gli estremi del pagamento. Vanno aggiunti a
 "Quali dati raccogliamo".
 
-## 7. Rate limiting sui form (dashboard Cloudflare, nessun codice)
+## 7. Limiti anti-abuso sui form
 
-Cloudflare, Security, WAF, Rate limiting rules:
+Tre livelli, dal più semplice:
 
-- match: metodo `POST` e path `/pages/newsletter` o che inizia per `/products/`
-- conteggio per indirizzo IP
-- soglia bassa, cinque richieste in dieci minuti: una persona vera ne fa una
-- azione: **Block**, non Managed Challenge. La sfida di Cloudflare su una POST
-  perde il corpo della richiesta, quindi romperebbe l'invio a un utente vero
-  che finisce sopra soglia. Se si vuole la sfida, va messa sulla GET della
-  pagina.
+1. **Honeypot**: un campo nascosto che solo i bot compilano.
+2. **Tetto orario nel codice**: al massimo 30 iscrizioni newsletter e 30 email
+   dai preordini all'ora, da tutto il sito (`HOURLY_CAP` in `brevo.ts`).
+   Oltre, il form dice "riprova tra poco" e il preordine offre l'email. Conta
+   su Brevo, quindi niente database, e regge anche contro molti IP diversi.
+3. **Regola per IP** (dashboard Cloudflare, nessun codice): Security, WAF,
+   Rate limiting rules.
+   - match: metodo `POST` e path `/pages/newsletter` o che inizia per
+     `/products/`
+   - conteggio per indirizzo IP, tre richieste in dieci secondi: il piano Free
+     ha una regola sola e solo la finestra da 10 secondi (i "cinque in dieci
+     minuti" previsti prima richiedono il piano Business)
+   - azione: **Block**, non Managed Challenge. La sfida di Cloudflare su una
+     POST perde il corpo della richiesta, quindi romperebbe l'invio a un utente
+     vero che finisce sopra soglia. Se si vuole la sfida, va messa sulla GET
+     della pagina.
 
-Serve perché una POST a `/pages/newsletter` fa partire da Brevo una email di
-conferma verso l'indirizzo scritto nel form, e nessuno verifica che sia di chi
-compila. Uno script che posta mille indirizzi altrui manda mille email a nome
-del centro e brucia la quota Brevo, che è la stessa da cui escono le notifiche
-dei preordini: finita quella, il preordine di un cliente vero non arriva più.
+   Ferma le raffiche da una sorgente sola, prima ancora che arrivino al tetto.
+
+Perché servono, form per form:
+
+- **Newsletter**: dal 23 settembre 2026 l'iscrizione è diretta, senza email di
+  conferma (scelta della cliente). Nessuna email parte all'invio, quindi non si
+  può usare il form per mandare posta a nome del centro. Il rischio è che
+  entrino indirizzi di chi non l'ha chiesto e che alla prima campagna segnino
+  spam: Brevo sospende gli account con troppe segnalazioni, e da quell'account
+  escono anche le notifiche dei preordini.
+- **Preordini**: ogni invio manda una email al negozio e, con il consenso
+  marketing, una doppia conferma all'indirizzo scritto nel form. Una raffica
+  riempirebbe la Gmail, manderebbe email a sconosciuti e brucerebbe la quota
+  Brevo (300 al giorno): finita quella, il preordine di un cliente vero non
+  arriva più. Il tetto conta le email, non i contatti: lo stesso indirizzo
+  ripetuto resta un contatto solo, ma sono comunque due email.
 
 ### Perché non una captcha, per ora
 
@@ -214,9 +240,9 @@ misura. Ma la captcha, qui, costa più di quello che rende:
 - senza JS il widget non compare, quindi o si rifiuta l'invio (e il form smette
   di funzionare senza JS, contro le regole del progetto) o lo si accetta lo
   stesso (e la captcha non serve);
-- non ferma il caso singolo: chi vuole mandare una conferma sgradita a un
-  indirizzo altrui risolve la captcha e la manda. Ferma il volume, come il
-  rate limiting, che però costa zero.
+- non ferma il caso singolo: chi vuole iscrivere un indirizzo altrui risolve la
+  captcha e lo iscrive. Ferma il volume, come i due limiti sopra, che però
+  costano zero.
 
 Se dopo il lancio si vedono invii ripetuti nonostante il limite, Turnstile va
 solo sulle route dei form (che possono idratare da sole con

@@ -47,7 +47,8 @@ desktop-first con dati placeholder: il sito no.
   import normale: il prerender gira nel Worker, che non ha `customElements`.
   Una route idrata solo se le serve davvero (es. stato di invio di un form).
 - **Brevo** (API REST v3 via `fetch`, niente SDK) è l'unico "database":
-  contatti, liste, double opt-in, email transazionali. Nessun DB nostro.
+  contatti, liste, double opt-in, email transazionali e i conteggi del tetto
+  anti-abuso. Nessun DB nostro.
 - **SCSS** (`sass-embedded`, compilato da Vite): colori e font come CSS custom
   properties del mockup in `app/styles/global.scss`; breakpoint e mixin in
   `app/styles/_mixins.scss`; SCSS Modules per componente (`*.module.scss`). Solo
@@ -81,7 +82,7 @@ app/
   content/     site.ts (nome, indirizzo, orari, contatti, social, dati legali), products.ts
   components/  layout (Header, Footer) e sezioni + *.module.scss
   routes/      pagine + resource route (sitemap.xml, robots.txt, llms.txt)
-  lib/         seo.ts (meta comuni), brevo.ts (client API + double opt-in),
+  lib/         seo.ts (meta comuni), brevo.ts (client API, double opt-in, tetto),
                preorder.ts, newsletter.ts (validazione) + test
   styles/      global.scss, _mixins.scss
   assets/      immagini importate dai componenti
@@ -128,6 +129,10 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
 - `<Form>` di React Router: deve funzionare anche senza JS.
 - Validazione sempre lato server, honeypot anti-spam. Segreti solo come secret del
   Worker (`BREVO_API_KEY`), mai nel bundle client.
+- Tetto anti-abuso: `HOURLY_CAP` (30) per ora e per form, contato su Brevo
+  (`newsletterCapReached`: contatti entrati nella lista; `emailCapReached`: email
+  spedite). Oltre, il form risponde 429 con "riprova tra poco". Più la regola
+  per IP di Cloudflare (`docs/rollout.md` §7).
 - `mailto:` solo come contatto alternativo, mai come canale del form.
 - "Prenota" (trattamenti) porta alla sezione contatti (`/#contatti`); lì il bottone è
   `tel:` e c'è WhatsApp. Nessun sistema di prenotazione.

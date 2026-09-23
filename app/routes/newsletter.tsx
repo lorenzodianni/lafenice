@@ -2,7 +2,7 @@ import { data, redirect } from "react-router";
 import { NewsletterForm, newsletterPitch } from "~/components/NewsletterForm";
 import { products } from "~/content/products";
 import { site } from "~/content/site";
-import { brevoConfig } from "~/lib/brevo";
+import { brevoConfig, newsletterCapReached } from "~/lib/brevo";
 import { parseNewsletter, sendNewsletter } from "~/lib/newsletter";
 import { pageMeta } from "~/lib/seo";
 import type { Route } from "./+types/newsletter";
@@ -25,11 +25,15 @@ export async function action({ request }: Route.ActionArgs) {
     return data({ values, errors, formError: false }, { status: 400 });
   }
 
+  const config = brevoConfig(env);
   try {
-    // The birthday travels with the confirmation, so the date lands on the
-    // contact only if the subscription is confirmed: no birthday without a
-    // subscriber, and no subscriber lost to the birthday.
-    await sendNewsletter(values, brevoConfig(env));
+    // Over the cap the form says "riprova tra poco", like any failure. A
+    // failed count throws into the catch: without it, nothing is subscribed.
+    if (await newsletterCapReached(config)) {
+      console.warn("Newsletter hourly cap reached");
+      return data({ values, errors: {}, formError: true }, { status: 429 });
+    }
+    await sendNewsletter(values, config);
   } catch (error) {
     console.error("Newsletter signup failed", error);
     return data({ values, errors: {}, formError: true }, { status: 502 });

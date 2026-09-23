@@ -3,7 +3,7 @@ import { PreorderForm } from "~/components/PreorderForm";
 import { ProductSection } from "~/components/ProductSection";
 import { products } from "~/content/products";
 import { site } from "~/content/site";
-import { brevoConfig } from "~/lib/brevo";
+import { brevoConfig, emailCapReached } from "~/lib/brevo";
 import { parsePreorder, sendPreorder } from "~/lib/preorder";
 import { pageMeta } from "~/lib/seo";
 import type { Route } from "./+types/product";
@@ -36,8 +36,15 @@ export async function action({ request, params }: Route.ActionArgs) {
     return data({ values, errors, formError: false }, { status: 400 });
   }
 
+  const config = brevoConfig(env);
   try {
-    await sendPreorder(values, product.title, brevoConfig(env));
+    // Over the cap the page says "riprova tra poco" and offers the email
+    // address, like any failure. A failed count throws into the catch.
+    if (await emailCapReached(config)) {
+      console.warn("Preorder hourly cap reached");
+      return data({ values, errors: {}, formError: true }, { status: 429 });
+    }
+    await sendPreorder(values, product.title, config);
   } catch (error) {
     // Never fake success: the request would be lost. The page offers email.
     console.error("Preorder failed", error);

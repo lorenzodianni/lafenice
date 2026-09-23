@@ -23,25 +23,27 @@ export const brevoConfig = (env: Cloudflare.Env): BrevoConfig => ({
 });
 
 // Brevo REST API v3 via fetch, no SDK. Any non-2xx throws: callers must never
-// report success for a lost request.
+// report success for a lost request. With a body it POSTs, without it GETs and
+// returns the JSON.
 export function brevo(apiKey: string, fetchFn: typeof fetch = fetch) {
-  return async (path: string, body: unknown) => {
+  return async (path: string, body?: unknown): Promise<unknown> => {
     // ponytail: lets the forms run in dev before the Brevo account exists.
     if (import.meta.env.DEV && !apiKey) {
       console.info(`[dev] Brevo ${path} saltato, manca BREVO_API_KEY:`, body);
       return;
     }
     const res = await fetchFn(`https://api.brevo.com/v3${path}`, {
-      method: "POST",
+      method: body === undefined ? "GET" : "POST",
       headers: {
         "api-key": apiKey,
         "content-type": "application/json",
         accept: "application/json",
       },
-      body: JSON.stringify(body),
+      body: body === undefined ? undefined : JSON.stringify(body),
     });
     if (!res.ok)
       throw new Error(`Brevo ${path} ${res.status}: ${await res.text()}`);
+    if (body === undefined) return res.json();
   };
 }
 
@@ -61,6 +63,51 @@ export const upsertContact = (
     listIds: [listId],
     updateEnabled: true,
   });
+
+// Anti-abuse cap on both forms, counted on Brevo itself: no store of our own.
+// It asks for at most HOURLY_CAP rows, so it never relies on Brevo's totals.
+// ponytail: check then send, so simultaneous requests can slip past together,
+// and Brevo's log may trail a burst by a few seconds. The per-IP Cloudflare
+// rule (docs/rollout.md §7) covers bursts from a single source.
+export const HOURLY_CAP = 30;
+const HOUR = 3_600_000;
+
+// Newsletter signups send no email: what piles up is contacts in the list.
+export async function newsletterCapReached(
+  config: BrevoConfig,
+  fetchFn = fetch,
+  now = Date.now(),
+) {
+  const since = new Date(now - HOUR).toISOString();
+  const page = (await brevo(
+    config.apiKey,
+    fetchFn,
+  )(
+    `/contacts/lists/${config.newsletterListId}/contacts?modifiedSince=${since}&limit=${HOURLY_CAP}`,
+  )) as { contacts?: unknown[] } | undefined;
+  return (page?.contacts?.length ?? 0) >= HOURLY_CAP;
+}
+
+// Preorders send email (the shop notification, maybe a double opt-in), and the
+// same address twice is still two emails: what piles up is sends. Also the
+// guard on the daily Brevo quota the shop notifications depend on.
+export async function emailCapReached(
+  config: BrevoConfig,
+  fetchFn = fetch,
+  now = Date.now(),
+) {
+  // days=2: today alone would forget the hour before midnight.
+  const page = (await brevo(
+    config.apiKey,
+    fetchFn,
+  )(
+    `/smtp/statistics/events?event=requests&days=2&sort=desc&limit=${HOURLY_CAP}`,
+  )) as { events?: { date: string }[] } | undefined;
+  const recent = (page?.events ?? []).filter(
+    (e) => now - Date.parse(e.date) < HOUR,
+  );
+  return recent.length >= HOURLY_CAP;
+}
 
 // Brevo emails a confirmation link and adds the address to the newsletter list
 // only once it is clicked: that click is the proof of consent. Used for the
