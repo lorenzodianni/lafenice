@@ -95,7 +95,10 @@ export async function sendPreorder(
         ? [config.preorderListId, config.newsletterListId]
         : [config.preorderListId],
       config,
-      { FIRSTNAME: values.name },
+      // The Italian account names Brevo's default attribute NOME, not
+      // FIRSTNAME: an unknown attribute fails the call, and the preorder with it.
+      // The field is "nome e cognome", kept whole: splitting names guesses.
+      { NOME: values.name },
       fetchFn,
     );
 

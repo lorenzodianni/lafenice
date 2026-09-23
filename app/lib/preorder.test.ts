@@ -78,6 +78,7 @@ describe("sendPreorder", () => {
     ]);
     const contact = calls.find((c) => c.path === "/contacts")?.body;
     expect(contact?.listIds).toEqual([1, 2]);
+    expect(contact?.attributes).toEqual({ NOME: "Maria Rossi" });
     const mail = calls.find((c) => c.path === "/smtp/email")?.body;
     expect(mail?.textContent).toContain("Consegna: Spedizione a casa");
     expect(mail?.textContent).toContain("Indirizzo: Via Roma 1");

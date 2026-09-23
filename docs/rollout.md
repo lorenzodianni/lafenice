@@ -96,6 +96,9 @@ al giorno), telefono verificato. Fatto:
 - Liste "Preordini" (ID 3) e "Newsletter" (ID 4), nei `vars` di
   `wrangler.jsonc`.
 - Attributo `BIRTHDAY`, tipo Data.
+- Attributi predefiniti in italiano: il nome è `NOME`, non `FIRSTNAME`
+  (verificato in Attributi di contatto). `sendPreorder` scrive lì il campo
+  "nome e cognome" intero.
 
 Da fare:
 
@@ -146,10 +149,6 @@ Quindi, quando c'è il dominio:
 
 Questi comportamenti sono stati ipotizzati e provati solo con una fetch finta:
 
-- `sendPreorder` salva il nome nell'attributo `FIRSTNAME`. Brevo crea gli
-  attributi predefiniti nella lingua dell'account, e in uno italiano potrebbe
-  chiamarlo `NOME`: se `FIRSTNAME` non c'è in Attributi di contatto, o si crea
-  o si cambia il nome nel codice. Senza, il preordine fallisce con 502.
 - Form newsletter con un indirizzo già iscritto: `POST /contacts` con
   `updateEnabled` dovrebbe aggiornarlo senza errore. Se Brevo risponde con un
   errore, l'utente vede "non siamo riusciti a completare l'iscrizione" (502).
