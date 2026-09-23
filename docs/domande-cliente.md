@@ -3,7 +3,7 @@
 Da spuntare mentre la si sente. Quando una risposta arriva, il valore va in
 `app/content/` e la domanda si toglie da qui.
 
-Già chiuse: dominio intestato a lei (`.com`, nome da scegliere), ditta
+Già chiuse: dominio `lafenicecentroestetico.com` intestato a lei, ditta
 individuale con P.IVA 11407830964 (niente REA), orari (mar-ven 9-19:30, sab
 9-19, dom e lun chiuso), anno di apertura (2020, dal testo dello studio).
 
@@ -13,12 +13,6 @@ lo fa spedire paga con bonifico. La spedizione è quindi vendita a distanza: il
 sito ha `/policies/terms-of-service` e i modelli di email stanno in
 `docs/email-preordine.md`. Le domande qui sotto servono a riempire i buchi di
 quei due testi.
-
-## Dominio
-
-- Quale nome? Serve solo per registrarlo, il sito è pronto a riceverlo.
-  `lafenicecinisello.com`, `lafenice-estetica.com`, `centroesteticolafenice.com`?
-  Meglio corto e dettabile al telefono.
 
 ## Foto (la cosa che richiede più tempo)
 

@@ -12,19 +12,40 @@ Serve per: dominio, DNS, hosting del Worker, Email Routing e Web Analytics
 
 Workers Builds collegato al repo: build `npm run build`, deploy
 `npx wrangler deploy` (legge la config generata in `build/server/wrangler.json`
-tramite `.wrangler/deploy/config.json`).
+tramite `.wrangler/deploy/config.json`). Il Worker in dashboard si deve
+chiamare `lafenice`, come `name` in `wrangler.jsonc`, o la build fallisce.
+
+Il primo deploy pubblica il sito sul dominio vero (`routes` in
+`wrangler.jsonc`, punto 2). Prima che Brevo sia configurato (punto 3) i form
+rispondono con un errore: in produzione senza chiave le chiamate falliscono,
+il salto esiste solo in dev.
 
 ## 2. Dominio
 
-Il dominio è un `.com` intestato alla cliente, nome ancora da scegliere (vedi
-`docs/domande-cliente.md`). Si compra da Cloudflare Registrar, dall'account del
-punto 1: il `.com` è tra le estensioni che vende, a prezzo di costo anche al
-rinnovo (circa 10 dollari l'anno). Rispetto a un registrar esterno è un
-account in meno, e il DNS è già su Cloudflare: niente nameserver da spostare.
+`lafenicecentroestetico.com`, comprato il 23 settembre 2026 da Cloudflare
+Registrar, dall'account del punto 1, intestato alla titolare come persona
+(ditta individuale: campo Organization vuoto). Cloudflare lo vende a prezzo di
+costo anche al rinnovo (circa 10 dollari l'anno). Rispetto a un registrar
+esterno è un account in meno, e il DNS è già su Cloudflare: niente nameserver
+da spostare.
 
-Finito questo, aggiornare `site.url` in `app/content/site.ts` (oggi
-`PLACEHOLDER`): è la base di canonical, Open Graph, JSON-LD, sitemap e
-llms.txt.
+Già fatto nel codice: `site.url` (base di canonical, Open Graph, JSON-LD,
+sitemap e llms.txt) punta a `https://www.lafenicecentroestetico.com`, e
+`routes` in `wrangler.jsonc` aggancia al Worker `www` e il dominio nudo. Il
+deploy crea da solo record DNS e certificati.
+
+Resta da fare in dashboard, dopo il primo deploy:
+
+- **Redirect 301 dal dominio nudo a `www`**: Rules, Redirect Rules, template
+  "Redirect from root to WWW". Senza, il dominio nudo serve una seconda copia
+  del sito.
+- **Spegnere Email Address Obfuscation** (Security, Settings), attiva di
+  default. Riscrive gli indirizzi email nell'HTML e li ricostruisce con uno
+  script: senza JS, e per i crawler che non lo eseguono, l'email del centro
+  sparisce.
+- Verifica dell'intestataria (ICANN): se arriva l'email va cliccata entro 15
+  giorni, o il dominio viene sospeso. Se non arriva, la pagina del dominio in
+  Registrations non deve mostrare avvisi.
 
 ## 3. Brevo
 
@@ -60,8 +81,9 @@ risponde 502. Il preordine non arriva nello spam, non si può proprio inviare.
 
 Quindi, quando c'è il dominio:
 
-- Brevo spedisce da `ordini@dominio`, autenticato.
-- Cloudflare Email Routing inoltra `ordini@dominio` alla Gmail esistente.
+- Brevo spedisce da `ordini@lafenicecentroestetico.com`, autenticato.
+- Cloudflare Email Routing inoltra `ordini@lafenicecentroestetico.com` alla
+  Gmail esistente.
 - In `app/content/site.ts` va separato il mittente dal destinatario: oggi
   `app/lib/preorder.ts` usa `site.ordersEmail` per entrambi.
 - Per rispondere *con* l'indirizzo del dominio serve un SMTP vero (casella
