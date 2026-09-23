@@ -80,10 +80,12 @@ export default function Privacy() {
         </li>
         <li>
           <b>Inviarti novità e promozioni</b>: base giuridica art. 6.1 lett. a
-          (consenso). Il consenso è facoltativo, separato da ogni altro e lo
-          confermi cliccando il link che ti inviamo per email (doppia conferma).
-          Puoi revocarlo in qualsiasi momento dal link di disiscrizione presente
-          in fondo a ogni messaggio o scrivendoci.
+          (consenso). Il consenso è facoltativo e separato da ogni altro. Con il
+          modulo newsletter lo dai spuntando la casella e inviando il modulo, e
+          registriamo data e ora dell'iscrizione. Se lo dai dal modulo di
+          preordine, lo confermi cliccando il link che ti inviamo per email
+          (doppia conferma). Puoi revocarlo in qualsiasi momento dal link di
+          disiscrizione presente in fondo a ogni messaggio o scrivendoci.
         </li>
         <li>
           <b>Sicurezza del sito e obblighi di legge</b> (contabili e fiscali):
@@ -118,8 +120,8 @@ export default function Privacy() {
       </p>
       <ul>
         <li>
-          <b>Brevo</b> (Sendinblue SAS, Francia): gestione dei contatti, doppia
-          conferma dell'iscrizione e invio delle email.
+          <b>Brevo</b> (Sendinblue SAS, Francia): gestione dei contatti e invio
+          delle email, compresa la doppia conferma dal modulo di preordine.
         </li>
         <li>
           <b>Cloudflare, Inc.</b>: hosting e protezione del sito.

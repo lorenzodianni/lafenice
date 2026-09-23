@@ -45,8 +45,27 @@ export function brevo(apiKey: string, fetchFn: typeof fetch = fetch) {
   };
 }
 
+// Creates the contact or updates it in place: a second signup is not an error.
+// An address that unsubscribed stays so: updateEnabled does not lift Brevo's
+// blacklist, and without a confirmation email nobody proves a new signup.
+export const upsertContact = (
+  email: string,
+  listId: number,
+  config: BrevoConfig,
+  attributes?: Record<string, string>,
+  fetchFn = fetch,
+) =>
+  brevo(config.apiKey, fetchFn)("/contacts", {
+    email,
+    attributes,
+    listIds: [listId],
+    updateEnabled: true,
+  });
+
 // Brevo emails a confirmation link and adds the address to the newsletter list
-// only once it is clicked: that click is the proof of consent.
+// only once it is clicked: that click is the proof of consent. Used for the
+// marketing consent in the preorder form; the newsletter form subscribes
+// directly (the client's choice, see CLAUDE.md).
 export const doubleOptin = (
   email: string,
   config: BrevoConfig,

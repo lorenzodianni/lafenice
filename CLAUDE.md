@@ -119,8 +119,9 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   prodotto deve dirlo accanto al form, ed è quello che tiene il ritiro fuori
   dalla vendita a distanza.
 - **Newsletter**: nel footer di ogni pagina, email* + consenso* + data di
-  nascita facoltativa (attributo Brevo `BIRTHDAY`, promo compleanno) → double opt-in
-  Brevo, lista "Newsletter". POST a `/pages/newsletter` (le pagine sono statiche),
+  nascita facoltativa (attributo Brevo `BIRTHDAY`, promo compleanno) → iscrizione
+  diretta alla lista "Newsletter", senza email di conferma (scelta della cliente,
+  il 23 settembre 2026). POST a `/pages/newsletter` (le pagine sono statiche),
   stesso schema del preordine: errori sulla pagina, redirect a
   `/pages/grazie-newsletter`. Le tre pagine newsletter esportano
   `handle = { hideNewsletter: true }`: niente form ripetuto nel footer.
@@ -132,8 +133,9 @@ workers/app.ts entry del Worker (non toccare salvo bindings)
   `tel:` e c'è WhatsApp. Nessun sistema di prenotazione.
 
 ## GDPR / legale
-- Consenso marketing separato, esplicito, mai preselezionato; la prova del consenso
-  è il double opt-in di Brevo.
+- Consenso marketing separato, esplicito, mai preselezionato. La prova del
+  consenso: per il form newsletter l'invio stesso, con la data di creazione del
+  contatto in Brevo; per il consenso dal preordine il double opt-in di Brevo.
 - **Nessun cookie non tecnico → nessun cookie banner.** Quindi niente Google Analytics
   né embed Google Maps (immagine statica + link a Maps); analytics = Cloudflare Web
   Analytics (cookieless). Ogni nuovo script di terze parti va valutato contro questa regola.

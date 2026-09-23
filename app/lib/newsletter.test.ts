@@ -55,10 +55,11 @@ describe("sendNewsletter", () => {
     doiTemplateId: 3,
   };
 
-  it("subscribes anyway when Brevo refuses the birthday", async () => {
+  it("subscribes straight into the list, anyway when Brevo refuses the birthday", async () => {
     const bodies: Record<string, unknown>[] = [];
     // A Brevo account without the BIRTHDAY attribute answers exactly like this.
-    const fetchFn = (async (_url: string, init: RequestInit) => {
+    const fetchFn = (async (url: string, init: RequestInit) => {
+      expect(url).toBe("https://api.brevo.com/v3/contacts");
       const body = JSON.parse(String(init.body));
       bodies.push(body);
       return body.attributes
@@ -73,6 +74,7 @@ describe("sendNewsletter", () => {
     );
 
     expect(bodies).toHaveLength(2);
+    expect(bodies[0]).toMatchObject({ listIds: [2], updateEnabled: true });
     expect(bodies[1].attributes).toBeUndefined();
   });
 

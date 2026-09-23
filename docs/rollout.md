@@ -108,7 +108,7 @@ Da fare:
   Builds, e in `.dev.vars` per i test del punto 4.
 
 Note sull'attributo **`BIRTHDAY`**: non esiste di default. Il form newsletter lo
-manda con la doppia conferma, e Brevo rifiuta
+manda con l'iscrizione, e Brevo rifiuta
   un attributo sconosciuto: senza, l'iscrizione riesce lo stesso ma la data va
   persa (`sendNewsletter` riprova senza), quindi l'errore non si vede dal sito
   e resta solo nei log. Da verificare al primo test reale, insieme al
@@ -146,16 +146,15 @@ Quindi, quando c'è il dominio:
 
 ## 4. Test reali con la chiave Brevo vera
 
-Due comportamenti sono stati ipotizzati e provati solo con una fetch finta:
+Questi comportamenti sono stati ipotizzati e provati solo con una fetch finta:
 
 - `sendPreorder` crea il contatto e poi chiama
   `/contacts/doubleOptinConfirmation` sullo stesso indirizzo. Che Brevo accetti
   la doppia conferma per un contatto che esiste già è da verificare: se la
   rifiuta, invertire l'ordine o saltare la creazione quando c'è il consenso.
-- Stessa chiamata dal form newsletter con un indirizzo già iscritto: se Brevo
-  risponde con un errore, l'utente vede "non siamo riusciti a completare
-  l'iscrizione" (502). In quel caso trattare quel codice di errore come
-  successo.
+- Form newsletter con un indirizzo già iscritto: `POST /contacts` con
+  `updateEnabled` dovrebbe aggiornarlo senza errore. Se Brevo risponde con un
+  errore, l'utente vede "non siamo riusciti a completare l'iscrizione" (502).
 
 ## 5. Dati del cliente
 

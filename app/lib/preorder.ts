@@ -1,5 +1,11 @@
 import { site } from "~/content/site";
-import { type BrevoConfig, brevo, doubleOptin, isEmail } from "./brevo";
+import {
+  type BrevoConfig,
+  brevo,
+  doubleOptin,
+  isEmail,
+  upsertContact,
+} from "./brevo";
 
 export const quantities = ["1", "2", "3", "4", "5 o più"];
 // Decides which of the two email models the shop answers with: pickup closes
@@ -88,12 +94,13 @@ export async function sendPreorder(
 
   // Sequential: the double opt-in must find the contact already created.
   const saveContact = async () => {
-    await call("/contacts", {
-      email: values.email,
-      attributes: { FIRSTNAME: values.name },
-      listIds: [config.preorderListId],
-      updateEnabled: true,
-    });
+    await upsertContact(
+      values.email,
+      config.preorderListId,
+      config,
+      { FIRSTNAME: values.name },
+      fetchFn,
+    );
     if (values.marketing)
       await doubleOptin(values.email, config, undefined, fetchFn);
   };
