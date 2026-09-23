@@ -7,7 +7,6 @@ export default [
   route("pages/grazie-preordine", "routes/preorder-thanks.tsx"),
   route("pages/newsletter", "routes/newsletter.tsx"),
   route("pages/grazie-newsletter", "routes/newsletter-thanks.tsx"),
-  route("pages/iscrizione-confermata", "routes/newsletter-confirmed.tsx"),
   route("policies/privacy-policy", "routes/privacy.tsx"),
   route("policies/terms-of-service", "routes/terms.tsx"),
   // Resource routes: a loader, no component. Prerendered to files with

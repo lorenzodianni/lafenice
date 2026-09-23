@@ -84,21 +84,40 @@ arrivano a `https://www.` mantenendo percorso e query string.
 
 ## 3. Brevo
 
-Account, poi:
+Account aperto il 23 settembre 2026 a nome del centro, piano Free (300 email
+al giorno), telefono verificato. Fatto:
 
-- API key come secret del Worker: `npx wrangler secret put BREVO_API_KEY`.
-- Liste "Preordini" e "Newsletter" e template della doppia conferma: i tre ID
-  vanno nei `vars` di `wrangler.jsonc`, oggi valgono 0.
-- Attributo contatto **`BIRTHDAY`, tipo Date**, da creare a mano: non esiste di
-  default. Il form newsletter lo manda con la doppia conferma, e Brevo rifiuta
-  un attributo sconosciuto: senza, l'iscrizione riesce lo stesso ma la data va
-  persa (`sendNewsletter` riprova senza), quindi l'errore non si vede dal sito
-  e resta solo nei log. Da verificare al primo test reale, insieme al
-  formato della data (mandiamo `YYYY-MM-DD`, come lo scrive `<input type="date">`).
-  Serve per le promozioni di compleanno, che si impostano in Brevo come
-  automazione sulla data.
-- **Autenticare il dominio come mittente** (record DKIM e SPF nel DNS
-  Cloudflare). Non è opzionale, vedi sotto.
+- Dominio autenticato con la configurazione automatica Cloudflare (brevo-code,
+  DKIM `brevo1`/`brevo2`, DMARC `p=none`, CNAME `r` e `img`): nessun SPF
+  aggiunto, resta l'unico di Email Routing. Sottodominio brandizzato saltato,
+  serve solo a mostrare i link col nostro dominio.
+- Mittente `ordini@lafenicecentroestetico.com` (`senderEmail` in `site.ts`),
+  verificato. Quello con la Gmail creato da Brevo è stato eliminato.
+- Liste "Preordini" (ID 3) e "Newsletter" (ID 4), nei `vars` di
+  `wrangler.jsonc`.
+- Attributo `BIRTHDAY`, tipo Data.
+- Attributi predefiniti in italiano: il nome è `NOME`, non `FIRSTNAME`
+  (verificato in Attributi di contatto). `sendPreorder` scrive lì il campo
+  "nome e cognome" intero.
+
+Da fare:
+
+- Chiave API (SMTP e API) e IP autorizzati spenti (Sicurezza): il Worker non
+  esce da un IP fisso. La chiave va come Secret del Worker `lafenice`
+  (Settings, Variables and Secrets), che sopravvive ai deploy di Workers
+  Builds, e in `.dev.vars` per i test del punto 4.
+
+Nessuna email di conferma, né dal form newsletter né dal consenso marketing
+del preordine: scelta della cliente del 23 settembre 2026. Il contatto entra
+direttamente nella lista; i limiti contro l'abuso sono al punto 7.
+
+Note sull'attributo **`BIRTHDAY`**: non esiste di default. Il form newsletter lo
+manda con l'iscrizione, e Brevo rifiuta un attributo sconosciuto: senza,
+l'iscrizione riesce lo stesso ma la data va persa (`sendNewsletter` riprova
+senza), quindi l'errore non si vede dal sito e resta solo nei log. Da
+verificare al primo test reale, insieme al formato della data (mandiamo
+`YYYY-MM-DD`, come lo scrive `<input type="date">`). Serve per le promozioni di
+compleanno, che si impostano in Brevo come automazione sulla data.
 
 ### Perché la casella Gmail non basta come mittente
 
@@ -120,24 +139,25 @@ Quindi, quando c'è il dominio:
 - Cloudflare Email Routing inoltra `ordini@lafenicecentroestetico.com` alla
   Gmail esistente. Attivo dal 23 settembre 2026 e provato con un'email vera;
   catch-all spento, se no lo spam verso indirizzi inventati finirebbe in Gmail.
-- In `app/content/site.ts` va separato il mittente dal destinatario: oggi
-  `app/lib/preorder.ts` usa `site.ordersEmail` per entrambi.
+- In `app/content/site.ts` il mittente (`senderEmail`) è separato dal
+  destinatario (`ordersEmail`, la Gmail).
 - Per rispondere *con* l'indirizzo del dominio serve un SMTP vero (casella
   Aruba da pochi euro, o Zoho): riguarda solo come la titolare scrive ai suoi
   clienti, non il sito.
 
 ## 4. Test reali con la chiave Brevo vera
 
-Due comportamenti sono stati ipotizzati e provati solo con una fetch finta:
+Questi comportamenti sono stati ipotizzati e provati solo con una fetch finta:
 
-- `sendPreorder` crea il contatto e poi chiama
-  `/contacts/doubleOptinConfirmation` sullo stesso indirizzo. Che Brevo accetti
-  la doppia conferma per un contatto che esiste già è da verificare: se la
-  rifiuta, invertire l'ordine o saltare la creazione quando c'è il consenso.
-- Stessa chiamata dal form newsletter con un indirizzo già iscritto: se Brevo
-  risponde con un errore, l'utente vede "non siamo riusciti a completare
-  l'iscrizione" (502). In quel caso trattare quel codice di errore come
-  successo.
+- Form newsletter con un indirizzo già iscritto: `POST /contacts` con
+  `updateEnabled` dovrebbe aggiornarlo senza errore. Se Brevo risponde con un
+  errore, l'utente vede "non siamo riusciti a completare l'iscrizione" (502).
+- Il tetto orario: `GET /contacts/lists/4/contacts?modifiedSince=` deve
+  restituire i contatti toccati nell'ultima ora, e
+  `GET /smtp/statistics/events?event=requests&days=2` le email appena spedite,
+  con `date` leggibile da `Date.parse`. Se una delle due risponde in un formato
+  diverso, il tetto non scatta mai (o scatta sempre): va provato mandando
+  qualche form e leggendo le risposte.
 
 ## 5. Dati del cliente
 
@@ -169,23 +189,43 @@ raccolti **dal sito** (l'indirizzo di consegna ora è tra questi), ma con la
 spedizione arrivano per email anche gli estremi del pagamento. Vanno aggiunti a
 "Quali dati raccogliamo".
 
-## 7. Rate limiting sui form (dashboard Cloudflare, nessun codice)
+## 7. Limiti anti-abuso sui form
 
-Cloudflare, Security, WAF, Rate limiting rules:
+Tre livelli, dal più semplice:
 
-- match: metodo `POST` e path `/pages/newsletter` o che inizia per `/products/`
-- conteggio per indirizzo IP
-- soglia bassa, cinque richieste in dieci minuti: una persona vera ne fa una
-- azione: **Block**, non Managed Challenge. La sfida di Cloudflare su una POST
-  perde il corpo della richiesta, quindi romperebbe l'invio a un utente vero
-  che finisce sopra soglia. Se si vuole la sfida, va messa sulla GET della
-  pagina.
+1. **Honeypot**: un campo nascosto che solo i bot compilano.
+2. **Tetto orario nel codice**: al massimo 30 iscrizioni newsletter e 30 email
+   dai preordini all'ora, da tutto il sito (`HOURLY_CAP` in `brevo.ts`).
+   Oltre, il form dice "riprova tra poco" e il preordine offre l'email. Conta
+   su Brevo, quindi niente database, e regge anche contro molti IP diversi.
+3. **Regola per IP** (dashboard Cloudflare, nessun codice): Security, WAF,
+   Rate limiting rules.
+   - match: metodo `POST` e path `/pages/newsletter` o che inizia per
+     `/products/`
+   - conteggio per indirizzo IP, tre richieste in dieci secondi: il piano Free
+     ha una regola sola e solo la finestra da 10 secondi (i "cinque in dieci
+     minuti" previsti prima richiedono il piano Business)
+   - azione: **Block**, non Managed Challenge. La sfida di Cloudflare su una
+     POST perde il corpo della richiesta, quindi romperebbe l'invio a un utente
+     vero che finisce sopra soglia. Se si vuole la sfida, va messa sulla GET
+     della pagina.
 
-Serve perché una POST a `/pages/newsletter` fa partire da Brevo una email di
-conferma verso l'indirizzo scritto nel form, e nessuno verifica che sia di chi
-compila. Uno script che posta mille indirizzi altrui manda mille email a nome
-del centro e brucia la quota Brevo, che è la stessa da cui escono le notifiche
-dei preordini: finita quella, il preordine di un cliente vero non arriva più.
+   Ferma le raffiche da una sorgente sola, prima ancora che arrivino al tetto.
+
+Perché servono, form per form:
+
+- **Newsletter**: dal 23 settembre 2026 l'iscrizione è diretta, senza email di
+  conferma (scelta della cliente). Nessuna email parte all'invio, quindi non si
+  può usare il form per mandare posta a nome del centro. Il rischio è che
+  entrino indirizzi di chi non l'ha chiesto e che alla prima campagna segnino
+  spam: Brevo sospende gli account con troppe segnalazioni, e da quell'account
+  escono anche le notifiche dei preordini.
+- **Preordini**: ogni invio manda una email al negozio e, con il consenso
+  marketing, lo iscrive anche alla newsletter. Una raffica
+  riempirebbe la Gmail, iscriverebbe sconosciuti e brucerebbe la quota
+  Brevo (300 al giorno): finita quella, il preordine di un cliente vero non
+  arriva più. Il tetto conta le email, non i contatti: lo stesso indirizzo
+  ripetuto resta un contatto solo, ma ogni invio è una email.
 
 ### Perché non una captcha, per ora
 
@@ -197,9 +237,9 @@ misura. Ma la captcha, qui, costa più di quello che rende:
 - senza JS il widget non compare, quindi o si rifiuta l'invio (e il form smette
   di funzionare senza JS, contro le regole del progetto) o lo si accetta lo
   stesso (e la captcha non serve);
-- non ferma il caso singolo: chi vuole mandare una conferma sgradita a un
-  indirizzo altrui risolve la captcha e la manda. Ferma il volume, come il
-  rate limiting, che però costa zero.
+- non ferma il caso singolo: chi vuole iscrivere un indirizzo altrui risolve la
+  captcha e lo iscrive. Ferma il volume, come i due limiti sopra, che però
+  costano zero.
 
 Se dopo il lancio si vedono invii ripetuti nonostante il limite, Turnstile va
 solo sulle route dei form (che possono idratare da sole con

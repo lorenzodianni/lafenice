@@ -1,5 +1,5 @@
 import { site } from "~/content/site";
-import { type BrevoConfig, brevo, doubleOptin, isEmail } from "./brevo";
+import { type BrevoConfig, brevo, isEmail, upsertContact } from "./brevo";
 
 export const quantities = ["1", "2", "3", "4", "5 o più"];
 // Decides which of the two email models the shop answers with: pickup closes
@@ -86,21 +86,25 @@ export async function sendPreorder(
 ) {
   const call = brevo(config.apiKey, fetchFn);
 
-  // Sequential: the double opt-in must find the contact already created.
-  const saveContact = async () => {
-    await call("/contacts", {
-      email: values.email,
-      attributes: { FIRSTNAME: values.name },
-      listIds: [config.preorderListId],
-      updateEnabled: true,
-    });
-    if (values.marketing)
-      await doubleOptin(values.email, config, undefined, fetchFn);
-  };
+  // With the marketing consent the contact joins the newsletter list too,
+  // directly, like from the newsletter form.
+  const saveContact = () =>
+    upsertContact(
+      values.email,
+      values.marketing
+        ? [config.preorderListId, config.newsletterListId]
+        : [config.preorderListId],
+      config,
+      // The Italian account names Brevo's default attribute NOME, not
+      // FIRSTNAME: an unknown attribute fails the call, and the preorder with it.
+      // The field is "nome e cognome", kept whole: splitting names guesses.
+      { NOME: values.name },
+      fetchFn,
+    );
 
   const notifyShop = () =>
     call("/smtp/email", {
-      sender: { name: `Sito ${site.name}`, email: site.ordersEmail },
+      sender: { name: `Sito ${site.name}`, email: site.senderEmail },
       to: [{ email: site.ordersEmail }],
       replyTo: { email: values.email, name: values.name },
       // The delivery choice is in the subject: it picks the reply model (see
@@ -116,7 +120,7 @@ export async function sendPreorder(
         `Consegna: ${values.delivery}`,
         `Indirizzo: ${values.address || "-"}`,
         `Note: ${values.notes || "-"}`,
-        `Consenso marketing: ${values.marketing ? "sì (double opt-in inviato)" : "no"}`,
+        `Consenso marketing: ${values.marketing ? "sì (iscritto alla newsletter)" : "no"}`,
         "",
         "Rispondi a questa email per scrivere direttamente al cliente.",
       ].join("\n"),

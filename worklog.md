@@ -7,6 +7,17 @@ punto si toglie da qui.
 - La checklist per il go-live (dominio, Cloudflare, Brevo, mittente email, rate
   limiting, dati del cliente) sta in `docs/rollout.md`, con il perché di ogni
   scelta. Qui restano solo i punti ancora da decidere.
+- Due PR aperte, una sopra l'altra: #19 (dominio, pagina "in arrivo" già
+  online) e #20 (Brevo reale, niente doppia conferma, tetto orario) con base
+  `feat/custom-domain`. Prima del merge `/simplify` e `/code-review` su
+  ciascuna; si mergia #19, poi #20 (GitHub la sposta su `main`).
+- Dalla dashboard, `docs/rollout.md` §3 "Da fare": chiave API Brevo `sito`,
+  subito in `.dev.vars` con `! printf 'BREVO_API_KEY=%s\n' "$(pbpaste)" >
+  .dev.vars` (la chiave non passa in chat) e come Secret `BREVO_API_KEY` del
+  Worker `lafenice`; IP autorizzati spenti in Brevo, Sicurezza.
+- Poi i test reali del §4 in locale (`npm run preview` con la chiave vera) e
+  la regola Cloudflare per IP del §7.
+- Il go-live (§2, "Go-live") aspetta testi, foto e dati della cliente (§5-6).
 
 ## Dati mancanti dal cliente
 - La lista completa, con il perché di ogni domanda, sta in

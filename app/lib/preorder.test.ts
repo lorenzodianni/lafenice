@@ -24,7 +24,6 @@ const config = {
   apiKey: "key",
   preorderListId: 1,
   newsletterListId: 2,
-  doiTemplateId: 3,
 };
 
 describe("parsePreorder", () => {
@@ -60,7 +59,7 @@ describe("parsePreorder", () => {
 });
 
 describe("sendPreorder", () => {
-  it("saves the contact, then the double opt-in, and emails the shop", async () => {
+  it("saves the contact in both lists with consent, and emails the shop", async () => {
     const calls: { path: string; body: Record<string, unknown> }[] = [];
     const fetchFn = (async (url: string, init: RequestInit) => {
       calls.push({
@@ -73,22 +72,28 @@ describe("sendPreorder", () => {
     const { values } = parsePreorder(form(valid));
     await sendPreorder(values, "Detergente", config, fetchFn);
 
-    const paths = calls.map((c) => c.path);
-    expect(paths).toHaveLength(3);
-    expect(paths.indexOf("/contacts")).toBeLessThan(
-      paths.indexOf("/contacts/doubleOptinConfirmation"),
-    );
+    expect(calls.map((c) => c.path).sort()).toEqual([
+      "/contacts",
+      "/smtp/email",
+    ]);
+    const contact = calls.find((c) => c.path === "/contacts")?.body;
+    expect(contact?.listIds).toEqual([1, 2]);
+    expect(contact?.attributes).toEqual({ NOME: "Maria Rossi" });
     const mail = calls.find((c) => c.path === "/smtp/email")?.body;
     expect(mail?.textContent).toContain("Consegna: Spedizione a casa");
     expect(mail?.textContent).toContain("Indirizzo: Via Roma 1");
+    expect(mail?.sender).toEqual({
+      name: `Sito ${site.name}`,
+      email: site.senderEmail,
+    });
     expect(mail?.to).toEqual([{ email: site.ordersEmail }]);
     expect(mail?.replyTo).toEqual({ email: valid.email, name: "Maria Rossi" });
   });
 
-  it("skips the double opt-in without consent and fails on Brevo errors", async () => {
-    const paths: string[] = [];
-    const fetchFn = (async (url: string) => {
-      paths.push(url);
+  it("keeps the contact out of the newsletter without consent and fails on Brevo errors", async () => {
+    const bodies: Record<string, unknown>[] = [];
+    const fetchFn = (async (_url: string, init: RequestInit) => {
+      bodies.push(JSON.parse(String(init.body)));
       return new Response("bad", { status: 400 });
     }) as typeof fetch;
 
@@ -96,6 +101,6 @@ describe("sendPreorder", () => {
     await expect(
       sendPreorder(values, "Detergente", config, fetchFn),
     ).rejects.toThrow(/Brevo .* 400/);
-    expect(paths.some((p) => p.includes("doubleOptin"))).toBe(false);
+    expect(bodies.find((b) => b.listIds)?.listIds).toEqual([1]);
   });
 });

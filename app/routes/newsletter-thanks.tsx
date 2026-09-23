@@ -7,8 +7,8 @@ export const handle = { hideNewsletter: true };
 export function meta() {
   return pageMeta(
     {
-      title: `Conferma l'iscrizione | ${site.name}`,
-      description: "Controlla la tua email per confermare l'iscrizione.",
+      title: `Iscrizione completata | ${site.name}`,
+      description: "La tua iscrizione alla newsletter è completata.",
       noindex: true,
     },
     "/pages/grazie-newsletter",
@@ -19,10 +19,10 @@ export default function NewsletterThanks() {
   return (
     <main className="wrap section">
       <p className="eyebrow">Newsletter</p>
-      <h1>Controlla la tua email</h1>
+      <h1>Iscrizione completata</h1>
       <p>
-        Ti abbiamo scritto: apri il messaggio e tocca il link di conferma per
-        completare l'iscrizione. Se non lo trovi, guarda nello spam.
+        Da ora riceverai le nostre novità e promozioni. Puoi disiscriverti
+        quando vuoi dal link in fondo a ogni email.
       </p>
       <a className="btn" href="/">
         Torna alla home

@@ -95,9 +95,7 @@ export function NewsletterForm({
         <button type="submit" className="btn">
           Iscriviti
         </button>
-        <span className={styles.hint}>
-          Ti scriviamo per confermare. Puoi disiscriverti quando vuoi.
-        </span>
+        <span className={styles.hint}>Puoi disiscriverti quando vuoi.</span>
       </div>
     </Form>
   );
