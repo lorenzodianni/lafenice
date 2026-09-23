@@ -40,9 +40,11 @@ Email Address Obfuscation è spenta (Security, Settings). È attiva di default:
 riscrive gli indirizzi email nell'HTML e li ricostruisce con uno script, quindi
 senza JS, e per i crawler che non lo eseguono, l'email del centro sparisce.
 
-Verifica dell'intestataria (ICANN): se arriva l'email va cliccata entro 15
-giorni, o il dominio viene sospeso. Se non arriva, la pagina del dominio in
-Registrations non deve mostrare avvisi.
+Verifica dell'intestataria (ICANN): non è arrivata nessuna email, solo la
+conferma d'acquisto, perché l'intestataria ha la stessa email già verificata
+dell'account. Registrations mostra il dominio Active senza avvisi e il
+registro `.com` (RDAP) non ha `clientHold`. Se un giorno il sito smette di
+rispondere, è il primo posto da guardare.
 
 ### Fino al go-live: pagina "in arrivo"
 
