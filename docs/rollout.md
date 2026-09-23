@@ -83,7 +83,8 @@ Quindi, quando c'è il dominio:
 
 - Brevo spedisce da `ordini@lafenicecentroestetico.com`, autenticato.
 - Cloudflare Email Routing inoltra `ordini@lafenicecentroestetico.com` alla
-  Gmail esistente.
+  Gmail esistente. Attivo dal 23 settembre 2026 e provato con un'email vera;
+  catch-all spento, se no lo spam verso indirizzi inventati finirebbe in Gmail.
 - In `app/content/site.ts` va separato il mittente dal destinatario: oggi
   `app/lib/preorder.ts` usa `site.ordersEmail` per entrambi.
 - Per rispondere *con* l'indirizzo del dominio serve un SMTP vero (casella
